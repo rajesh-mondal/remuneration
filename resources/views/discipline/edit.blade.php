@@ -19,24 +19,15 @@
                      
                      <div class="form">
                         
-                        <form action="{{ route('course.update', $course->id)}}" method="POST">
+                        <form action="{{ route('discipline.update', $descipline->id)}}" method="post">
                            @csrf
                            @method('PUT')
                            <div class="form-group">
-                              <label>Course</label>
-                              <input type="text" name="course" id="course" class="form-control" value="{{ $course->course }}">
-                              @if($errors->has('course'))
-                              <small style="color:red">{{ $errors->first('course') }}</small>
+                              <label>Discipline Name</label>
+                              <input type="text" name="name" id="name" class="form-control" value="{{ $descipline->name }}">
+                              @if($errors->has('name'))
+                              <small style="color:red">{{ $errors->first('name') }}</small>
                               @endif
-                           </div>
-                           <div class="form-group">
-                              <label>Discipline</label>
-                              <select name="descipline_id" id="descipline_id" class="form-control" value="{{ $course->descipline_id }}">
-                                 <option selected>Choose...</option>
-                                 @foreach($disciplines as $displine)
-                                <option value="{{$displine->id}}" {{ $displine->id == $course->descipline_id ? 'selected': ''}}>{{$displine->name}}</option>
-                                 @endforeach
-                              </select>
                            </div>
                            <div class="form-group">
                               <button type="submit" class="btn btn-primary">Save</button>

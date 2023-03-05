@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Course;
 use App\Models\Descipline;
 
-class CourseController extends Controller
+class DisciplineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,8 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::all();
-        return view('course.index', compact('courses'));
+        $disciplines = Descipline::all();
+        return view('discipline.index', compact('disciplines'));
     }
 
     /**
@@ -26,8 +25,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        $disciplines = Descipline::all();
-        return view('course.create',compact('disciplines'));
+        return view('discipline.create');
     }
 
     /**
@@ -39,17 +37,19 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'course' => 'required|unique:courses',
-            'descipline_id' => 'required',
-        ]);
 
-        $course = new Course();
+            'name' => 'required|unique:desciplines',
 
-        $course->course = $request->course;
-        $course->descipline_id = $request->descipline_id;
-        $course->save();
+        ]);  
 
-        return redirect()->route('course.index');
+        // Descipline::create($request->all());
+        $descipline = new Descipline();
+
+        $descipline->name = $request->name;
+        $descipline->save();
+
+        return redirect()->route('discipline.index');
+
     }
 
     /**
@@ -71,10 +71,8 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        $course = Course::findOrFail($id);
-        $disciplines = Descipline::all();
-        return view('course.edit', compact('course', 'disciplines'));
-
+        $descipline = Descipline::findOrFail($id);
+        return view('discipline.edit', compact('descipline'));
     }
 
     /**
@@ -86,25 +84,22 @@ class CourseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $course = Course::findOrFail($id);
+        $descipline = Descipline::findOrFail($id);
 
-        if($course->course == $request->course){
+        if($descipline->name == $request->name){
             $request->validate([
-                'course' => 'required',
-                'descipline_id' => 'required',
-            ]);
+                'name' => 'required',
+            ]); 
         }else{
             $request->validate([
-                'course' => 'required|unique:courses',
-                'descipline_id' => 'required',
-            ]);
+                'name' => 'required|unique:desciplines',
+            ]); 
         }
 
-        $course->course = $request->course;
-        $course->descipline_id = $request->descipline_id;
-        $course->save();
+        $descipline->name = $request->name;
+        $descipline->save();
 
-        return redirect()->route('course.index');
+        return redirect()->route('discipline.index');
     }
 
     /**
@@ -115,8 +110,8 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        $course = Course::findOrFail($id);
-        $course->delete();
-        return redirect()->route('course.index');
+        $descipline = Descipline::findOrFail($id);
+        $descipline->delete();
+        return redirect()->route('discipline.index');
     }
 }

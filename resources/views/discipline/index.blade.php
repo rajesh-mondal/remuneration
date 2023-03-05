@@ -16,26 +16,24 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="content p-5">
-                     <a href="{{ route('course.create')}}" class="btn btn-success mb-3">Add new Course</a>
+                     <a href="{{ route('discipline.create')}}" class="btn btn-success mb-3">Add new Discipline</a>
                      <div class="table-responsive">
                         <table class="table table-bordered">
                            <thead>
                               <tr>
                                  <th>#</th>
-                                 <th>Course</th>
                                  <th>Discipline</th>
                                  <th>Action</th>
                               </tr>
                            </thead>
                            <tbody>
-                           @foreach($courses as $course)
+                              @foreach($disciplines as $discipline)
                               <tr>
                                  <td>{{ $loop->index+1 }}</td>
-                                 <td>{{ $course->course }}</td>
-                                 <td>{{ $course->desciline['name'] }}</td>
+                                 <td>{{ $discipline->name }}</td>
                                  <td class="d-flex">
-                                    <a href="{{ route('course.edit', $course->id)}}" class="btn btn-primary mr-2">Edit</a>
-                                    <form action="{{ route('course.destroy', $course->id) }}" method="POST">
+                                    <a href="{{ route('discipline.edit', $discipline->id)}}" class="btn btn-primary mr-2">Edit</a>
+                                    <form action="{{ route('discipline.destroy', $discipline->id) }}" method="POST">
                                        @csrf
                                        @method('DELETE')
                                        <button class="btn btn-danger" onclick="return confirm('Do you want to delete?')">Delete</button>

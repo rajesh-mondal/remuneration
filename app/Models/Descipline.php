@@ -5,12 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Course extends Model
+class Descipline extends Model
 {
     use HasFactory;
-
-    public function desciline()
-    {
-        return $this->belongsTo('App\Models\Descipline', 'descipline_id');
-    }
 }
