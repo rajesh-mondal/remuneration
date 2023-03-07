@@ -34,11 +34,11 @@
                                  <td>{{ $course->course }}</td>
                                  <td>{{ $course->desciline['name'] }}</td>
                                  <td class="d-flex">
-                                    <a href="{{ route('course.edit', $course->id)}}" class="btn btn-primary mr-2">Edit</a>
+                                    <a href="{{ route('course.edit', $course->id)}}" class="btn btn-primary mr-2"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                     <form action="{{ route('course.destroy', $course->id) }}" method="POST">
                                        @csrf
                                        @method('DELETE')
-                                       <button class="btn btn-danger" onclick="return confirm('Do you want to delete?')">Delete</button>
+                                       <button class="btn btn-danger" onclick="return confirm('Do you want to delete?')"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                     </form>
                                  </td>
                               </tr>

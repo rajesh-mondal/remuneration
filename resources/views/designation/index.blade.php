@@ -16,28 +16,24 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="content p-5">
-                     <a href="{{ route('teacher.create')}}" class="btn btn-success mb-3">Add new Teacher</a>
+                     <a href="{{ route('designation.create')}}" class="btn btn-success mb-3">Add new Designation</a>
                      <div class="table-responsive">
                         <table class="table table-bordered">
                            <thead>
                               <tr>
                                  <th>#</th>
-                                 <th>Name</th>
                                  <th>Designation</th>
-                                 <th>Department</th>
                                  <th>Action</th>
                               </tr>
                            </thead>
                            <tbody>
-                           @foreach($teachers as $teacher)
+                              @foreach($designations as $designation)
                               <tr>
                                  <td>{{ $loop->index+1 }}</td>
-                                 <td>{{ $teacher->name }}</td>
-                                 <td>{{ $teacher->designation['name'] }}</td>
-                                 <td>{{ $teacher->desciline['name'] }}</td>
+                                 <td>{{ $designation->name }}</td>
                                  <td class="d-flex">
-                                    <a href="{{ route('teacher.edit', $teacher->id)}}" class="btn btn-primary mr-2">Edit</a>
-                                    <form action="{{ route('teacher.destroy', $teacher->id) }}" method="POST">
+                                    <a href="{{ route('designation.edit', $designation->id)}}" class="btn btn-primary mr-2">Edit</a>
+                                    <form action="{{ route('designation.destroy', $designation->id) }}" method="POST">
                                        @csrf
                                        @method('DELETE')
                                        <button class="btn btn-danger" onclick="return confirm('Do you want to delete?')">Delete</button>

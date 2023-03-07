@@ -20,13 +20,13 @@
       <h4>General</h4>
       <ul class="list-unstyled components">
 
-
          <li><a href="{{ route('dashboard')}}"><i class="fa fa-map purple_color2"></i> <span>Dashboard</span></a></li>
          <li><a href="{{ route('course.index')}}"><i class="fa fa-server green_color"></i> <span>Course</span></a></li>
          <li><a href="{{ route('teacher.index')}}"><i class="fa fa-user green_color"></i> <span>Teacher</span></a></li>
          <li><a href="{{ route('exam.index')}}"><i class="fa fa-book green_color"></i> <span>Exam</span></a></li>
          <li><a href="{{ route('remuneration.index')}}"><i class="fa fa-pencil red_color"></i> <span>Remuneration</span></a></li>
          <li><a href="{{ route('discipline.index')}}"><i class="fa fa-building green_color"></i> <span>Descipline</span></a></li>
+         <li><a href="{{ route('designation.index')}}"><i class="fa fa-building green_color"></i> <span>Designation</span></a></li>
          <li><a href="settings.html"><i class="fa fa-cog yellow_color"></i> <span>Settings</span></a></li>
       </ul>
    </div>

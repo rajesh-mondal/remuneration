@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Teacher;
+use App\Models\Descipline;
+use App\Models\Designation;
 
 class TeacherController extends Controller
 {
@@ -13,7 +16,9 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return view('teacher.index');
+        $teachers = Teacher::all();
+        return view('teacher.index', compact('teachers'));
+
     }
 
     /**
@@ -23,7 +28,9 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        return view('teacher.create');
+        $disciplines = Descipline::all();
+        $designations = Designation::all();
+        return view('teacher.create', compact('disciplines', 'designations'));
     }
 
     /**
@@ -34,7 +41,21 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:teachers',
+            'designation_id' => 'required',
+            'descipline_id' => 'required',
+            'address' => 'required',
+        ]);
+
+        $teacher = new Teacher();
+        $teacher->name = $request->name;
+        $teacher->designation_id = $request->designation_id;
+        $teacher->descipline_id = $request->descipline_id;
+        $teacher->address = $request->address;
+        $teacher->save();
+
+        return redirect()->route('teacher.index');
     }
 
     /**
@@ -56,7 +77,10 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
-        return view('teacher.edit');
+        $teacher = Teacher::findOrFail($id);
+        $disciplines = Descipline::all();
+        $designations = Designation::all();
+        return view('teacher.edit', compact('teacher', 'disciplines', 'designations'));
     }
 
     /**
@@ -68,7 +92,31 @@ class TeacherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $teacher = Teacher::findOrFail($id);
+
+        if($teacher->name == $request->name){
+            $request->validate([
+                'name' => 'required',
+                'designation_id' => 'required',
+                'descipline_id' => 'required',
+                'address' => 'required',
+            ]);
+        }else{
+            $request->validate([
+                'name' => 'required|unique:teachers',
+                'designation_id' => 'required',
+                'descipline_id' => 'required',
+                'address' => 'required',
+            ]);
+        }
+
+        $teacher->name = $request->name;
+        $teacher->descipline_id = $request->descipline_id;
+        $teacher->designation_id = $request->designation_id;
+        $teacher->address = $request->address;
+        $teacher->save();
+
+        return redirect()->route('teacher.index');
     }
 
     /**
@@ -79,6 +127,8 @@ class TeacherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $teacher = Teacher::findOrFail($id);
+        $teacher->delete();
+        return redirect()->route('teacher.index');
     }
 }

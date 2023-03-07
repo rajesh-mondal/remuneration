@@ -7,6 +7,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\RemunerationController;
 use App\Http\Controllers\DisciplineController;
+use App\Http\Controllers\DesignationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,5 @@ Route::resource('exam', ExamController::class);
 Route::resource('remuneration', RemunerationController::class);
 
 Route::resource('discipline', DisciplineController::class);
+
+Route::resource('designation', DesignationController::class);

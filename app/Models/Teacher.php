@@ -7,5 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Teacher extends Model
 {
-    use HasFactory;
+    public function desciline()
+    {
+        return $this->belongsTo('App\Models\Descipline', 'descipline_id');
+    }
+
+    public function designation()
+    {
+        return $this->belongsTo('App\Models\Designation', 'designation_id');
+    }
 }

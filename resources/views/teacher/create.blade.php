@@ -18,28 +18,42 @@
                   <div class="content p-5">
                      
                      <div class="form">
-                        
-                        <form>
+                        <form action="{{ route('teacher.store')}}" method="POST">
+                        @csrf
                            <div class="form-group">
-                              <label>Teacher</label>
-                              <input type="text" name="course" class="form-control">
+                              <label>Name</label>
+                              <input type="text" name="name" id="name" class="form-control">
+                              @if($errors->has('name'))
+                              <small style="color:red">{{ $errors->first('name') }}</small>
+                              @endif
                            </div>
                            <div class="form-group">
                               <label>Designation</label>
-                              <select id="inputState" class="form-control">
-                                 <option selected>Choose...</option>
-                                 <option>Lecturer</option>
-                                 <option>Assistant Prof.</option>
-                                 <option>Professor</option>
+                              <select id="inputState" name="designation_id" id="designation_id" class="form-control">
+                                 <option selected value="" disabled>Choose...</option>                                
+                                 @foreach($designations as $designation)
+                                 <option value="{{$designation->id}}">{{$designation->name}}</option>
+                                 @endforeach
                               </select>
+                              @if($errors->has('designation'))
+                              <small style="color:red">{{ $errors->first('designation') }}</small>
+                              @endif
                            </div>
                            <div class="form-group">
                               <label>Department</label>
-                              <select id="inputState" class="form-control">
-                                 <option selected>Choose...</option>
-                                 <option>CSE</option>
-                                 <option>ECE</option>
+                              <select id="inputState" name="descipline_id" id="descipline_id" class="form-control">
+                                 <option selected value=""  disabled>Choose...</option>
+                                 @foreach($disciplines as $displine)
+                                 <option value="{{$displine->id}}">{{$displine->name}}</option>
+                                 @endforeach
                               </select>
+                              @if($errors->has('descipline_id'))
+                              <small style="color:red">{{ $errors->first('descipline_id') }}</small>
+                              @endif
+                           </div>
+                           <div class="form-group">
+                              <label>Address</label>
+                              <input type="text" name="address" id="address" class="form-control">
                            </div>
                            <div class="form-group">
                               <button type="submit" class="btn btn-primary">Save</button>
