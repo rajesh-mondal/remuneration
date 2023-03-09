@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Exam;
+use App\Models\Year;
+use App\Models\Term;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
@@ -13,7 +16,8 @@ class ExamController extends Controller
      */
     public function index()
     {
-        return view('exam.index');
+        $exams = Exam::all();
+        return view('exam.index', compact('exams'));
     }
 
     /**
@@ -23,7 +27,9 @@ class ExamController extends Controller
      */
     public function create()
     {
-        return view('exam.create');
+        $years = Year::all();
+        $terms = Term::all();
+        return view('exam.create', compact('years', 'terms'));
     }
 
     /**
@@ -34,7 +40,23 @@ class ExamController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'year_id' => 'required',
+            'term_id' => 'required',
+            'session' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+
+        $exam = new Exam();
+        $exam->year_id = $request->year_id;
+        $exam->term_id = $request->term_id;
+        $exam->session = $request->session;
+        $exam->start_date = $request->start_date;
+        $exam->end_date = $request->end_date;
+        $exam->save();
+
+        return redirect()->route('exam.index');
     }
 
     /**
@@ -56,7 +78,10 @@ class ExamController extends Controller
      */
     public function edit($id)
     {
-        return view('exam.edit');
+        $exam = Exam::findOrFail($id);
+        $years = Year::all();
+        $terms = Term::all();
+        return view('exam.edit', compact('exam', 'years', 'terms'));
     }
 
     /**
@@ -68,7 +93,24 @@ class ExamController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $exam = Exam::findOrFail($id);
+
+        $request->validate([
+            'year_id' => 'required',
+            'term_id' => 'required',
+            'session' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+
+        $exam->year_id = $request->year_id;
+        $exam->term_id = $request->term_id;
+        $exam->session = $request->session;
+        $exam->start_date = $request->start_date;
+        $exam->end_date = $request->end_date;
+        $exam->save();
+
+        return redirect()->route('exam.index');
     }
 
     /**
@@ -79,6 +121,8 @@ class ExamController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $exam = Exam::findOrFail($id);
+        $exam->delete();
+        return redirect()->route('exam.index');
     }
 }

@@ -31,7 +31,7 @@
                            <div class="form-group">
                               <label>Discipline</label>
                               <select id="inputState" name="descipline_id" id="descipline_id" class="form-control">
-                                 <option selected value=""  disabled>Choose...</option>
+                                 <option selected value="" disabled>Choose...</option>
                                  @foreach($disciplines as $displine)
                                  <option value="{{$displine->id}}">{{$displine->name}}</option>
                                  @endforeach

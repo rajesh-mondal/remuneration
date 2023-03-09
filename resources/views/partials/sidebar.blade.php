@@ -27,6 +27,8 @@
          <li><a href="{{ route('remuneration.index')}}"><i class="fa fa-pencil red_color"></i> <span>Remuneration</span></a></li>
          <li><a href="{{ route('discipline.index')}}"><i class="fa fa-building green_color"></i> <span>Descipline</span></a></li>
          <li><a href="{{ route('designation.index')}}"><i class="fa fa-building green_color"></i> <span>Designation</span></a></li>
+         <li><a href="{{ route('year.index')}}"><i class="fa fa-building green_color"></i> <span>Year</span></a></li>
+         <li><a href="{{ route('term.index')}}"><i class="fa fa-building green_color"></i> <span>Term</span></a></li>
          <li><a href="settings.html"><i class="fa fa-cog yellow_color"></i> <span>Settings</span></a></li>
       </ul>
    </div>

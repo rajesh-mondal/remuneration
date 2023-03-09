@@ -8,6 +8,8 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\RemunerationController;
 use App\Http\Controllers\DisciplineController;
 use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\YearController;
+use App\Http\Controllers\TermController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +35,7 @@ Route::resource('remuneration', RemunerationController::class);
 Route::resource('discipline', DisciplineController::class);
 
 Route::resource('designation', DesignationController::class);
+
+Route::resource('year', YearController::class);
+
+Route::resource('term', TermController::class);

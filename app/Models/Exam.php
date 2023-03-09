@@ -7,5 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Exam extends Model
 {
-    use HasFactory;
+    public function year()
+    {
+        return $this->belongsTo('App\Models\Year', 'year_id');
+    }
+
+    public function term()
+    {
+        return $this->belongsTo('App\Models\term', 'term_id');
+    }
 }

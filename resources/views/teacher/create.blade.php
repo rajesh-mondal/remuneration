@@ -35,8 +35,8 @@
                                  <option value="{{$designation->id}}">{{$designation->name}}</option>
                                  @endforeach
                               </select>
-                              @if($errors->has('designation'))
-                              <small style="color:red">{{ $errors->first('designation') }}</small>
+                              @if($errors->has('designation_id'))
+                              <small style="color:red">{{ $errors->first('designation_id') }}</small>
                               @endif
                            </div>
                            <div class="form-group">

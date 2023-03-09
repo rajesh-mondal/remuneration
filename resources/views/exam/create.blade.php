@@ -18,29 +18,52 @@
                   <div class="content p-5">
                      
                      <div class="form">
-                        
-                        <form>
+                        <form action="{{ route('exam.store')}}" method="POST">
+                           @csrf
                            <div class="form-group">
                               <label>Year</label>
-                              <select id="inputState" class="form-control">
-                                 <option selected>Choose...</option>
-                                 <option>First</option>
-                                 <option>Second</option>
-                                 <option>Third</option>
-                                 <option>Forth</option>
+                              <select id="inputState" name="year_id" id="year_id" class="form-control">
+                                 <option selected value="" disabled>Choose...</option>                                
+                                 @foreach($years as $year)
+                                 <option value="{{$year->id}}">{{$year->year}}</option>
+                                 @endforeach
                               </select>
+                              @if($errors->has('year_id'))
+                              <small style="color:red">{{ $errors->first('year_id') }}</small>
+                              @endif
                            </div>
                            <div class="form-group">
                               <label>Term</label>
-                              <select id="inputState" class="form-control">
-                                 <option selected>Choose...</option>
-                                 <option>First</option>
-                                 <option>Second</option>
+                              <select id="inputState" name="term_id" id="term_id" class="form-control">
+                                 <option selected value="" disabled>Choose...</option>                                
+                                 @foreach($terms as $term)
+                                 <option value="{{$term->id}}">{{$term->term}}</option>
+                                 @endforeach
                               </select>
+                              @if($errors->has('term_id'))
+                              <small style="color:red">{{ $errors->first('term_id') }}</small>
+                              @endif
                            </div>
                            <div class="form-group">
                               <label>Session</label>
-                              <input type="text" name="course" class="form-control">
+                              <input type="text" name="session" id="session" class="form-control">
+                              @if($errors->has('session'))
+                              <small style="color:red">{{ $errors->first('session') }}</small>
+                              @endif
+                           </div>
+                           <div class="form-group">
+                              <label>Start Date</label>
+                              <input type="date" name="start_date" id="start_date" class="form-control">
+                              @if($errors->has('start_date'))
+                              <small style="color:red">{{ $errors->first('start_date') }}</small>
+                              @endif
+                           </div>
+                           <div class="form-group">
+                              <label>End Date</label>
+                              <input type="date" name="end_date" id="end_date" class="form-control">
+                              @if($errors->has('end_date'))
+                              <small style="color:red">{{ $errors->first('end_date') }}</small>
+                              @endif
                            </div>
                            <div class="form-group">
                               <button type="submit" class="btn btn-primary">Save</button>

@@ -30,7 +30,7 @@
                            </div>
                            <div class="form-group">
                               <label>Designation</label>
-                              <select id="inputState" name="designation_id" id="designation_id" class="form-control" value="{{ $teacher->descipline_id }}">
+                              <select id="inputState" name="designation_id" id="designation_id" class="form-control" value="{{ $teacher->designation_id }}">
                                  <option selected>Choose...</option>                                
                                  @foreach($designations as $designation)
                                  <option value="{{$designation->id}}" {{ $designation->id == $teacher->designation_id ? 'selected': ''}}>{{$designation->name}}</option>
