@@ -42,7 +42,7 @@
                            <div class="form-group">
                               <label>Department</label>
                               <select id="inputState" name="descipline_id" id="descipline_id" class="form-control">
-                                 <option selected value=""  disabled>Choose...</option>
+                                 <option selected value="" disabled>Choose...</option>
                                  @foreach($disciplines as $displine)
                                  <option value="{{$displine->id}}">{{$displine->name}}</option>
                                  @endforeach
@@ -54,6 +54,9 @@
                            <div class="form-group">
                               <label>Address</label>
                               <input type="text" name="address" id="address" class="form-control">
+                              @if($errors->has('address'))
+                              <small style="color:red">{{ $errors->first('address') }}</small>
+                              @endif
                            </div>
                            <div class="form-group">
                               <button type="submit" class="btn btn-primary">Save</button>

@@ -31,7 +31,7 @@
                            <div class="form-group">
                               <label>Designation</label>
                               <select id="inputState" name="designation_id" id="designation_id" class="form-control" value="{{ $teacher->designation_id }}">
-                                 <option selected>Choose...</option>                                
+                                 <option selected value="" disabled>Choose...</option>                                
                                  @foreach($designations as $designation)
                                  <option value="{{$designation->id}}" {{ $designation->id == $teacher->designation_id ? 'selected': ''}}>{{$designation->name}}</option>
                                  @endforeach
@@ -43,7 +43,7 @@
                            <div class="form-group">
                               <label>Department</label>
                               <select id="inputState" name="descipline_id" id="descipline_id" class="form-control" value="{{ $teacher->descipline_id }}">
-                                 <option selected>Choose...</option>
+                                 <option selected value="" disabled>Choose...</option>
                                  @foreach($disciplines as $displine)
                                  <option value="{{$displine->id}}" {{ $displine->id == $teacher->descipline_id ? 'selected': ''}}>{{$displine->name}}</option>
                                  @endforeach

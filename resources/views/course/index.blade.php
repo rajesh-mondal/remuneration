@@ -16,7 +16,7 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="content p-5">
-                     <a href="{{ route('course.create')}}" class="btn btn-success mb-3">Add new Course</a>
+                     <a href="{{ route('course.create')}}" class="btn btn-success mb-3">Add Course</a>
                      <div class="table-responsive">
                         <table class="table table-bordered">
                            <thead>
@@ -32,7 +32,7 @@
                               <tr>
                                  <td>{{ $loop->index+1 }}</td>
                                  <td>{{ $course->course }}</td>
-                                 <td>{{ $course->desciline['name'] }}</td>
+                                 <td>{{ $course->descipline['name'] }}</td>
                                  <td class="d-flex">
                                     <a href="{{ route('course.edit', $course->id)}}" class="btn btn-primary mr-2"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                     <form action="{{ route('course.destroy', $course->id) }}" method="POST">

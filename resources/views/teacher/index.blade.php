@@ -16,7 +16,7 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="content p-5">
-                     <a href="{{ route('teacher.create')}}" class="btn btn-success mb-3">Add new Teacher</a>
+                     <a href="{{ route('teacher.create')}}" class="btn btn-success mb-3">Add Teacher</a>
                      <div class="table-responsive">
                         <table class="table table-bordered">
                            <thead>

@@ -32,11 +32,14 @@
                            <div class="form-group">
                               <label>Discipline</label>
                               <select name="descipline_id" id="descipline_id" class="form-control" value="{{ $course->descipline_id }}">
-                                 <option selected>Choose...</option>
-                                 @foreach($disciplines as $displine)
-                                <option value="{{$displine->id}}" {{ $displine->id == $course->descipline_id ? 'selected': ''}}>{{$displine->name}}</option>
+                                 <option selected value="" disabled>Choose...</option>
+                                 @foreach($disciplines as $discipline)
+                                <option value="{{$discipline->id}}" {{ $discipline->id == $course->descipline_id ? 'selected': ''}}>{{$discipline->name}}</option>
                                  @endforeach
                               </select>
+                              @if($errors->has('descipline_id'))
+                              <small style="color:red">{{ $errors->first('descipline_id') }}</small>
+                              @endif
                            </div>
                            <div class="form-group">
                               <button type="submit" class="btn btn-primary">Save</button>
