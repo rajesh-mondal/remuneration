@@ -39,3 +39,7 @@ Route::resource('designation', DesignationController::class);
 Route::resource('year', YearController::class);
 
 Route::resource('term', TermController::class);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
