@@ -16,7 +16,7 @@
                   <li>
                      <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="{{ url('assets/images/layout_img/user_img.jpg') }}" alt="#" /><span class="name_user">John David</span></a>
                      <div class="dropdown-menu">
-                        <a class="dropdown-item" href="profile.html">My Profile</a>
+                        <a class="dropdown-item" href="{{ route('profile.index') }}">My Profile</a>
                         <a class="dropdown-item" href="settings.html">Settings</a>
                         <a class="dropdown-item" href="help.html">Help</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Exam;
 use App\Models\Year;
 use App\Models\Term;
+use App\Models\Session;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
@@ -29,7 +30,8 @@ class ExamController extends Controller
     {
         $years = Year::all();
         $terms = Term::all();
-        return view('exam.create', compact('years', 'terms'));
+        $sessions = Session::all();
+        return view('exam.create', compact('years', 'terms', 'sessions'));
     }
 
     /**
@@ -43,7 +45,7 @@ class ExamController extends Controller
         $request->validate([
             'year_id' => 'required',
             'term_id' => 'required',
-            'session' => 'required',
+            'session_id' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
         ]);
@@ -51,7 +53,7 @@ class ExamController extends Controller
         $exam = new Exam();
         $exam->year_id = $request->year_id;
         $exam->term_id = $request->term_id;
-        $exam->session = $request->session;
+        $exam->session_id = $request->session_id;
         $exam->start_date = $request->start_date;
         $exam->end_date = $request->end_date;
         $exam->save();
@@ -81,7 +83,8 @@ class ExamController extends Controller
         $exam = Exam::findOrFail($id);
         $years = Year::all();
         $terms = Term::all();
-        return view('exam.edit', compact('exam', 'years', 'terms'));
+        $sessions = Session::all();
+        return view('exam.edit', compact('exam', 'years', 'terms', 'sessions'));
     }
 
     /**
@@ -98,14 +101,14 @@ class ExamController extends Controller
         $request->validate([
             'year_id' => 'required',
             'term_id' => 'required',
-            'session' => 'required',
+            'session_id' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
         ]);
 
         $exam->year_id = $request->year_id;
         $exam->term_id = $request->term_id;
-        $exam->session = $request->session;
+        $exam->session_id = $request->session_id;
         $exam->start_date = $request->start_date;
         $exam->end_date = $request->end_date;
         $exam->save();

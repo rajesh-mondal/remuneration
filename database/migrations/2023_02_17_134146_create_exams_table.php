@@ -17,7 +17,7 @@ class CreateExamsTable extends Migration
             $table->id();
             $table->integer('year_id');
             $table->integer('term_id');
-            $table->string('session');
+            $table->integer('session_id');
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();

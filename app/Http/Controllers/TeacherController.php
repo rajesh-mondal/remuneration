@@ -45,7 +45,7 @@ class TeacherController extends Controller
             'name' => 'required|unique:teachers',
             'designation_id' => 'required',
             'descipline_id' => 'required',
-            'address' => 'required',
+            'address' => 'nullable',
         ]);
 
         $teacher = new Teacher();
@@ -106,7 +106,7 @@ class TeacherController extends Controller
                 'name' => 'required|unique:teachers',
                 'designation_id' => 'required',
                 'descipline_id' => 'required',
-                'address' => 'required',
+                'address' => 'nullable',
             ]);
         }
 

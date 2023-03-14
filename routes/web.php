@@ -10,6 +10,8 @@ use App\Http\Controllers\DisciplineController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\YearController;
 use App\Http\Controllers\TermController;
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +41,10 @@ Route::resource('designation', DesignationController::class);
 Route::resource('year', YearController::class);
 
 Route::resource('term', TermController::class);
+
+Route::resource('session', SessionController::class);
+
+Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
 
 Auth::routes();
 

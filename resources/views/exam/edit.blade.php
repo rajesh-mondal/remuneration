@@ -47,9 +47,14 @@
                            </div>
                            <div class="form-group">
                               <label>Session</label>
-                              <input type="text" name="session" id="session" class="form-control" value="{{ $exam->session }}">
-                              @if($errors->has('session'))
-                              <small style="color:red">{{ $errors->first('session') }}</small>
+                              <select id="inputState" name="session_id" id="session_id" class="form-control" value="{{ $exam->session_id }}">
+                                 <option selected value="" disabled>Choose...</option>                                
+                                 @foreach($sessions as $session)
+                                 <option value="{{$session->id}}" {{ $session->id == $exam->session_id ? 'selected': ''}}>{{$session->session}}</option>
+                                 @endforeach
+                              </select>
+                              @if($errors->has('session_id'))
+                              <small style="color:red">{{ $errors->first('session_id') }}</small>
                               @endif
                            </div>
                            <div class="form-group">

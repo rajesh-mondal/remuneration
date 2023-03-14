@@ -14,6 +14,11 @@ class Exam extends Model
 
     public function term()
     {
-        return $this->belongsTo('App\Models\term', 'term_id');
+        return $this->belongsTo('App\Models\Term', 'term_id');
+    }
+
+    public function session()
+    {
+        return $this->belongsTo('App\Models\Session', 'session_id');
     }
 }
