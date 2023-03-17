@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Descipline;
+use DataTables;
 
 class CourseController extends Controller
 {
@@ -13,10 +14,27 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $courses = Course::all();
-        return view('course.index', compact('courses'));
+        if($request->ajax())
+        {
+            $data = Course::latest()->get();
+            return DataTables::of($data)
+                ->addColumn('discipline', function($data){
+                    return $data->descipline['name'];                    
+                })
+
+                ->addColumn('action', function($data){
+                    $button = '<a href="'.route('course.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
+                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('course.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
+                    return $button;
+                })
+                ->rawColumns(['discipline', 'action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+       
+        return view('course.index');
     }
 
     /**

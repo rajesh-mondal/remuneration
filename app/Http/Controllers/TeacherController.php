@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\Descipline;
 use App\Models\Designation;
+use DataTables;
 
 class TeacherController extends Controller
 {
@@ -14,10 +15,31 @@ class TeacherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $teachers = Teacher::all();
-        return view('teacher.index', compact('teachers'));
+        if($request->ajax())
+        {
+            $data = Teacher::latest()->get();
+            return DataTables::of($data)
+                ->addColumn('designation', function($data){
+                    return $data->designation['name'];                    
+                })
+
+                ->addColumn('discipline', function($data){
+                    return $data->desciline['name'];                    
+                })
+
+                ->addColumn('action', function($data){
+                    $button = '<a href="'.route('teacher.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
+                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('teacher.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
+                    return $button;
+                })
+                ->rawColumns(['designation','discipline', 'action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+       
+        return view('teacher.index');
 
     }
 

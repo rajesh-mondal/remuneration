@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DataTables;
 use App\Models\Session;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,23 @@ class SessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sessions = Session::all();
-        return view('session.index', compact('sessions'));
+        if($request->ajax())
+        {
+            $data = Session::latest()->get();
+            return DataTables::of($data)
+                ->addColumn('action', function($data){
+                    $button = '<a href="'.route('session.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
+                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('session.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+       
+        return view('session.index');
     }
 
     /**

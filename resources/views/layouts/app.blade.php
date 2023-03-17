@@ -7,6 +7,7 @@
       <!-- mobile metas -->
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+      <meta name="csrf-token" content="{{ csrf_token() }}" />
       <!-- site metas -->
       <title>Remuneration</title>
       <meta name="keywords" content="">
@@ -26,6 +27,8 @@
       <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-select.css') }}" />
       <!-- scrollbar css -->
       <link rel="stylesheet" href="{{ asset('assets/css/perfect-scrollbar.css') }}" />
+      <!-- datatable css -->
+      <link rel="stylesheet" href="{{ asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet"/>
       
       
    </head>
@@ -58,7 +61,7 @@
          </div>
       </div>
       <!-- jQuery -->
-      <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+      <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
       <script src="{{ asset('assets/js/popper.min.js') }}"></script>
       <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
       <!-- wow animation -->
@@ -67,18 +70,25 @@
       <script src="{{ asset('assets/js/bootstrap-select.js') }}"></script>
       <!-- owl carousel -->
       <script src="{{ asset('assets/js/owl.carousel.js') }}"></script> 
-      <!-- chart js -->
-      <script src="{{ asset('assets/js/Chart.min.js') }}"></script>
-      <script src="{{ asset('assets/js/Chart.bundle.min.js') }}"></script>
-      <script src="{{ asset('assets/js/utils.js') }}"></script>
-      <script src="{{ asset('assets/js/analyser.js') }}"></script>
       <!-- nice scrollbar -->
       <script src="{{ asset('assets/js/perfect-scrollbar.min.js') }}"></script>
+      <!-- datatable script -->
+      <script src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
       <script>
          var ps = new PerfectScrollbar('#sidebar');
       </script>
       <!-- custom js -->
       <script src="{{ asset('assets/js/custom.js') }}"></script>
+      <script>
+         $.ajaxSetup({
+            headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+         });
+      </script>
+
+      @yield('script')
+   
       
    </body>
 </html>

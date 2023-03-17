@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Term;
 use Illuminate\Http\Request;
+use DataTables;
 
 class TermController extends Controller
 {
@@ -12,10 +13,23 @@ class TermController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $terms = Term::all();
-        return view('term.index', compact('terms'));
+        if($request->ajax())
+        {
+            $data = Term::latest()->get();
+            return DataTables::of($data)
+                ->addColumn('action', function($data){
+                    $button = '<a href="'.route('term.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
+                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('term.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+       
+        return view('term.index');
     }
 
     /**

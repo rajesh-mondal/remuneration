@@ -18,7 +18,7 @@
                   <div class="content p-5">
                      <a href="{{ route('term.create')}}" class="btn btn-success mb-3">Add Term</a>
                      <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered w-100" id="term_table">
                            <thead>
                               <tr>
                                  <th>#</th>
@@ -26,22 +26,6 @@
                                  <th>Action</th>
                               </tr>
                            </thead>
-                           <tbody>
-                              @foreach($terms as $term)
-                              <tr>
-                                 <td>{{ $loop->index+1 }}</td>
-                                 <td>{{ $term->term }}</td>
-                                 <td class="d-flex">
-                                    <a href="{{ route('term.edit', $term->id)}}" class="btn btn-primary mr-2">Edit</a>
-                                    <form action="{{ route('term.destroy', $term->id) }}" method="POST">
-                                       @csrf
-                                       @method('DELETE')
-                                       <button class="btn btn-danger" onclick="return confirm('Do you want to delete?')">Delete</button>
-                                    </form>
-                                 </td>
-                              </tr>
-                           @endforeach
-                           </tbody>
                         </table>
                      </div>
                   </div>
@@ -53,5 +37,69 @@
 </div>
 <!-- end graph -->
 
+<!-- delete modal -->
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="delete_form" method="post">
+         @csrf
+         @method('DELETE')
+      <div class="modal-body">
+        <h4 class="text-center">Do you want to delete?</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- delete modal end -->
 
+@endsection
+
+@section('script')
+<script>
+$(document).ready(function(){
+
+   $('#term_table').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: {
+      url: "{{ route('term.index') }}",
+      },
+      columns: [
+      {
+      data: 'DT_RowIndex',
+      name: 'DT_RowIndex',
+      orderable: false,
+      searchable: false,
+      },
+      {
+      data: 'term',
+      name: 'term'
+      },     
+      {
+      data: 'action',
+      name: 'action',
+      orderable: false
+      }
+      ]
+   })
+})
+
+$(document).on('click', '.delete', function () {
+    $('#delete_modal').modal('show');
+    var route = $(this).attr('route');
+    $('#delete_form').attr('action', route);
+});
+
+</script>
 @endsection

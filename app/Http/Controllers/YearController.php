@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DataTables;
 use App\Models\Year;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,23 @@ class YearController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $years = Year::all();
-        return view('year.index', compact('years'));
+        if($request->ajax())
+        {
+            $data = Year::latest()->get();
+            return DataTables::of($data)
+                ->addColumn('action', function($data){
+                    $button = '<a href="'.route('year.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
+                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('year.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+       
+        return view('year.index');
     }
 
     /**
