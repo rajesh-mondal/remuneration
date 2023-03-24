@@ -22,7 +22,8 @@
       <!-- responsive css -->
       <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}" />
       <!-- color css -->
-      <link rel="stylesheet" href="{{ asset('assets/css/colors.css') }}" />
+      <link rel="stylesheet" href="{{ asset('assets/css/color_2.css') }}" />
+      <!-- <link rel="stylesheet" href="{{ asset('assets/css/colors.css') }}" /> -->
       <!-- select bootstrap -->
       <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-select.css') }}" />
       <!-- scrollbar css -->

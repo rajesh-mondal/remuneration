@@ -32,11 +32,11 @@
 }
 
 .counter_section .counter_no p.total_no {
-    color: #fff;
+    color: #455a64;
 }
 
 .counter_section .counter_no p.head_couter {
-    color: rgba(255,255,255,.7);
+    color: #7d9cac;
 }
 
 #sidebar h4 {
