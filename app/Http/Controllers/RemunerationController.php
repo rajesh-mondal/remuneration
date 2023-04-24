@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\RemunerationCategory;
+use App\Models\Descipline;
+use App\Models\Designation;
+use App\Models\Exam;
+use App\Models\Teacher;
 
 class RemunerationController extends Controller
 {
@@ -23,7 +28,13 @@ class RemunerationController extends Controller
      */
     public function create()
     {
-        return view('remuneration.create');
+        $categories = RemunerationCategory::all();
+        $disciplines = Descipline::all();
+        $exams = Exam::all();
+        $teachers = Teacher::all();
+        $designations = Designation::all();
+        return view('remuneration.create', compact('categories','disciplines','exams','teachers','designations'));
+
     }
 
     /**
