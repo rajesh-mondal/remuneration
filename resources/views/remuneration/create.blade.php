@@ -20,11 +20,13 @@
                      <div class="form">
                         <form method="post" id="dynamic_form">
                            @csrf
+
                            <div class="row">
                               <div class="col-lg-3">
                                  <div class="form-group">
                                     <label for="">Discipline</label>
                                     <select class="form-control" name="" id="">
+                                       <option value="" selected disabled>Choose</option>
                                        @foreach ($disciplines as $discipline)
                                           <option value="{{ $discipline->id }}">{{ $discipline->name }}</option>
                                        @endforeach
@@ -35,6 +37,7 @@
                                  <div class="form-group">
                                     <label for="">Year</label>
                                     <select class="form-control" name="" id="">
+                                       <option value="" selected disabled>Choose</option>
                                        @foreach ($exams as $exam)
                                           <option value="{{ $exam->id }}">{{ $exam->year['year'] }}</option>
                                        @endforeach
@@ -45,6 +48,7 @@
                                  <div class="form-group">
                                     <label for="">Term</label>
                                     <select class="form-control" name="" id="">
+                                       <option value="" selected disabled>Choose</option>
                                        @foreach ($exams as $exam)
                                           <option value="{{ $exam->id }}">{{ $exam->term['term'] }}</option>
                                        @endforeach
@@ -55,6 +59,7 @@
                                  <div class="form-group">
                                     <label for="">Session</label>
                                     <select class="form-control" name="" id="">
+                                       <option value="" selected disabled>Choose</option>
                                        @foreach ($exams as $exam)
                                           <option value="{{ $exam->id }}">{{ $exam->session['session'] }}</option>
                                        @endforeach
@@ -69,6 +74,7 @@
                                  <div class="form-group">
                                     <label for="">Name of Chairman</label>
                                     <select class="form-control" name="" id="">
+                                       <option value="" selected disabled>Choose</option>
                                        @foreach ($teachers as $teacher)
                                           <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
                                        @endforeach
@@ -79,6 +85,7 @@
                                  <div class="form-group">
                                     <label for="">Designation</label>
                                     <select class="form-control" name="" id="">
+                                       <option value="" selected disabled>Choose</option>
                                        @foreach ($designations as $designation)
                                           <option value="{{ $designation->id }}">{{ $designation->name }}</option>
                                        @endforeach
@@ -89,6 +96,7 @@
                                  <div class="form-group">
                                     <label for="">Discipline</label>
                                     <select class="form-control" name="" id="">
+                                       <option value="" selected disabled>Choose</option>
                                        @foreach ($disciplines as $discipline)
                                           <option value="{{ $discipline->id }}">{{ $discipline->name }}</option>
                                        @endforeach
@@ -101,6 +109,7 @@
                            <div class="form-group">
                               <label for="">Remuneration Category</label>
                               <select class="form-control" name="" id="">
+                                 <option value="" selected disabled>Choose</option>
                                  @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                  @endforeach
