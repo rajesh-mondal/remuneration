@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RemunerationCategory;
+use App\Models\RemunerationRate;
 use Illuminate\Http\Request;
+use DataTables;
 
 class RemunerationRateController extends Controller
 {
@@ -11,9 +14,26 @@ class RemunerationRateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->ajax())
+        {
+            $data = RemunerationRate::latest()->get();
+            return DataTables::of($data)
+            ->addColumn('category', function($data){
+                return $data->remunerationCategory['name'];                    
+            })
+                ->addColumn('action', function($data){
+                    $button = '<a href="'.route('remuneration-rate.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
+                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('remuneration-rate.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
+                    return $button;
+                })
+                ->rawColumns(['category', 'action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+       
+        return view('remuneration_rate.index');
     }
 
     /**
@@ -23,7 +43,8 @@ class RemunerationRateController extends Controller
      */
     public function create()
     {
-        //
+        $remuneration_categories = RemunerationCategory::all();
+        return view('remuneration_rate.create',compact('remuneration_categories'));
     }
 
     /**
@@ -34,7 +55,18 @@ class RemunerationRateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'category_id' => 'required',
+            'description' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $remuneration_rate = new RemunerationRate();
+        $remuneration_rate->category_id = $request->category_id;
+        $remuneration_rate->description = $request->description;
+        $remuneration_rate->amount = $request->amount;
+        $remuneration_rate->save();
+        return redirect()->route('remuneration-rate.index');
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\RemunerationController;
 use App\Http\Controllers\RemunerationCategoryController;
+use App\Http\Controllers\RemunerationRateController;
 use App\Http\Controllers\DisciplineController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\YearController;
@@ -36,6 +37,8 @@ Route::resource('exam', ExamController::class);
 Route::resource('remuneration', RemunerationController::class);
 
 Route::resource('remuneration-category', RemunerationCategoryController::class);
+
+Route::resource('remuneration-rate', RemunerationRateController::class);
 
 Route::resource('discipline', DisciplineController::class);
 
