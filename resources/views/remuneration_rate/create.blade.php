@@ -34,13 +34,6 @@
                               @endif
                            </div>
                            <div class="form-group">
-                              <label>Description</label>
-                              <input type="text" name="description" id="description" class="form-control">
-                              @if($errors->has('description'))
-                              <small style="color:red">{{ $errors->first('description') }}</small>
-                              @endif
-                           </div>
-                           <div class="form-group">
                               <label>Amount</label>
                               <input type="text" name="amount" id="amount" class="form-control">
                               @if($errors->has('amount'))

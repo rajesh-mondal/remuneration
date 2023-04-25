@@ -23,7 +23,6 @@
                               <tr>
                                  <th>#</th>
                                  <th>Remuneration Category</th>
-                                 <th>Description</th>
                                  <th>Amount</th>
                                  <th>Action</th>
                               </tr>
@@ -87,11 +86,7 @@ $(document).ready(function(){
       {
       data: 'category',
       name: 'category'
-      },     
-      {
-      data: 'description',
-      name: 'description'
-      },     
+      },          
       {
       data: 'amount',
       name: 'amount'

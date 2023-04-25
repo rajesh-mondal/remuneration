@@ -16,7 +16,6 @@ class CreateRemunerationRatesTable extends Migration
         Schema::create('remuneration_rates', function (Blueprint $table) {
             $table->id();
             $table->integer('category_id');
-            $table->string('description');
             $table->integer('amount');
             $table->timestamps();
         });

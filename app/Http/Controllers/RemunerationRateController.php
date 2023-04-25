@@ -57,13 +57,11 @@ class RemunerationRateController extends Controller
     {
         $request->validate([
             'category_id' => 'required',
-            'description' => 'required',
             'amount' => 'required',
         ]);
 
         $remuneration_rate = new RemunerationRate();
         $remuneration_rate->category_id = $request->category_id;
-        $remuneration_rate->description = $request->description;
         $remuneration_rate->amount = $request->amount;
         $remuneration_rate->save();
         return redirect()->route('remuneration-rate.index');
@@ -106,12 +104,10 @@ class RemunerationRateController extends Controller
 
         $request->validate([
             'category_id' => 'required',
-            'description' => 'required',
             'amount' => 'required',
         ]);
 
         $remuneration_rate->category_id = $request->category_id;
-        $remuneration_rate->description = $request->description;
         $remuneration_rate->amount = $request->amount;
         $remuneration_rate->save();
         return redirect()->route('remuneration-rate.index');
