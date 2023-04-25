@@ -88,7 +88,9 @@ class RemunerationRateController extends Controller
      */
     public function edit($id)
     {
-        //
+        $remuneration_rate = RemunerationRate::findOrFail($id);
+        $remuneration_categories = RemunerationCategory::all();
+        return view('remuneration_rate.edit',compact('remuneration_rate','remuneration_categories'));
     }
 
     /**
@@ -100,7 +102,19 @@ class RemunerationRateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $remuneration_rate = RemunerationRate::findOrFail($id);
+
+        $request->validate([
+            'category_id' => 'required',
+            'description' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $remuneration_rate->category_id = $request->category_id;
+        $remuneration_rate->description = $request->description;
+        $remuneration_rate->amount = $request->amount;
+        $remuneration_rate->save();
+        return redirect()->route('remuneration-rate.index');
     }
 
     /**
@@ -111,6 +125,8 @@ class RemunerationRateController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $remuneration_rate = RemunerationRate::findOrFail($id);
+        $remuneration_rate->delete();
+        return redirect()->route('remuneration-rate.index');
     }
 }
