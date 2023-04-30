@@ -67,7 +67,8 @@ class CourseController extends Controller
         $course->descipline_id = $request->descipline_id;
         $course->save();
 
-        return redirect()->route('course.index');
+        $notification = array('message' => 'Course Added!', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
     }
 
     /**
@@ -122,7 +123,8 @@ class CourseController extends Controller
         $course->descipline_id = $request->descipline_id;
         $course->save();
 
-        return redirect()->route('course.index');
+        $notification = array('message' => 'Course Updated!', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
     }
 
     /**
@@ -135,6 +137,8 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($id);
         $course->delete();
-        return redirect()->route('course.index');
+
+        $notification = array('message' => 'Course Deleted', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
     }
 }
