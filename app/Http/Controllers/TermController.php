@@ -55,11 +55,11 @@ class TermController extends Controller
         ]);
 
         $term = new Term();
-
         $term->term = $request->term;
         $term->save();
 
-        return redirect()->route('term.index');
+        $notification = array('message' => 'Term Created!', 'alert-type' => 'success');
+        return redirect()->route('term.index')->with($notification);
     }
 
     /**
@@ -109,7 +109,8 @@ class TermController extends Controller
         $term->term = $request->term;
         $term->save();
 
-        return redirect()->route('term.index');
+        $notification = array('message' => 'Term Updated!', 'alert-type' => 'success');
+        return redirect()->route('term.index')->with($notification);
     }
 
     /**
@@ -122,6 +123,8 @@ class TermController extends Controller
     {
         $term = Term::findOrFail($id);
         $term->delete();
-        return redirect()->route('term.index');
+        
+        $notification = array('message' => 'Term Deleted!', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
     }
 }

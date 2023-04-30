@@ -57,7 +57,9 @@ class RemunerationCategoryController extends Controller
         $remuneration_category = new RemunerationCategory();
         $remuneration_category->name = $request->name;
         $remuneration_category->save();
-        return redirect()->route('remuneration-category.index');
+
+        $notification = array('message' => 'Category Added!', 'alert-type' => 'success');
+        return redirect()->route('remuneration-category.index')->with($notification);
     }
 
     /**
@@ -106,7 +108,9 @@ class RemunerationCategoryController extends Controller
 
         $remuneration_category->name = $request->name;
         $remuneration_category->save();
-        return redirect()->route('remuneration-category.index');
+        
+        $notification = array('message' => 'Category Updated!', 'alert-type' => 'success');
+        return redirect()->route('remuneration-category.index')->with($notification);
     }
 
     /**
@@ -119,6 +123,8 @@ class RemunerationCategoryController extends Controller
     {
         $remuneration_category = RemunerationCategory::findOrFail($id);
         $remuneration_category->delete();
-        return redirect()->route('remuneration-category.index');
+        
+        $notification = array('message' => 'Remuneration Category Deleted!', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
     }
 }

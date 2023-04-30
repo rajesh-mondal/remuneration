@@ -64,7 +64,9 @@ class RemunerationRateController extends Controller
         $remuneration_rate->category_id = $request->category_id;
         $remuneration_rate->amount = $request->amount;
         $remuneration_rate->save();
-        return redirect()->route('remuneration-rate.index');
+
+        $notification = array('message' => 'Remuneration Rate Added!', 'alert-type' => 'success');
+        return redirect()->route('remuneration-rate.index')->with($notification);
     }
 
     /**
@@ -110,7 +112,9 @@ class RemunerationRateController extends Controller
         $remuneration_rate->category_id = $request->category_id;
         $remuneration_rate->amount = $request->amount;
         $remuneration_rate->save();
-        return redirect()->route('remuneration-rate.index');
+        
+        $notification = array('message' => 'Remuneration Rate Updated!', 'alert-type' => 'success');
+        return redirect()->route('remuneration-rate.index')->with($notification);
     }
 
     /**
@@ -123,6 +127,8 @@ class RemunerationRateController extends Controller
     {
         $remuneration_rate = RemunerationRate::findOrFail($id);
         $remuneration_rate->delete();
-        return redirect()->route('remuneration-rate.index');
+        
+        $notification = array('message' => 'Remuneration Rate Deleted!', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
     }
 }

@@ -62,7 +62,8 @@ class DisciplineController extends Controller
         $descipline->name = $request->name;
         $descipline->save();
 
-        return redirect()->route('discipline.index');
+        $notification = array('message' => 'Discipline Added!', 'alert-type' => 'success');
+        return redirect()->route('discipline.index')->with($notification);
 
     }
 
@@ -113,7 +114,8 @@ class DisciplineController extends Controller
         $descipline->name = $request->name;
         $descipline->save();
 
-        return redirect()->route('discipline.index');
+        $notification = array('message' => 'Discipline Updated!', 'alert-type' => 'success');
+        return redirect()->route('discipline.index')->with($notification);
     }
 
     /**
@@ -126,6 +128,8 @@ class DisciplineController extends Controller
     {
         $descipline = Descipline::findOrFail($id);
         $descipline->delete();
-        return redirect()->route('discipline.index');
+        
+        $notification = array('message' => 'Discipline Deleted!', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
     }
 }

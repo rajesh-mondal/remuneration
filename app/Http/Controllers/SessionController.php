@@ -55,11 +55,11 @@ class SessionController extends Controller
         ]);
 
         $session = new Session();
-
         $session->session = $request->session;
         $session->save();
 
-        return redirect()->route('session.index');
+        $notification = array('message' => 'Session Added!', 'alert-type' => 'success');
+        return redirect()->route('session.index')->with($notification);
     }
 
     /**
@@ -95,7 +95,7 @@ class SessionController extends Controller
     public function update(Request $request, $id)
     {
         $session = Session::findOrFail($id);
-
+        
         if($session->session == $request->session){
             $request->validate([
                 'session' => 'required',
@@ -109,7 +109,8 @@ class SessionController extends Controller
         $session->session = $request->session;
         $session->save();
 
-        return redirect()->route('session.index');
+        $notification = array('message' => 'Session Updated!', 'alert-type' => 'success');
+        return redirect()->route('session.index')->with($notification);
     }
 
     /**
@@ -122,6 +123,8 @@ class SessionController extends Controller
     {
         $session = Session::findOrFail($id);
         $session->delete();
-        return redirect()->route('session.index');
+        
+        $notification = array('message' => 'Session Deleted!', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
     }
 }

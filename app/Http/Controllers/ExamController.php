@@ -84,7 +84,8 @@ class ExamController extends Controller
         $exam->end_date = $request->end_date;
         $exam->save();
 
-        return redirect()->route('exam.index');
+        $notification = array('message' => 'Exam Added!', 'alert-type' => 'success');
+        return redirect()->route('exam.index')->with($notification);
     }
 
     /**
@@ -139,7 +140,8 @@ class ExamController extends Controller
         $exam->end_date = $request->end_date;
         $exam->save();
 
-        return redirect()->route('exam.index');
+        $notification = array('message' => 'Exam Updated!', 'alert-type' => 'success');
+        return redirect()->route('exam.index')->with($notification);
     }
 
     /**
@@ -152,6 +154,8 @@ class ExamController extends Controller
     {
         $exam = Exam::findOrFail($id);
         $exam->delete();
-        return redirect()->route('exam.index');
+        
+        $notification = array('message' => 'Exam Deleted!', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
     }
 }

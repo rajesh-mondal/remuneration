@@ -58,7 +58,8 @@ class DesignationController extends Controller
         $designation->name = $request->name;
         $designation->save();
 
-        return redirect()->route('designation.index');
+        $notification = array('message' => 'Designation Added!', 'alert-type' => 'success');
+        return redirect()->route('designation.index')->with($notification);
     }
 
     /**
@@ -108,7 +109,8 @@ class DesignationController extends Controller
         $designation->name = $request->name;
         $designation->save();
 
-        return redirect()->route('designation.index');
+        $notification = array('message' => 'Designation Updated!', 'alert-type' => 'success');
+        return redirect()->route('designation.index')->with($notification);
     }
 
     /**
@@ -121,6 +123,8 @@ class DesignationController extends Controller
     {
         $designation = Designation::findOrFail($id);
         $designation->delete();
-        return redirect()->route('designation.index');
+        
+        $notification = array('message' => 'Designation Deleted!', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
     }
 }

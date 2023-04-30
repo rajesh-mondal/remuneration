@@ -77,7 +77,8 @@ class TeacherController extends Controller
         $teacher->address = $request->address;
         $teacher->save();
 
-        return redirect()->route('teacher.index');
+        $notification = array('message' => 'User Added!', 'alert-type' => 'success');
+        return redirect()->route('teacher.index')->with($notification);
     }
 
     /**
@@ -138,7 +139,8 @@ class TeacherController extends Controller
         $teacher->address = $request->address;
         $teacher->save();
 
-        return redirect()->route('teacher.index');
+        $notification = array('message' => 'User Updated!', 'alert-type' => 'success');
+        return redirect()->route('teacher.index')->with($notification);
     }
 
     /**
@@ -151,6 +153,8 @@ class TeacherController extends Controller
     {
         $teacher = Teacher::findOrFail($id);
         $teacher->delete();
-        return redirect()->route('teacher.index');
+        
+        $notification = array('message' => 'User Deleted!', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
     }
 }

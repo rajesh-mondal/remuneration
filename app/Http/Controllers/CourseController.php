@@ -68,7 +68,7 @@ class CourseController extends Controller
         $course->save();
 
         $notification = array('message' => 'Course Added!', 'alert-type' => 'success');
-        return redirect()->back()->with($notification);
+        return redirect()->route('course.index')->with($notification);
     }
 
     /**
@@ -124,7 +124,7 @@ class CourseController extends Controller
         $course->save();
 
         $notification = array('message' => 'Course Updated!', 'alert-type' => 'success');
-        return redirect()->back()->with($notification);
+        return redirect()->route('course.index')->with($notification);
     }
 
     /**
