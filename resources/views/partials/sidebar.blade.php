@@ -32,15 +32,21 @@
          <li><a href="{{ route('discipline.index')}}"><i class="fa fa-building green_color"></i> <span>Descipline</span></a></li>
          <li><a href="{{ route('designation.index')}}"><i class="fa fa-building green_color"></i> <span>Designation</span></a></li>
          <li>
-            <a href="#element" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-book green_color"></i> <span>Exam</span></a>
-            <ul class="collapse list-unstyled" id="element">
+            <a href="#element_exam" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-book green_color"></i> <span>Exam</span></a>
+            <ul class="collapse list-unstyled" id="element_exam">
                <li><a href="{{ route('exam.index')}}"><i class="fa fa-book white_color"></i><span>Exam</span></a></li>
                <li><a href="{{ route('year.index')}}"><i class="fa fa-calendar white_color"></i> <span>Year</span></a></li>
                <li><a href="{{ route('term.index')}}"><i class="fa fa fa-clock-o white_color"></i> <span>Term</span></a></li>
                <li><a href="{{ route('session.index')}}"><i class="fa fa fa-clock-o white_color"></i> <span>Session</span></a></li>
             </ul>
          </li>
-         <li><a href="settings.html"><i class="fa fa-cog yellow_color"></i> <span>Settings</span></a></li>
+         <li>
+            <a href="#element_setting" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-cog yellow_color"></i> <span>Settings</span></a>
+            <ul class="collapse list-unstyled" id="element_setting">
+               <li><a href="{{ route('password.change') }}"><i class="fa fa-key white_color"></i><span>Change password</span></a></li>
+               <li><a href=""><i class="fa fa-pencil-square-o white_color"></i><span>Edit Profile</span></a></li>
+            </ul>
+         </li>
       </ul>
    </div>
 </nav>

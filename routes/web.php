@@ -14,6 +14,7 @@ use App\Http\Controllers\YearController;
 use App\Http\Controllers\TermController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,9 @@ Route::resource('term', TermController::class);
 Route::resource('session', SessionController::class);
 
 Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+
+Route::get('password/change', [SettingController::class, 'passwordChange'])->name('password.change');
+Route::post('password/change', [SettingController::class, 'passwordUpdate'])->name('password.update');
 
 Auth::routes();
 
