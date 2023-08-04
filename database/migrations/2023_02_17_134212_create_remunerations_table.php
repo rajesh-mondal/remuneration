@@ -19,7 +19,7 @@ class CreateRemunerationsTable extends Migration
             $table->integer('category_id');
             $table->integer('rate_id');
             $table->integer('course_id')->nullable();
-            $table->integer('teacher_id');
+            $table->integer('user_id');
             $table->integer('number')->nullable();
             $table->integer('students')->nullable();
             $table->timestamps();
