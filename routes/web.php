@@ -32,8 +32,6 @@ Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 Route::resource('course', CourseController::class);
 
-Route::resource('teacher', TeacherController::class);
-
 Route::resource('role', RoleController::class);
 
 Route::resource('exam', ExamController::class);

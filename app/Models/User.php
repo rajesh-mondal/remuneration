@@ -27,6 +27,7 @@ class User extends Authenticatable
         'designation_id',
         'descipline_id',
         'role_id',
+        'is_admin',
     ];
 
     /**

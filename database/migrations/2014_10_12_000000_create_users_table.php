@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->integer('designation_id')->nullable();
             $table->integer('descipline_id')->nullable();
             $table->integer('role_id')->nullable();
+            $table->boolean('is_admin')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
