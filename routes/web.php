@@ -14,6 +14,7 @@ use App\Http\Controllers\YearController;
 use App\Http\Controllers\TermController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 
 /*
@@ -32,6 +33,8 @@ Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 Route::resource('course', CourseController::class);
 
 Route::resource('teacher', TeacherController::class);
+
+Route::resource('role', RoleController::class);
 
 Route::resource('exam', ExamController::class);
 

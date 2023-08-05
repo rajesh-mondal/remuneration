@@ -8,6 +8,7 @@ use App\Models\Descipline;
 use App\Models\Designation;
 use App\Models\Exam;
 use App\Models\Teacher;
+use App\Models\User;
 
 class RemunerationController extends Controller
 {
@@ -31,9 +32,9 @@ class RemunerationController extends Controller
         $categories = RemunerationCategory::all();
         $disciplines = Descipline::all();
         $exams = Exam::all();
-        $teachers = Teacher::all();
+        $users = User::all();
         $designations = Designation::all();
-        return view('remuneration.create', compact('categories','disciplines','exams','teachers','designations'));
+        return view('remuneration.create', compact('categories','disciplines','exams','users','designations'));
 
     }
 

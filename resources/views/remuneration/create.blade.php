@@ -75,8 +75,8 @@
                                     <label for="">Name of Chairman</label>
                                     <select class="form-control" name="" id="">
                                        <option value="" selected disabled>Choose</option>
-                                       @foreach ($teachers as $teacher)
-                                          <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                       @foreach ($users as $user)
+                                          <option value="{{ $user->id }}">{{ $user->name }}</option>
                                        @endforeach
                                     </select>
                                  </div>
