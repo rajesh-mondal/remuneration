@@ -30,6 +30,21 @@ class User extends Authenticatable
         'is_admin',
     ];
 
+    public function discipline()
+    {
+        return $this->belongsTo('App\Models\Descipline', 'descipline_id');
+    }
+
+    public function designation()
+    {
+        return $this->belongsTo('App\Models\Designation', 'designation_id');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role', 'role_id');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

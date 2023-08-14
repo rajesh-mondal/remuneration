@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\RemunerationController;
 use App\Http\Controllers\RemunerationCategoryController;
@@ -31,6 +31,8 @@ use App\Http\Controllers\SettingController;
 Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 Route::resource('course', CourseController::class);
+
+Route::resource('user', UserController::class);
 
 Route::resource('role', RoleController::class);
 

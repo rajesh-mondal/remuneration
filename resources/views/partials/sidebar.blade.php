@@ -19,8 +19,9 @@
    <div class="sidebar_blog_2">
       <ul class="list-unstyled components">
          <li><a href="{{ route('dashboard')}}"><i class="fa fa-dashboard yellow_color"></i> <span>Dashboard</span></a></li>
-         <li><a href="{{ route('course.index')}}"><i class="fa fa-server green_color"></i> <span>Course</span></a></li>
+         <li><a href="{{ route('user.index')}}"><i class="fa fa-user green_color"></i> <span>User</span></a></li>
          <li><a href="{{ route('role.index')}}"><i class="fa fa-user green_color"></i> <span>Role</span></a></li>
+         <li><a href="{{ route('course.index')}}"><i class="fa fa-server green_color"></i> <span>Course</span></a></li>
          <li>
             <a href="#element_rem" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-pencil-square-o green_color"></i> <span>Remuneration</span></a>
             <ul class="collapse list-unstyled" id="element_rem">
