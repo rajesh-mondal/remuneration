@@ -6,7 +6,7 @@ use App\Models\Descipline;
 use App\Models\Designation;
 use App\Models\Role;
 use App\Models\User;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 

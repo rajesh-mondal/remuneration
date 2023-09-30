@@ -107,9 +107,11 @@ class RemunerationRateController extends Controller
         $request->validate([
             'category_id' => 'required',
             'amount' => 'required',
+            'title' => 'required|max:500',
         ]);
 
         $remuneration_rate->category_id = $request->category_id;
+        $remuneration_rate->title = $request->title;
         $remuneration_rate->amount = $request->amount;
         $remuneration_rate->save();
         

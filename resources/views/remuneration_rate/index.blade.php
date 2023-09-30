@@ -23,6 +23,7 @@
                               <tr>
                                  <th>#</th>
                                  <th>Remuneration Category</th>
+                                 <th>Title</th>
                                  <th>Amount</th>
                                  <th>Action</th>
                               </tr>
@@ -40,27 +41,27 @@
 
 <!-- delete modal -->
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form id="delete_form" method="post">
+            @csrf
+            @method('DELETE')
+            <div class="modal-body">
+               <h4 class="text-center">Do you want to delete?</h4>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-danger">Delete</button>
+         </form>
       </div>
-      <form id="delete_form" method="post">
-         @csrf
-         @method('DELETE')
-      <div class="modal-body">
-        <h4 class="text-center">Do you want to delete?</h4>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
-      </div>
-    </div>
-  </div>
+   </div>
+</div>
 </div>
 <!-- delete modal end -->
 
@@ -68,43 +69,45 @@
 
 @section('script')
 <script>
-$(document).ready(function(){
+   $(document).ready(function() {
 
-   $('#term_table').DataTable({
-      processing: true,
-      serverSide: true,
-      ajax: {
-      url: "{{ route('remuneration-rate.index') }}",
-      },
-      columns: [
-      {
-      data: 'DT_RowIndex',
-      name: 'DT_RowIndex',
-      orderable: false,
-      searchable: false,
-      },
-      {
-      data: 'category',
-      name: 'category'
-      },          
-      {
-      data: 'amount',
-      name: 'amount'
-      },     
-      {
-      data: 'action',
-      name: 'action',
-      orderable: false
-      }
-      ]
+      $('#term_table').DataTable({
+         processing: true,
+         serverSide: true,
+         ajax: {
+            url: "{{ route('remuneration-rate.index') }}",
+         },
+         columns: [{
+               data: 'DT_RowIndex',
+               name: 'DT_RowIndex',
+               orderable: false,
+               searchable: false,
+            },
+            {
+               data: 'category',
+               name: 'category'
+            },
+            {
+               data: 'title',
+               name: 'title'
+            },
+            {
+               data: 'amount',
+               name: 'amount'
+            },
+            {
+               data: 'action',
+               name: 'action',
+               orderable: false
+            }
+         ]
+      })
    })
-})
 
-$(document).on('click', '.delete', function () {
-    $('#delete_modal').modal('show');
-    var route = $(this).attr('route');
-    $('#delete_form').attr('action', route);
-});
-
+   $(document).on('click', '.delete', function() {
+      $('#delete_modal').modal('show');
+      var route = $(this).attr('route');
+      $('#delete_form').attr('action', route);
+   });
 </script>
 @endsection

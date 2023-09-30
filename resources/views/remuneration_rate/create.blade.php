@@ -33,6 +33,16 @@
                               <small style="color:red">{{ $errors->first('category_id') }}</small>
                               @endif
                            </div>
+
+                           <div class="form-group">
+                              <label>Title</label>
+                              <textarea name="title" id="title" cols="30" rows="10" class="form-control"></textarea>
+                              @if($errors->has('title'))
+                              <small style="color:red">{{ $errors->first('title') }}</small>
+                              @endif
+                           </div>
+
+
                            <div class="form-group">
                               <label>Amount</label>
                               <input type="text" name="amount" id="amount" class="form-control">

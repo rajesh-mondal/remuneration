@@ -15,10 +15,13 @@ class CreateRemunerationsTable extends Migration
     {
         Schema::create('remunerations', function (Blueprint $table) {
             $table->id();
+            $table->integer('discipline_id');
             $table->integer('exam_id');
             $table->integer('category_id');
             $table->integer('rate_id');
-            $table->integer('course_id')->nullable();
+            $table->integer('type_id');
+            $table->string('paper');
+            $table->integer('course_id');
             $table->integer('user_id');
             $table->integer('number')->nullable();
             $table->integer('students')->nullable();

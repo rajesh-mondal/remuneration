@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\RemunerationController;
 use App\Http\Controllers\RemunerationCategoryController;
@@ -16,6 +16,7 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,3 +63,10 @@ Route::post('password/change', [SettingController::class, 'passwordUpdate'])->na
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/get-course', [App\Http\Controllers\DropdownController::class, 'course'])->name('get.course');
+Route::get('/get-teacher', [App\Http\Controllers\DropdownController::class, 'teacher'])->name('get.teacher');
+Route::get('/get-rate/{id}', [App\Http\Controllers\DropdownController::class, 'rate'])->name('get.rate');
+
+//search remunaration
+Route::post('/remuneration/filter', [App\Http\Controllers\RemunerationController::class, 'searchResult'])->name('remuneration.search');
