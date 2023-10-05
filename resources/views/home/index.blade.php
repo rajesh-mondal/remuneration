@@ -65,7 +65,7 @@
 </div>
 <div class="row column4 graph">
    <div class="col-md-6 margin_bottom_30">
-      <div class="dash_blog">
+      {{-- <div class="dash_blog">
          <div class="dash_blog_inner">
             <div class="dash_head">
                <h3><span><i class="fa fa-calendar"></i> 6 July 2018</span><span class="plus_green_bt"><a href="#">+</a></span></h3>
@@ -86,10 +86,10 @@
                <div class="center"><a class="main_bt read_bt" href="#">Read More</a></div>
             </div>
          </div>
-      </div>
+      </div> --}}
    </div>
    <div class="col-md-6">
-      <div class="dash_blog">
+      {{-- <div class="dash_blog">
          <div class="dash_blog_inner">
             <div class="dash_head">
                <h3><span><i class="fa fa-comments-o"></i> Bank Updates</span><span class="plus_green_bt"><a href="#">+</a></span></h3>
@@ -137,7 +137,7 @@
                <div class="center"><a class="main_bt read_bt" href="#">Read More</a></div>
             </div>
          </div>
-      </div>
+      </div> --}}
    </div>
 </div>
 

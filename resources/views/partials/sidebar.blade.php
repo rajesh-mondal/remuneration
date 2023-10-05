@@ -30,7 +30,7 @@
                <li><a href="{{ route('remuneration-rate.index')}}"><i class="fa fa-dollar white_color"></i> <span>Remuneration Rate</span></a></li>
             </ul>
          </li>
-         <li><a href="{{ route('discipline.index')}}"><i class="fa fa-building green_color"></i> <span>Descipline</span></a></li>
+         <li><a href="{{ route('discipline.index')}}"><i class="fa fa-building green_color"></i> <span>Discipline</span></a></li>
          <li><a href="{{ route('designation.index')}}"><i class="fa fa-building green_color"></i> <span>Designation</span></a></li>
          <li>
             <a href="#element_exam" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-book green_color"></i> <span>Exam</span></a>
