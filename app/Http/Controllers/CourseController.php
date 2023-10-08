@@ -58,12 +58,14 @@ class CourseController extends Controller
     {
         $request->validate([
             'course' => 'required|unique:courses',
+            'title' => 'required',
             'descipline_id' => 'required',
         ]);
 
         $course = new Course();
 
         $course->course = $request->course;
+        $course->title = $request->title;
         $course->descipline_id = $request->descipline_id;
         $course->save();
 
@@ -110,16 +112,19 @@ class CourseController extends Controller
         if($course->course == $request->course){
             $request->validate([
                 'course' => 'required',
+                'title' => 'required',
                 'descipline_id' => 'required',
             ]);
         }else{
             $request->validate([
                 'course' => 'required|unique:courses',
+                'title' => 'required',
                 'descipline_id' => 'required',
             ]);
         }
 
         $course->course = $request->course;
+        $course->title = $request->title;
         $course->descipline_id = $request->descipline_id;
         $course->save();
 

@@ -23,6 +23,7 @@
                               <tr>
                                  <th>#</th>
                                  <th>Course</th>
+                                 <th>Title</th>
                                  <th>Discipline</th>
                                  <th>Action</th>
                               </tr>
@@ -86,6 +87,10 @@ $(document).ready(function(){
       {
       data: 'course',
       name: 'course'
+      },
+      {
+      data: 'title',
+      name: 'title'
       },
       {
       data: 'discipline',

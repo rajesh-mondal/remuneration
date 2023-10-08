@@ -30,6 +30,13 @@
                               @endif
                            </div>
                            <div class="form-group">
+                              <label>Title</label>
+                              <input type="text" name="title" id="title" class="form-control" value="{{ $course->title }}">
+                              @if($errors->has('title'))
+                              <small style="color:red">{{ $errors->first('title') }}</small>
+                              @endif
+                           </div>
+                           <div class="form-group">
                               <label>Discipline</label>
                               <select name="descipline_id" id="descipline_id" class="form-control" value="{{ $course->descipline_id }}">
                                  <option selected value="" disabled>Choose...</option>
