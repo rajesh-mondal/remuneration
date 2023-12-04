@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use DataTables;
 use App\Models\Role;
 use Illuminate\Http\Request;
-use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
@@ -13,23 +14,24 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        if($request->ajax())
-        {
-            $data = Role::latest()->get();
-            return DataTables::of($data)
-                ->addColumn('action', function($data){
-                    $button = '<a href="'.route('role.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
-                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('role.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
-                    return $button;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
+    public function index(Request $request){
+        if (Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin') {
+            if($request->ajax()){
+                $data = Role::latest()->get();
+                return DataTables::of($data)
+                    ->addColumn('action', function($data){
+                        $button = '<a href="'.route('role.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
+                        $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('role.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
+                        return $button;
+                    })
+                    ->rawColumns(['action'])
+                    ->addIndexColumn()
+                    ->make(true);
+            }
+            return view('role.index');
+        } else {
+            return view('error.404');
         }
-       
-        return view('role.index');
     }
 
     /**

@@ -17,6 +17,11 @@ class Remuneration extends Model
         return $this->belongsTo('App\Models\Exam', 'exam_id');
     }
 
+    public function discipline()
+    {
+        return $this->belongsTo('App\Models\Descipline', 'discipline_id');
+    }
+
     public function category()
     {
         return $this->belongsTo('App\Models\RemunerationCategory', 'category_id');
@@ -30,5 +35,14 @@ class Remuneration extends Model
     public function type()
     {
         return $this->belongsTo('App\Models\Type', 'type_id');
+    }
+    public function course()
+    {
+        return $this->belongsTo('App\Models\Course', 'course_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 }

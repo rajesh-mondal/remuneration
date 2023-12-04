@@ -9,7 +9,7 @@
       <div class="white_shd full">
          <div class="full graph_head">
             <div class="heading1 margin_0">
-               <h2>Add New Remuneration Rate</h2>
+               <h2>Add New Rate</h2>
             </div>
          </div>
          <div class="full graph_revenue">

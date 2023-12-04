@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use DataTables;
 use App\Models\Designation;
 use Illuminate\Http\Request;
-use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class DesignationController extends Controller
 {
@@ -15,21 +16,23 @@ class DesignationController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax())
-        {
-            $data = Designation::latest()->get();
-            return DataTables::of($data)
-                ->addColumn('action', function($data){
-                    $button = '<a href="'.route('designation.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
-                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('designation.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
-                    return $button;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
+        if (Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin') {
+            if($request->ajax()){
+                $data = Designation::latest()->get();
+                return DataTables::of($data)
+                    ->addColumn('action', function($data){
+                        $button = '<a href="'.route('designation.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
+                        $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('designation.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
+                        return $button;
+                    })
+                    ->rawColumns(['action'])
+                    ->addIndexColumn()
+                    ->make(true);
+            }
+            return view('designation.index');
+        } else {
+            return view('error.404');
         }
-       
-        return view('designation.index');
     }
 
     /**

@@ -2,9 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\RemunerationController;
 use App\Http\Controllers\RemunerationCategoryController;
@@ -58,16 +57,21 @@ Route::resource('session', SessionController::class);
 
 Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
 
-Route::get('password/change', [SettingController::class, 'passwordChange'])->name('password.change');
-Route::post('password/change', [SettingController::class, 'passwordUpdate'])->name('password.update');
-
 Auth::routes();
 
+Route::get('setting', [SettingController::class, 'setting'])->name('setting');
+Route::post('password/change', [SettingController::class, 'passwordUpdate'])->name('password.update');
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
 Route::get('/get-course', [App\Http\Controllers\DropdownController::class, 'course'])->name('get.course');
 Route::get('/get-teacher', [App\Http\Controllers\DropdownController::class, 'teacher'])->name('get.teacher');
 Route::get('/get-rate/{id}', [App\Http\Controllers\DropdownController::class, 'rate'])->name('get.rate');
 
+
 //search remunaration
 Route::post('/remuneration/filter', [App\Http\Controllers\RemunerationController::class, 'searchResult'])->name('remuneration.search');
+
+Route::get('/remuneration/generate/pdf', [App\Http\Controllers\RemunerationController::class, 'generatePdf'])->name('remuneration.pdf');

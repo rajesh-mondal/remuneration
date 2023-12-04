@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class RemunerationCategory extends Model
 {
     use HasFactory;
+
+    public function rate() 
+    {
+        return $this->belongsTo('App\Models\RemunerationRate', 'category_id');
+    }
 }

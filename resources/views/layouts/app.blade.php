@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
    <!-- basic -->
    <meta charset="utf-8">
@@ -31,8 +32,8 @@
    <!-- toastr css -->
    <link rel="stylesheet" href="{{ asset('assets/css/toastr.min.css') }}">
    <!-- datatable css -->
-   <link rel="stylesheet" href="{{ asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet"/>
-   
+   <link rel="stylesheet" href="{{ asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet" />
+
 </head>
 
 <body class="dashboard dashboard_1">
@@ -72,7 +73,7 @@
    <!-- select country -->
    <script src="{{ asset('assets/js/bootstrap-select.js') }}"></script>
    <!-- owl carousel -->
-   <script src="{{ asset('assets/js/owl.carousel.js') }}"></script> 
+   <script src="{{ asset('assets/js/owl.carousel.js') }}"></script>
    <!-- nice scrollbar -->
    <script src="{{ asset('assets/js/perfect-scrollbar.min.js') }}"></script>
    <!-- toaster js -->
@@ -91,27 +92,28 @@
          }
       });
    </script>
+   @if(Session::has('message'))
    <script>
-      @if(Session::has('message'))
-         var type="{{Session::get('alert-type','info')}}"
-         switch(type){
-            case 'info':
+      var type = "{{Session::get('alert-type','info')}}"
+      switch (type) {
+         case 'info':
             toastr.info("{{ Session::get('message') }}");
             break;
-            case 'success':
+         case 'success':
             toastr.success("{{ Session::get('message') }}");
             break;
-            case 'warning':
+         case 'warning':
             toastr.warning("{{ Session::get('message') }}");
             break;
-            case 'error':
+         case 'error':
             toastr.error("{{ Session::get('message') }}");
             break;
-         }
-      @endif
+      }
    </script>
+   @endif
 
    @yield('script')
 
 </body>
+
 </html>

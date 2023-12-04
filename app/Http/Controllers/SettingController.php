@@ -21,13 +21,13 @@ class SettingController extends Controller
     }
 
     //password change
-    public function passwordChange(){
+    public function setting(){
         return view('setting.password_change');
     }
 
     //password update
     public function passwordUpdate(Request $request){
-        $validated = $request->validate([
+        $request->validate([
             'old_password' => 'required',
             'password' => 'required|min:6|confirmed'
         ]);
@@ -45,6 +45,7 @@ class SettingController extends Controller
 
             $notification = array('message' => 'Your Password Changed!', 'alert-type' => 'success');
             return redirect()->route('login')->with($notification);
+            
         }else{
             $notification = array('message' => 'Old Password Not Matched!', 'alert-type' => 'error');
             return redirect()->back()->with($notification);

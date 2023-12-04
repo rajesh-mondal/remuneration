@@ -9,6 +9,7 @@ use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller {
     /**
@@ -17,36 +18,39 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index( Request $request ) {
-        if ( $request->ajax() ) {
-            $data = User::latest()->get();
-            return DataTables::of( $data )
-                ->addColumn( 'discipline', function ( $data ) {
-                    if($data->discipline){
-                        return $data->discipline['name'];
-                    }                   
-                } )
-                ->addColumn( 'designation', function ( $data ) {
-                    if($data->designation){
-                        return $data->designation['name'];
-                    }                    
-                } )
-                ->addColumn( 'role', function ( $data ) {
-                    if($data->role){
-                        return $data->role['name'];
-                    }                    
-                } )
-                ->addColumn( 'action', function ( $data ) {
-                    $button = '<a href="' . route( 'user.edit', $data->id ) . '" class="edit btn btn-primary">Edit</a>';
-                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="' . route( 'user.destroy', $data->id ) . '" class="delete btn btn-danger">Delete</button>';
-                    return $button;
-                } )
-                ->rawColumns( ['discipline', 'designation', 'role', 'action'] )
-                ->rawColumns( ['action'] )
-                ->addIndexColumn()
-                ->make( true );
+        if (Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin') {
+            if ( $request->ajax() ) {
+                $data = User::latest()->get();
+                return DataTables::of( $data )
+                    ->addColumn( 'discipline', function ( $data ) {
+                        if($data->discipline){
+                            return $data->discipline['name'];
+                        }                   
+                    } )
+                    ->addColumn( 'designation', function ( $data ) {
+                        if($data->designation){
+                            return $data->designation['name'];
+                        }                    
+                    } )
+                    ->addColumn( 'role', function ( $data ) {
+                        if($data->role){
+                            return $data->role['name'];
+                        }                    
+                    } )
+                    ->addColumn( 'action', function ( $data ) {
+                        $button = '<a href="' . route( 'user.edit', $data->id ) . '" class="edit btn btn-primary">Edit</a>';
+                        $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="' . route( 'user.destroy', $data->id ) . '" class="delete btn btn-danger">Delete</button>';
+                        return $button;
+                    } )
+                    ->rawColumns( ['discipline', 'designation', 'role', 'action'] )
+                    ->rawColumns( ['action'] )
+                    ->addIndexColumn()
+                    ->make( true );
+            } 
+            return view( 'user.index' );
+        } else {
+            return view('error.404');
         }
-
-        return view( 'user.index' );
     }
 
     /**

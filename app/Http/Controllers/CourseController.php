@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use DataTables;
 use App\Models\Course;
 use App\Models\Descipline;
-use DataTables;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -16,25 +17,27 @@ class CourseController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax())
-        {
-            $data = Course::latest()->get();
-            return DataTables::of($data)
-                ->addColumn('discipline', function($data){
-                    return $data->descipline['name'];                    
-                })
+        if (Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin') {
+            if ($request->ajax()) {
+                $data = Course::latest()->get();
+                return DataTables::of($data)
+                    ->addColumn('discipline', function ($data) {
+                        return $data->descipline['name'];
+                    })
 
-                ->addColumn('action', function($data){
-                    $button = '<a href="'.route('course.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
-                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('course.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
-                    return $button;
-                })
-                ->rawColumns(['discipline', 'action'])
-                ->addIndexColumn()
-                ->make(true);
+                    ->addColumn('action', function ($data) {
+                        $button = '<a href="' . route('course.edit', $data->id) . '" class="edit btn btn-primary">Edit</a>';
+                        $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="' . route('course.destroy', $data->id) . '" class="delete btn btn-danger">Delete</button>';
+                        return $button;
+                    })
+                    ->rawColumns(['discipline', 'action'])
+                    ->addIndexColumn()
+                    ->make(true);
+            }
+            return view('course.index');
+        } else {
+            return view('error.404');
         }
-       
-        return view('course.index');
     }
 
     /**
@@ -44,8 +47,13 @@ class CourseController extends Controller
      */
     public function create()
     {
-        $disciplines = Descipline::all();
-        return view('course.create',compact('disciplines'));
+        if (Auth::user()->is_admin == 1) {
+            $disciplines = Descipline::all();
+        } else {
+
+            $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
+        }
+        return view('course.create', compact('disciplines'));
     }
 
     /**
@@ -93,9 +101,13 @@ class CourseController extends Controller
     public function edit($id)
     {
         $course = Course::findOrFail($id);
-        $disciplines = Descipline::all();
-        return view('course.edit', compact('course', 'disciplines'));
+        if (Auth::user()->is_admin == 1) {
+            $disciplines = Descipline::all();
+        } else {
 
+            $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
+        }
+        return view('course.edit', compact('course', 'disciplines'));
     }
 
     /**
@@ -109,13 +121,13 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($id);
 
-        if($course->course == $request->course){
+        if ($course->course == $request->course) {
             $request->validate([
                 'course' => 'required',
                 'title' => 'required',
                 'descipline_id' => 'required',
             ]);
-        }else{
+        } else {
             $request->validate([
                 'course' => 'required|unique:courses',
                 'title' => 'required',

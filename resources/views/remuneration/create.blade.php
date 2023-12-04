@@ -27,7 +27,7 @@
                                     <select class="form-control" name="discipline_id" id="discipline_id">
                                        <option value="" selected disabled>Choose</option>
                                        @foreach ($disciplines as $discipline)
-                                       <option value="{{ $discipline->id }}">{{ $discipline->name }}</option>
+                                       <option value="{{ $discipline->id }}" {{ Auth::user()->descipline_id == $discipline->id ? 'selected' : ''}}>{{ $discipline->name }}</option>
                                        @endforeach
                                     </select>
                                  </div>
@@ -99,12 +99,32 @@
                                  </tr>
                               </thead>
                               <tbody>
-
+                                 <tr>
+                                    <td>
+                                       <select class="form-control course" name="course[]" id="default_course">
+                                          <option value="" selected="" disabled> -- select course --</option>
+                                       </select>
+                                    </td>
+                                    <td>
+                                       <select class="form-control teacher" name="teacher[]" id="default_teacher">
+                                          <option value="" selected="" disabled> -- select teacher --</option>
+                                       </select>
+                                    </td>
+                                    <td><input type="number" min="1" name="number[]" class="form-control" /></td>
+                                    <td><input type="number" min="1" name="student[]" class="form-control" /></td>
+                                    <td><select class="form-control" name="paper[]">
+                                          <option value="half">Half Paper</option>
+                                          <option value="full">Full Paper</option>
+                                       </select></td>
+                                    </td>
                               </tbody>
 
                            </table>
-                           <input type="submit" name="save" id="save" class="btn btn-primary" value="Save" />
-                           <input type="submit" name="save_another" id="save_another" class="btn btn-primary" value="Save and Add another" />
+                           <input type="text" name="save" id="save_value" />
+                           <input type="text" name="save_another" id="save_another_value" />
+
+                           <button type="button" id="save" class="btn btn-primary">Save</button>
+                           <button type="button" id="save_another" class="btn btn-primary">Save and Add another</button>
 
 
                         </form>
@@ -117,6 +137,25 @@
    </div>
 </div>
 <!-- end graph -->
+
+
+<div class="modal fade" id="saveForm" tabindex="-1">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <h3 class="text-center" style="text-transform: none;">Do you want to save this data?</h3>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="saveButton">Save</button>
+         </div>
+      </div>
+   </div>
+</div>
 
 
 @endsection
@@ -176,6 +215,21 @@
       });
 
 
+      $.ajax({
+         url: "{{ route('get.course') }}",
+         dataType: "json",
+         success: function(html) {
+            $('#default_course').append(html.data);
+         }
+      });
+
+      $.ajax({
+         url: "{{ route('get.teacher') }}",
+         dataType: "json",
+         success: function(html) {
+            $('#default_teacher').append(html.data);
+         }
+      })
 
 
       $(document).on('change', '#category_id', function() {
@@ -190,6 +244,27 @@
             }
          })
       });
+
+
+      $('#save').click(function() {
+
+         $('#save_value').val('save');
+         $('#saveForm').modal('show');
+         // $('#dynamic_form').submit()
+      })
+
+
+      $('#save_another').click(function() {
+
+         $('#save_another_value').val('save_another');
+         $('#saveForm').modal('show');
+         // $('#dynamic_form').submit()
+      })
+
+
+      $('#saveButton').click(function() {
+         $('#dynamic_form').submit();
+      })
 
 
 

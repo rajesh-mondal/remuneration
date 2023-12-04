@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use DataTables;
 use App\Models\Exam;
-use App\Models\Year;
 use App\Models\Term;
+use App\Models\Year;
 use App\Models\Session;
 use Illuminate\Http\Request;
-use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class ExamController extends Controller
 {
@@ -16,35 +17,36 @@ class ExamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        if($request->ajax())
-        {
-            $data = Exam::latest()->get();
-            return DataTables::of($data)
-                ->addColumn('year', function($data){
-                    return $data->year['year'];                    
-                })
+    public function index(Request $request) {
+        if (Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin') {
+            if($request->ajax()){
+                $data = Exam::latest()->get();
+                return DataTables::of($data)
+                    ->addColumn('year', function($data){
+                        return $data->year['year'];                    
+                    })
 
-                ->addColumn('term', function($data){
-                    return $data->term['term'];                    
-                })
+                    ->addColumn('term', function($data){
+                        return $data->term['term'];                    
+                    })
 
-                ->addColumn('session', function($data){
-                    return $data->session['session'];                    
-                })
+                    ->addColumn('session', function($data){
+                        return $data->session['session'];                    
+                    })
 
-                ->addColumn('action', function($data){
-                    $button = '<a href="'.route('exam.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
-                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('exam.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
-                    return $button;
-                })
-                ->rawColumns(['year','term', 'session', 'action'])
-                ->addIndexColumn()
-                ->make(true);
+                    ->addColumn('action', function($data){
+                        $button = '<a href="'.route('exam.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
+                        $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('exam.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
+                        return $button;
+                    })
+                    ->rawColumns(['year','term', 'session', 'action'])
+                    ->addIndexColumn()
+                    ->make(true);
+            }
+            return view('exam.index');
+        } else {
+            return view('error.404');
         }
-       
-        return view('exam.index');
     }
 
     /**

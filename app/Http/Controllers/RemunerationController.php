@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\RemunerationCategory;
 use App\Models\Descipline;
 use App\Models\Designation;
 use App\Models\Exam;
 use App\Models\Remuneration;
+use App\Models\RemunerationRate;
 use App\Models\Teacher;
 use App\Models\Type;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use niklasravnsborg\LaravelPdf\Facades\Pdf as FacadesPdf;
+use PDF;
 use Yajra\DataTables\Facades\DataTables;
 
 class RemunerationController extends Controller
@@ -22,8 +27,41 @@ class RemunerationController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $data = Remuneration::latest()->get();
+            return DataTables::of($data)
+                ->addColumn('teacher', function ($data) {
+                    if ($data->user) {
+                        return $data->user['name'];
+                    }
+                })
+                ->addColumn('discipline', function ($data) {
+                    if ($data->discipline) {
+                        return $data->discipline['name'];
+                    }
+                })
+                ->addColumn('exam', function ($data) {
+                    if ($data->exam) {
+                        return $data->exam['year']['year'].' year - '.$data->exam['term']['term'].' Term (Session: '.$data->exam['session']['session'].')';
+                    }
+                })
+                ->addColumn('action', function ($data) {
+                    $button = '<a href="' . route('remuneration.edit', $data->id) . '" class="edit btn btn-primary">Edit</a>';
+                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="' . route('remuneration-rate.destroy', $data->id) . '" class="delete btn btn-danger">Delete</button>';
+                    return $button;
+                })
+                ->rawColumns(['teacher', 'discipline', 'exam', 'action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
         $exams = Exam::all();
-        $disciplines = Descipline::all();
+        if (Auth::user()->is_admin == 1) {
+            $disciplines = Descipline::all();
+        } else {
+
+            $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
+        }
         $users = User::orderBy('name', 'ASC')->get();
         return view('remuneration.index', compact('exams', 'disciplines', 'users'));
     }
@@ -31,17 +69,18 @@ class RemunerationController extends Controller
 
     //search result
 
-    public function searchResult(Request $request) {
+    public function searchResult(Request $request)
+    {
         $rems = Remuneration::where('exam_id', $request->exam_id)
-        ->where('discipline_id', $request->discipline_id)
-        ->where('user_id', $request->user_id)
-        ->get();
+            ->where('discipline_id', $request->discipline_id)
+            ->where('user_id', $request->user_id)
+            ->get();
 
         $exam = Exam::where('id', $request->exam_id)->first();
         $discipline = Descipline::where('id', $request->discipline_id)->first();
         $user = User::where('id', $request->user_id)->first();
 
-        return view('remuneration.show', compact('rems', 'exam', 'discipline','user'));
+        return view('remuneration.show', compact('rems', 'exam', 'discipline', 'user'));
     }
 
     /**
@@ -52,7 +91,12 @@ class RemunerationController extends Controller
     public function create()
     {
         $categories = RemunerationCategory::all();
-        $disciplines = Descipline::all();
+        if (Auth::user()->is_admin == 1) {
+            $disciplines = Descipline::all();
+        } else {
+
+            $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
+        }
         $exams = Exam::all();
         $users = User::all();
         $designations = Designation::all();
@@ -68,11 +112,18 @@ class RemunerationController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
+        // validation 
         $user = $request->teacher;
         $course = $request->course;
         $number = $request->number;
         $student = $request->student;
         $paper = $request->paper;
+
+        if (!$request->user) {
+            $notification = array('message' => 'Please inset all data', 'alert-type' => 'error');
+            return redirect()->back()->with($notification);
+        }
 
 
         for ($count = 0; $count < count($user); $count++) {
@@ -99,9 +150,9 @@ class RemunerationController extends Controller
 
         $notification = array('message' => 'Remuneration Addes', 'alert-type' => 'success');
 
-        if ($request->save) {
+        if ($request->save == 'save') {
             return redirect()->route('remuneration.index')->with($notification);
-        } else if ($request->save_another) {
+        } else if ($request->save_another == 'save_another') {
             return redirect()->route('remuneration.create')->with($notification);
         }
     }
@@ -125,7 +176,26 @@ class RemunerationController extends Controller
      */
     public function edit($id)
     {
-        return view('remuneration.edit');
+        $categories = RemunerationCategory::all();
+        if (Auth::user()->is_admin == 1) {
+            $disciplines = Descipline::all();
+            $users = User::all();
+            $courses = Course::all();
+        } else {
+            $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
+            $users = User::where('descipline_id',  Auth::user()->descipline_id)->get();
+            $courses = Course::where('descipline_id',  Auth::user()->descipline_id)->get();
+        }
+        $exams = Exam::all();
+        
+        $designations = Designation::all();
+        $types = Type::all();
+        
+
+        $rem = Remuneration::findOrFail(intval($id));
+        $rate = RemunerationRate::where('id', $rem->rate_id)->first();
+
+        return view('remuneration.edit', compact('categories', 'disciplines', 'exams', 'users', 'courses', 'designations', 'types', 'rem', 'rate'));
     }
 
     /**
@@ -137,7 +207,22 @@ class RemunerationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rem = Remuneration::findOrFail(intval($id));
+
+        $rem->discipline_id = $request->discipline_id;
+        $rem->exam_id = $request->exam_id;
+        $rem->category_id = $request->category_id;
+        $rem->rate_id = $request->rate_id;
+        $rem->type_id = $request->type_id;
+        $rem->paper = $request->paper;
+        $rem->course_id = $request->course_id;
+        $rem->user_id = $request->user_id;
+        $rem->number = $request->number;
+        $rem->students = $request->student;
+
+        $rem->save();
+
+        return redirect()->route('remuneration.index');
     }
 
     /**
@@ -149,5 +234,38 @@ class RemunerationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+
+    public function generatePdf(Request $request)
+    {
+        $rems = Remuneration::where('exam_id', $request->exam_id)
+            ->where('discipline_id', $request->discipline_id)
+            ->where('user_id', $request->user_id)
+            ->get();
+
+        $exam = Exam::where('id', $request->exam_id)->first();
+        $discipline = Descipline::where('id', $request->discipline_id)->first();
+        $user = User::where('id', $request->user_id)->first();
+        $categories = RemunerationCategory::orderBy('id', 'DESC')->get();
+
+
+
+        // $data = ([
+        //     'rems' => $rems,
+        //     'exam' => $exam,
+        //     'discipline' => $discipline,
+        //     'user' => $user,
+        // ]);
+        // return $data;
+
+
+
+
+        // return view('remuneration.pdf', compact('rems', 'exam', 'discipline', 'user', 'categories'));
+
+        $pdf = FacadesPdf::loadView('remuneration.pdf', compact('rems', 'exam', 'discipline', 'user', 'categories'));
+        return $pdf->download($user->name . '-' . $exam->year['year'] . ' year -' . $exam->term['term'] . ' term -' . $exam->session['session'] . ' session.pdf');
     }
 }

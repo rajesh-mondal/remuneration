@@ -40,7 +40,7 @@
                               <select id="inputState" name="descipline_id" id="descipline_id" class="form-control">
                                  <option selected value="" disabled>Choose...</option>
                                  @foreach($disciplines as $displine)
-                                 <option value="{{$displine->id}}">{{$displine->name}}</option>
+                                 <option value="{{$displine->id}}" {{ Auth::user()->descipline_id == $displine->id ? 'selected' : ''}}>{{$displine->name}}</option>
                                  @endforeach
                               </select>
                               @if($errors->has('descipline_id'))

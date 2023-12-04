@@ -18,7 +18,7 @@
                   <div class="content p-5">
                      <a href="{{ route('remuneration-rate.create')}}" class="btn btn-success mb-3">Add Rate</a>
                      <div class="table-responsive">
-                        <table class="table table-bordered w-100" id="term_table">
+                        <table class="table table-bordered w-100" id="rate_table">
                            <thead>
                               <tr>
                                  <th>#</th>
@@ -71,7 +71,7 @@
 <script>
    $(document).ready(function() {
 
-      $('#term_table').DataTable({
+      $('#rate_table').DataTable({
          processing: true,
          serverSide: true,
          ajax: {

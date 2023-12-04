@@ -7,12 +7,17 @@ use App\Models\RemunerationCategory;
 use App\Models\RemunerationRate;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DropdownController extends Controller
 {
     public function course()
     {
-        $courses = Course::orderBy('course', 'ASC')->get();
+        if (Auth::user()->is_admin) {
+            $courses = Course::orderBy('course', 'ASC')->get();
+        } else {
+            $courses = Course::orderBy('course', 'ASC')->where('descipline_id', Auth::user()->descipline_id)->get();
+        }
 
         $data = '';
 
@@ -28,7 +33,11 @@ class DropdownController extends Controller
 
     public function teacher()
     {
-        $users = User::orderBy('name', 'ASC')->get();
+        if (Auth::user()->is_admin) {
+            $users = User::orderBy('name', 'ASC')->get();
+        }else{
+            $users = User::orderBy('name', 'ASC')->where('descipline_id', Auth::user()->descipline_id)->get();
+        }
 
         $data = '';
 
@@ -53,7 +62,7 @@ class DropdownController extends Controller
 
         foreach ($rates as $rate) {
 
-            $data .= '<option value="' . $rate->id . '">' . $rate->title . '-'. $rate->amount .'</option>';
+            $data .= '<option value="' . $rate->id . '">' . $rate->title . '-' . $rate->amount . '</option>';
         }
 
         return response()->json([

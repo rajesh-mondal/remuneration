@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RemunerationCategory;
-use App\Models\RemunerationRate;
-use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Http\Request;
+use App\Models\RemunerationRate;
+use App\Models\RemunerationCategory;
+use Illuminate\Support\Facades\Auth;
 
 class RemunerationRateController extends Controller
 {
@@ -14,26 +15,31 @@ class RemunerationRateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        if($request->ajax())
-        {
-            $data = RemunerationRate::latest()->get();
-            return DataTables::of($data)
-            ->addColumn('category', function($data){
-                return $data->remunerationCategory['name'];                    
-            })
-                ->addColumn('action', function($data){
-                    $button = '<a href="'.route('remuneration-rate.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
-                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('remuneration-rate.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
-                    return $button;
+    public function index(Request $request){
+        if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin') {
+            if($request->ajax()){
+                $data = RemunerationRate::latest()->get();
+                return DataTables::of($data)
+                ->addColumn('category', function($data){
+
+                    if($data->remunerationCategory){
+
+                        return $data->remunerationCategory['name'];                    
+                    }
                 })
-                ->rawColumns(['category', 'action'])
-                ->addIndexColumn()
-                ->make(true);
+                    ->addColumn('action', function($data){
+                        $button = '<a href="'.route('remuneration-rate.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
+                        $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('remuneration-rate.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
+                        return $button;
+                    })
+                    ->rawColumns(['category', 'action'])
+                    ->addIndexColumn()
+                    ->make(true);
+            }
+            return view('remuneration_rate.index');
+        } else {
+            return view('error.404');
         }
-       
-        return view('remuneration_rate.index');
     }
 
     /**
@@ -57,11 +63,13 @@ class RemunerationRateController extends Controller
     {
         $request->validate([
             'category_id' => 'required',
-            'amount' => 'required',
+            'title' => 'required|max:500',
+            'amount' => 'required'
         ]);
 
         $remuneration_rate = new RemunerationRate();
         $remuneration_rate->category_id = $request->category_id;
+        $remuneration_rate->title = $request->title;
         $remuneration_rate->amount = $request->amount;
         $remuneration_rate->save();
 
@@ -106,8 +114,8 @@ class RemunerationRateController extends Controller
 
         $request->validate([
             'category_id' => 'required',
-            'amount' => 'required',
             'title' => 'required|max:500',
+            'amount' => 'required'
         ]);
 
         $remuneration_rate->category_id = $request->category_id;

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RemunerationCategory;
-use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Http\Request;
+use App\Models\RemunerationCategory;
+use Illuminate\Support\Facades\Auth;
 
 class RemunerationCategoryController extends Controller
 {
@@ -13,23 +14,24 @@ class RemunerationCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        if($request->ajax())
-        {
-            $data = RemunerationCategory::latest()->get();
-            return DataTables::of($data)
-                ->addColumn('action', function($data){
-                    $button = '<a href="'.route('remuneration-category.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
-                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('remuneration-category.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
-                    return $button;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
+    public function index(Request $request){
+        if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin'){
+            if($request->ajax()){
+                $data = RemunerationCategory::latest()->get();
+                return DataTables::of($data)
+                    ->addColumn('action', function($data){
+                        $button = '<a href="'.route('remuneration-category.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
+                        $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('remuneration-category.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
+                        return $button;
+                    })
+                    ->rawColumns(['action'])
+                    ->addIndexColumn()
+                    ->make(true);
+            }
+            return view('remuneration_category.index');
+        } else {
+            return view('error.404');
         }
-       
-        return view('remuneration_category.index');
     }
 
     /**

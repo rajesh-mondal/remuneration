@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Descipline;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class DisciplineController extends Controller
 {
@@ -15,21 +16,25 @@ class DisciplineController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax())
-        {
-            $data = Descipline::latest()->get();
-            return DataTables::of($data)
-                ->addColumn('action', function($data){
-                    $button = '<a href="'.route('discipline.edit', $data->id).'" class="edit btn btn-primary">Edit</a>';
-                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="'.route('discipline.destroy', $data->id).'" class="delete btn btn-danger">Delete</button>';
-                    return $button;
-                })
-                ->rawColumns(['action'])
-                ->addIndexColumn()
-                ->make(true);
+        if (Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin') {
+
+            if ($request->ajax()) {
+                $data = Descipline::latest()->get();
+                return DataTables::of($data)
+                    ->addColumn('action', function ($data) {
+                        $button = '<a href="' . route('discipline.edit', $data->id) . '" class="edit btn btn-primary">Edit</a>';
+                        $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="' . route('discipline.destroy', $data->id) . '" class="delete btn btn-danger">Delete</button>';
+                        return $button;
+                    })
+                    ->rawColumns(['action'])
+                    ->addIndexColumn()
+                    ->make(true);
+            }
+
+            return view('discipline.index');
+        } else {
+            return view('error.404');
         }
-       
-        return view('discipline.index');
     }
 
     /**
@@ -54,7 +59,7 @@ class DisciplineController extends Controller
 
             'name' => 'required|unique:desciplines',
 
-        ]);  
+        ]);
 
         // Descipline::create($request->all());
         $descipline = new Descipline();
@@ -64,7 +69,6 @@ class DisciplineController extends Controller
 
         $notification = array('message' => 'Discipline Added!', 'alert-type' => 'success');
         return redirect()->route('discipline.index')->with($notification);
-
     }
 
     /**
@@ -101,14 +105,14 @@ class DisciplineController extends Controller
     {
         $descipline = Descipline::findOrFail($id);
 
-        if($descipline->name == $request->name){
+        if ($descipline->name == $request->name) {
             $request->validate([
                 'name' => 'required',
-            ]); 
-        }else{
+            ]);
+        } else {
             $request->validate([
                 'name' => 'required|unique:desciplines',
-            ]); 
+            ]);
         }
 
         $descipline->name = $request->name;
@@ -128,7 +132,7 @@ class DisciplineController extends Controller
     {
         $descipline = Descipline::findOrFail($id);
         $descipline->delete();
-        
+
         $notification = array('message' => 'Discipline Deleted!', 'alert-type' => 'success');
         return redirect()->back()->with($notification);
     }
