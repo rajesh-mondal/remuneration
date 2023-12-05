@@ -62,11 +62,11 @@
                 <p class="bangla" style="font-size: 18px;">পরীক্ষা নিয়ন্ত্রকের কার্যালয়</p>
                 <h3 class="bangla" style="font-size: 24px; font-weight: bold;">খুলনা বিশ্ববিদ্যালয়</h3>
                 <h4 class="bangla" style="font-size: 18px;">পরীক্ষা পারিতোষিক বিল ফরম</h4>
-                <p class="bangla" style="font-size: 16px;">(প্রতি বর্ষের প্রতি টার্মের জন্য পৃথক বিল ফরম ব্যবহার করতে হবে)</p>
+                <p class="bangla" style="font-size: 14px;">(প্রতি বর্ষের প্রতি টার্মের জন্য পৃথক বিল ফরম ব্যবহার করতে হবে)</p>
             </td>
         </tr>
     </table>
-    <br>
+    {{-- <br> --}}
     <table>
 
         <tr>
@@ -91,10 +91,10 @@
         </tr>
         <tr>
             <td>
-                <p><span class="bangla" style="font-size: 20px;">ডিসিপ্লিন / বিভাগ</span> : {{ $user->name }}</p>
+                <p><span class="bangla" style="font-size: 20px;">ডিসিপ্লিন / বিভাগ</span> : {{ $discipline->name }}</p>
             </td>
             <td>
-                <p><span class="bangla" style="font-size: 20px;">টার্ম</span> : {{ $exam->term['term'] }} / <span class="bangla" style="font-size: 20px;">স্পেশাল টার্ম / পরীক্ষা</span> - {{ date('Y', strtotime($exam->created_at)) }}</p>
+                <p><span class="bangla" style="font-size: 20px;">টার্ম</span> : {{ $exam->term['term'] }} / <span class="bangla" style="font-size: 20px;">স্পেশাল টার্ম/ পরীক্ষা</span> - {{ date('Y', strtotime($exam->created_at)) }}</p>
             </td>
         </tr>
         <tr>
@@ -106,11 +106,11 @@
             </td>
         </tr>
     </table>
-    <br><br>
+    <br>
 
     <table>
         <tr>
-            <td style="text-align: center; text-decoration: underline;"><span class="bangla" style="font-size: 24px;">পরীক্ষা সংক্রান্ত কাজের বিবরণ</span></td>
+            <td style="text-align: center; text-decoration: underline;"><span class="bangla" style="font-size: 18px;">পরীক্ষা সংক্রান্ত কাজের বিবরণ</span></td>
         </tr>
     </table>
     <br>
@@ -278,7 +278,7 @@
                         </td>
                         <td>
                             <p>.........................</p>
-                            <p class="bangla small">ডিসিপ্লিন প্রধান</p>
+                            <p class="bangla small">সভাপতি, পরীক্ষা কমিটি</p>
                             <p class="bangla small">(স্বাক্ষর ও সিল)</p>
                         </td>
                     </tr>
@@ -297,7 +297,9 @@
                         <td style="width: 30%;">
                             <table>
                                 <tr>
-                                    <td style="width: 100%; height: 100px; border: 1px solid #000;"></td>
+                                    <td style="width: 70%; height: 100px; border: 1px solid #000;">
+                                        <p class="bangla small">রাজস্ব টিকিট</p>
+                                    </td>
                                 </tr>
                             </table>
                             <br><br>
@@ -329,6 +331,33 @@
                         <td style="text-align: end;">
                             <p>.........................</p>
                             <p class="bangla small">পরীক্ষা নিয়ন্ত্রক</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;">
+                <h4><span class="bangla small">অর্থ ও হিসাব বিভাগের ব্যবহারের জন্য</span></h4>
+                <p class="bangla small">পরিক্ষান্তে বর্ণিত পারিতোষিক বিল বাবদ........................................................................
+                    কথায়ঃ(.........................................................................<br>............................................)মাত্র পরিশোধের জন্য ছাড়া হলো।</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td>
+                            <p>.........................</p>
+                            <p class="bangla small">সেকশন অফিসার/সহকারী পরিচালক</p>
+                        </td>
+                        <td style="text-align: center;">
+                            <p>.........................</p>
+                            <p class="bangla small">উপ-পরিচালক</p>
+                        </td>
+                        <td style="text-align: end;">
+                            <p>.........................</p>
+                            <p class="bangla small">পরিচালক</p>
                         </td>
                     </tr>
                 </table>
