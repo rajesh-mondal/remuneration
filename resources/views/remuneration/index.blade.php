@@ -9,7 +9,10 @@
       <div class="white_shd full">
          <div class="full graph_head">
             <div class="heading1 margin_0 d-flex justify-content-between w-100">
-               <h2>Filter Remuneration</h2> <a href="{{ route('remuneration.create')}}" class="btn btn-info mb-3">Add New Remuneration</a>
+               <h2>Filter Remuneration</h2> 
+               @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
+                  <a href="{{ route('remuneration.create')}}" class="btn btn-info mb-3">Add New Remuneration</a>
+               @endif
             </div>
          </div>
          <div class="full graph_revenue">

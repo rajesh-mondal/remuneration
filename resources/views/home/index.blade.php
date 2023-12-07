@@ -32,7 +32,6 @@
             </div>
             <div class="counter_no">
                <div>
-                  {{-- <p class="total_no">Add Remuneration</p> --}}
                   <a href="{{ route('remuneration.create') }}">
                      <p class="head_couter">Add Remuneration</p>
                   </a>
@@ -41,6 +40,7 @@
          </div>
       </div>
    @endif
+
    <div class="col-md-6 col-lg-4">
       <div class="full counter_section margin_bottom_30">
          <div class="couter_icon">
@@ -50,29 +50,32 @@
          </div>
          <div class="counter_no">
             <div>
-               {{-- <p class="total_no">1,805</p> --}}
-               <a href="#">
+               <a href="{{ route('remuneration.index') }}">
                   <p class="head_couter">All Remuneration</p>
                </a>
             </div>
          </div>
       </div>
    </div>
-   {{-- <div class="col-md-6 col-lg-3">
-      <div class="full counter_section margin_bottom_30">
-         <div class="couter_icon">
-            <div> 
-               <i class="fa fa-comments-o red_color"></i>
+
+   @if(Auth::user()->role['name'] == 'Admin')
+      <div class="col-md-6 col-lg-4">
+         <div class="full counter_section margin_bottom_30">
+            <div class="couter_icon">
+               <div> 
+                  <i class="fa fa-user yellow_color"></i>
+               </div>
             </div>
-         </div>
-         <div class="counter_no">
-            <div>
-               <p class="total_no">54</p>
-               <p class="head_couter">Comments</p>
+            <div class="counter_no">
+               <div>
+                  <a href="{{ route('course.create') }}">
+                     <p class="head_couter">Add Course</p>
+                  </a>            
+               </div>
             </div>
          </div>
       </div>
-   </div> --}}
+   @endif
 </div>
 <div class="row column4 graph">
 
