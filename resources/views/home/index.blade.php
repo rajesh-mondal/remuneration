@@ -58,7 +58,7 @@
       </div>
    </div>
 
-   @if(Auth::user()->role['name'] == 'Admin')
+   {{-- @if(Auth::user()->role['name'] == 'Admin')
       <div class="col-md-6 col-lg-4">
          <div class="full counter_section margin_bottom_30">
             <div class="couter_icon">
@@ -75,7 +75,7 @@
             </div>
          </div>
       </div>
-   @endif
+   @endif --}}
 </div>
 <div class="row column4 graph">
 

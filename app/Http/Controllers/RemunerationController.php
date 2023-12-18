@@ -42,7 +42,7 @@ class RemunerationController extends Controller
                 })
                 ->addColumn('exam', function ($data) {
                     if ($data->exam) {
-                        return $data->exam['year']['year'].' year - '.$data->exam['term']['term'].' Term (Session: '.$data->exam['session']['session'].')';
+                        return $data->exam['year']['year'] . ' year - ' . $data->exam['term']['term'] . ' Term (Session: ' . $data->exam['session']['session'] . ')';
                     }
                 })
                 ->addColumn('action', function ($data) {
@@ -67,6 +67,89 @@ class RemunerationController extends Controller
     }
 
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function newList(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Remuneration::latest()->get();
+            return DataTables::of($data)
+                ->addColumn('teacher', function ($data) {
+                    if ($data->user) {
+                        return $data->user['name'];
+                    }
+                })
+                ->addColumn('discipline', function ($data) {
+                    if ($data->discipline) {
+                        return $data->discipline['name'];
+                    }
+                })
+                ->addColumn('exam', function ($data) {
+                    if ($data->exam) {
+                        return $data->exam['year']['year'] . ' year - ' . $data->exam['term']['term'] . ' Term (Session: ' . $data->exam['session']['session'] . ')';
+                    }
+                })
+                ->addColumn('category', function ($data) {
+                    if ($data->category) {
+                        return $data->category['name'];
+                    }
+                })
+                ->addColumn('rempaper', function ($data) {
+                    if ($data->paper == 'helf') {
+                        return "Half Paper";
+                    } else {
+                        return "Full Paper";
+                    }
+                })
+                ->addColumn('amount', function ($data) {
+
+                    if ($data->rate) {
+                        if ($data->paper == 'half') {
+                            $amount = $data->rate['amount'] / 2;
+                        } else {
+                            $amount = $data->rate['amount'];
+                        }
+
+                        if ($data->number && $data->students) {
+                            $total = $amount * $data->number * $data->students;
+                        } elseif ($data->number != null) {
+                            $total = $amount * $data->number;
+                        } elseif ($data->students != null) {
+                            $total = $amount * $data->students;
+                        }
+
+                        return $total;
+                    }
+                })
+
+                ->addColumn('status', function ($data) {
+                    if ($data->status == 0) {
+                        return "Pending";
+                    } else {
+                        return "Approved";
+                    }
+                })
+
+                ->rawColumns(['teacher', 'discipline', 'exam', 'category', 'rempaper', 'amount', 'status'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        $exams = Exam::all();
+        if (Auth::user()->is_admin == 1) {
+            $disciplines = Descipline::all();
+        } else {
+
+            $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
+        }
+        $users = User::orderBy('name', 'ASC')->get();
+        return view('remuneration.list', compact('exams', 'disciplines', 'users'));
+    }
+
+
     //search result
 
     public function searchResult(Request $request)
@@ -80,7 +163,13 @@ class RemunerationController extends Controller
         $discipline = Descipline::where('id', $request->discipline_id)->first();
         $user = User::where('id', $request->user_id)->first();
 
-        return view('remuneration.show', compact('rems', 'exam', 'discipline', 'user'));
+        if (Auth::user()->role_id != '') {
+            if (Auth::user()->role['name'] == 'Accountant') {
+                return view('remuneration.result', compact('rems', 'exam', 'discipline', 'user'));
+            }
+        } else {
+            return view('remuneration.show', compact('rems', 'exam', 'discipline', 'user'));
+        }
     }
 
     /**
@@ -120,7 +209,7 @@ class RemunerationController extends Controller
         $student = $request->student;
         $paper = $request->paper;
 
-        if (!$request->user) {
+        if (!$request->teacher) {
             $notification = array('message' => 'Please inset all data', 'alert-type' => 'error');
             return redirect()->back()->with($notification);
         }
@@ -187,10 +276,10 @@ class RemunerationController extends Controller
             $courses = Course::where('descipline_id',  Auth::user()->descipline_id)->get();
         }
         $exams = Exam::all();
-        
+
         $designations = Designation::all();
         $types = Type::all();
-        
+
 
         $rem = Remuneration::findOrFail(intval($id));
         $rate = RemunerationRate::where('id', $rem->rate_id)->first();
@@ -237,6 +326,21 @@ class RemunerationController extends Controller
     }
 
 
+    public function approve(Request $request)
+    {
+        $id = $request->id;
+
+        for ($count = 0; $count < count($id); $count++) {
+            $rem = Remuneration::where('id', $id[$count])->first();
+            $rem->feedback = $request->feedback[$count];
+            $rem->status = 1;
+            $rem->save();
+        }
+        $notification = array('message' => 'Remuneration Addes', 'alert-type' => 'success');
+        return redirect()->route('remuneration.newlist')->with($notification);
+    }
+
+
 
     public function generatePdf(Request $request)
     {
@@ -267,5 +371,13 @@ class RemunerationController extends Controller
 
         $pdf = FacadesPdf::loadView('remuneration.pdf', compact('rems', 'exam', 'discipline', 'user', 'categories'));
         return $pdf->download($user->name . '-' . $exam->year['year'] . ' year -' . $exam->term['term'] . ' term -' . $exam->session['session'] . ' session.pdf');
+    }
+
+
+    // flist pdf
+    public function pdfList(){
+        $user = Auth::user();
+
+        // $exam = 
     }
 }

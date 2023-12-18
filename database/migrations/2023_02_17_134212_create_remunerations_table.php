@@ -25,6 +25,8 @@ class CreateRemunerationsTable extends Migration
             $table->integer('user_id');
             $table->integer('number')->nullable();
             $table->integer('students')->nullable();
+            $table->boolean('status')->default(0);
+            $table->string('feedback')->nullable();
             $table->timestamps();
         });
     }

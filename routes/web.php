@@ -75,3 +75,7 @@ Route::get('/get-rate/{id}', [App\Http\Controllers\DropdownController::class, 'r
 Route::post('/remuneration/filter', [App\Http\Controllers\RemunerationController::class, 'searchResult'])->name('remuneration.search');
 
 Route::get('/remuneration/generate/pdf', [App\Http\Controllers\RemunerationController::class, 'generatePdf'])->name('remuneration.pdf');
+
+Route::get('/remuneration/list/new', [App\Http\Controllers\RemunerationController::class, 'newList'])->name('remuneration.newlist');
+Route::post('/remuneration/list/approve', [App\Http\Controllers\RemunerationController::class, 'approve'])->name('remuneration.approve');
+// Route::post('/remuneration/search/result', [App\Http\Controllers\RemunerationController::class, 'searchResult'])->name('remuneration.show');

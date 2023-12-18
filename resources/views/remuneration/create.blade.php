@@ -120,12 +120,11 @@
                               </tbody>
 
                            </table>
-                           <input type="text" name="save" id="save_value" />
-                           <input type="text" name="save_another" id="save_another_value" />
+                           <input type="hidden" name="save" id="save_value" />
+                           <input type="hidden" name="save_another" id="save_another_value" />
 
                            <button type="button" id="save" class="btn btn-primary">Save</button>
                            <button type="button" id="save_another" class="btn btn-primary">Save and Add another</button>
-
 
                         </form>
                      </div>
