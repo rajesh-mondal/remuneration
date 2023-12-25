@@ -17,9 +17,23 @@ use Illuminate\Support\Facades\Auth;
 use niklasravnsborg\LaravelPdf\Facades\Pdf as FacadesPdf;
 use PDF;
 use Yajra\DataTables\Facades\DataTables;
+use App\Notifications\FeedbackNotification;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PdfConfirmed;
 
 class RemunerationController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -335,7 +349,31 @@ class RemunerationController extends Controller
             $rem->feedback = $request->feedback[$count];
             $rem->status = 1;
             $rem->save();
+
+            if ($request->feedback[$count]) {
+                $data = array(
+                    'rem_id' => $id[$count],
+                    'feedback' => $request->feedback[$count],
+                );
+
+                // 
+                $users = User::where('role_id', 1)->where('descipline_id', $request->discipline)->get();
+
+                foreach ($users as $user) {
+                    $user->notify(new FeedbackNotification($data));
+                }
+            }
         }
+
+        $user = User::where('id', $request->user)->first();
+
+        $data = array(
+            'name'      =>  $user->name,
+            'email'     =>  $user->email,
+        );
+
+        Mail::to($user->email)->send(new PdfConfirmed($data));
+
         $notification = array('message' => 'Remuneration Addes', 'alert-type' => 'success');
         return redirect()->route('remuneration.newlist')->with($notification);
     }
@@ -374,10 +412,27 @@ class RemunerationController extends Controller
     }
 
 
-    // flist pdf
-    public function pdfList(){
-        $user = Auth::user();
+    public function myRem()
+    {
+        $exams = Exam::all();
+        $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
+        return view('my_remuneration.index', compact('exams', 'disciplines'));
+    }
 
-        // $exam = 
+
+    // flist pdf
+    public function myRemResult(Request $request)
+    {
+        $rems = Remuneration::where('exam_id', $request->exam_id)
+            ->where('discipline_id', $request->discipline_id)
+            ->where('user_id', Auth::user()->id)
+            ->get();
+
+        $exam = Exam::where('id', $request->exam_id)->first();
+        $discipline = Descipline::where('id', $request->discipline_id)->first();
+
+        $user = User::where('id', Auth::user()->id)->first();
+
+        return view('my_remuneration.result', compact('rems', 'exam', 'discipline', 'user'));
     }
 }

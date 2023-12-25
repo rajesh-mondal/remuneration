@@ -45,6 +45,9 @@
          <li>
             <a href="#element_rem" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-pencil-square-o green_color"></i> <span>Remuneration</span></a>
             <ul class="collapse list-unstyled" id="element_rem">
+               <li>
+                  <a href="{{ route('myream.index')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>My Remuneration</span></a>
+               </li>
                @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
                <li>
                   <a href="{{ route('remuneration.index')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>Remuneration</span></a>
