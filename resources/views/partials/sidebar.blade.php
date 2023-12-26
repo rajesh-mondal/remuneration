@@ -45,24 +45,34 @@
          <li>
             <a href="#element_rem" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-pencil-square-o green_color"></i> <span>Remuneration</span></a>
             <ul class="collapse list-unstyled" id="element_rem">
-               <li>
-                  <a href="{{ route('myream.index')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>My Remuneration</span></a>
-               </li>
+               @if(Auth::user()->role && (Auth::user()->role['name'] == 'Teacher' || Auth::user()->role['name'] == 'Staff'))
+                  <li>
+                     <a href="{{ route('myream.index')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>My Remuneration</span></a>
+                  </li>
+               @endif
+
                @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
                <li>
                   <a href="{{ route('remuneration.index')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>Remuneration</span></a>
                </li>
                @endif
-               @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Accountant')
+
+               @if(Auth::user()->role && Auth::user()->role['name'] == 'Accountant')
                <li>
                   <a href="{{ route('remuneration.newlist')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>Remuneration New List</span></a>
                </li>
                @endif
+
                @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
-               <li><a href="{{ route('remuneration-category.index')}}"><i class="fa fa-folder-open white_color"></i> <span>Remuneration Category</span></a></li>
+                  <li>
+                     <a href="{{ route('remuneration-category.index')}}"><i class="fa fa-folder-open white_color">
+                  </i> <span>Remuneration Category</span></a></li>
                @endif
+
                @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
-               <li><a href="{{ route('remuneration-rate.index')}}"><i class="fa fa-dollar white_color"></i> <span>Remuneration Rate</span></a></li>
+                  <li>
+                     <a href="{{ route('remuneration-rate.index')}}"><i class="fa fa-dollar white_color"></i> <span>Remuneration Rate</span></a>
+                  </li>
                @endif
 
 
