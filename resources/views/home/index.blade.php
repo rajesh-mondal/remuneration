@@ -58,18 +58,37 @@
       </div>
    </div>
 
-   {{-- @if(Auth::user()->role['name'] == 'Admin')
+   @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
       <div class="col-md-6 col-lg-4">
          <div class="full counter_section margin_bottom_30">
             <div class="couter_icon">
                <div> 
-                  <i class="fa fa-user yellow_color"></i>
+                  <i class="fa fa-search blue1_color"></i>
                </div>
             </div>
             <div class="counter_no">
                <div>
-                  <a href="{{ route('course.create') }}">
-                     <p class="head_couter">Add Course</p>
+                  <a href="{{ route('remuneration.index') }}">
+                     <p class="head_couter">Filter Remuneration</p>
+                  </a>            
+               </div>
+            </div>
+         </div>
+      </div>
+   @endif
+{{--    
+   @if(Auth::user()->role['name'] == 'Teacher' || Auth::user()->role['name'] == 'Staff')
+      <div class="col-md-6 col-lg-4">
+         <div class="full counter_section margin_bottom_30">
+            <div class="couter_icon">
+               <div> 
+                  <i class="fa fa-search blue1_color"></i>
+               </div>
+            </div>
+            <div class="counter_no">
+               <div>
+                  <a href="{{ route('myream.index') }}">
+                     <p class="head_couter">My Remuneration</p>
                   </a>            
                </div>
             </div>

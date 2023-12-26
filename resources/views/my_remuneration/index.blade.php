@@ -5,7 +5,7 @@
 
 <!-- graph -->
 <div class="row column2 graph margin_bottom_30">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="white_shd full">
             <div class="full graph_head">
                 <div class="heading1 margin_0 d-flex justify-content-between w-100">

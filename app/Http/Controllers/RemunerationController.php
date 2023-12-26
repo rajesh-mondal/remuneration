@@ -153,10 +153,9 @@ class RemunerationController extends Controller
         }
 
         $exams = Exam::all();
-        if (Auth::user()->is_admin == 1) {
+        if (Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Accountant') {
             $disciplines = Descipline::all();
         } else {
-
             $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
         }
         $users = User::orderBy('name', 'ASC')->get();
@@ -336,7 +335,11 @@ class RemunerationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // $rem = Remuneration::findOrFail(intval($id));
+        // $rem->delete();
+
+        // $notification = array('message' => 'Remuneration Deleted!', 'alert-type' => 'success');
+        // return redirect()->back()->with($notification);
     }
 
 
@@ -379,7 +382,6 @@ class RemunerationController extends Controller
     }
 
 
-
     public function generatePdf(Request $request)
     {
         $rems = Remuneration::where('exam_id', $request->exam_id)
@@ -390,9 +392,7 @@ class RemunerationController extends Controller
         $exam = Exam::where('id', $request->exam_id)->first();
         $discipline = Descipline::where('id', $request->discipline_id)->first();
         $user = User::where('id', $request->user_id)->first();
-        $categories = RemunerationCategory::orderBy('id', 'DESC')->get();
-
-
+        $categories = RemunerationCategory::orderBy('id', 'ASC')->get();
 
         // $data = ([
         //     'rems' => $rems,
@@ -401,9 +401,6 @@ class RemunerationController extends Controller
         //     'user' => $user,
         // ]);
         // return $data;
-
-
-
 
         // return view('remuneration.pdf', compact('rems', 'exam', 'discipline', 'user', 'categories'));
 

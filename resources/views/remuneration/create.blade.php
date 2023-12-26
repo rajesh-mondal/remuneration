@@ -94,7 +94,7 @@
                                     <th style="width: 20%;">Name of Teacher</th>
                                     <th style="width: 15%;">Number</th>
                                     <th style="width: 15%;">Student (If*)</th>
-                                    <th style="width: 15%;">Halp/Full paper</th>
+                                    <th style="width: 15%;">Half/Full paper</th>
                                     <th style="width: 10%;">Action</th>
                                  </tr>
                               </thead>

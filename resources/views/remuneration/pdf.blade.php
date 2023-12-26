@@ -25,7 +25,6 @@
             font-size: 14px !important;
         }
 
-
         .table-bordered td {
             border: 1px solid #000;
         }
@@ -41,7 +40,6 @@
             font-size: 16px;
         }
 
-
         h4 {
             text-decoration: underline;
             text-decoration-thickness: 2px;
@@ -50,12 +48,14 @@
         .small {
             font-size: 12px !important;
         }
-    </style>
 
+        .text-center {
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-
     <table>
         <tr>
             <td style="text-align: center;">
@@ -110,7 +110,9 @@
 
     <table>
         <tr>
-            <td style="text-align: center; text-decoration: underline;"><span class="bangla" style="font-size: 18px;">পরীক্ষা সংক্রান্ত কাজের বিবরণ</span></td>
+            <td style="text-align: center; text-decoration: underline;">
+                <span class="bangla" style="font-size: 18px;">পরীক্ষা সংক্রান্ত কাজের বিবরণ</span>
+            </td>
         </tr>
     </table>
     <br>
@@ -123,7 +125,7 @@
                 <td><span class="bangla" style="font-size: 16px;">প্রশ্ন/খাতা/কোর্স<br>পরীক্ষক/দিনের সংখ্যা</span></td>
                 <td><span class="bangla" style="font-size: 16px;">ছাত্র সংখ্যা</span></td>
                 <td><span class="bangla" style="font-size: 16px;">অর্ধ/পূর্ণপত্র</span></td>
-                <td><span class="bangla" style="font-size: 16px;">পারিতোষিক হার</span></td>
+                <td><span class="bangla" style="font-size: 16px; text-align: center;">পারিতোষিক<br>হার</span></td>
                 <td><span class="bangla" style="font-size: 16px;">মোট টাকা</span></td>
             </tr>
         </thead>
@@ -272,12 +274,12 @@
                 <table>
                     <tr>
                         <td>
-                            <p>.........................</p>
+                            <p>................</p>
                             <p class="bangla small">ডিসিপ্লিন প্রধান</p>
                             <p class="bangla small">(স্বাক্ষর ও সিল)</p>
                         </td>
                         <td>
-                            <p>.........................</p>
+                            <p>....................</p>
                             <p class="bangla small">সভাপতি, পরীক্ষা কমিটি</p>
                             <p class="bangla small">(স্বাক্ষর ও সিল)</p>
                         </td>
@@ -287,22 +289,22 @@
             <td style="width: 60%;">
                 <table>
                     <tr style="border: 1px solid #000;">
-                        <td style="width: 70%;">
+                        <td style="width: 65%;">
                             <p class="bangla small">
                                 এই বিলের প্রাপ্য অর্থ অগ্রণী ব্যাংক, খুলনা বিশ্ববিদ্যালয় শাখায় আমার নামে রক্ষিত ................. নং হিসাবে/চেকের মাধ্যমে পরিশোধের অনুরোধ করছি এবং এই মর্মে অঙ্গীকার করছি যে, এই বিলে আমি কোন অতিরিক্ত অর্থ দাবী করিনি। যদি ভবিষ্যতে এই বিলে কোন আপত্তি উত্থাপিত হয় তাহলে গৃহীত অতিরিক্ত অর্থ ফেরত দিতে বাধ্য থাকব।
                             </p>
                             </p>
-                            <p class="bangla small">বিঃ দ্রঃ- প্রত্যেক বিলে রাজস্ব টিকিট লাগাতে হবে।</p>
+                            <p class="bangla small">বিঃদ্রঃ- প্রত্যেক বিলে রাজস্ব টিকিট লাগাতে হবে।</p>
                         </td>
-                        <td style="width: 30%;">
+                        <td style="width: 20%;">
                             <table>
                                 <tr>
-                                    <td style="width: 70%; height: 100px; border: 1px solid #000;">
+                                    <td style="width: 70%; height: 70px; border: 1px solid #000;">
                                         <p class="bangla small">রাজস্ব টিকিট</p>
                                     </td>
                                 </tr>
                             </table>
-                            <br><br>
+                            <br>
                             <span class="bangla small">প্রাপকের স্বাক্ষর ও তারিখ</span>
                         </td>
 
@@ -320,15 +322,15 @@
             <td colspan="2">
                 <table>
                     <tr>
-                        <td>
-                            <p>.........................</p>
+                        <td style="text-align: center;">
+                            <p>...............................................</p>
                             <p class="bangla small">বিল নিরিক্ষক/সেকশন অফিসার/সহকারী পরীক্ষা নিয়ন্ত্রক</p>
                         </td>
                         <td style="text-align: center;">
                             <p>.........................</p>
                             <p class="bangla small">উপ-পরীক্ষা নিয়ন্ত্রক</p>
                         </td>
-                        <td style="text-align: end;">
+                        <td style="text-align: center;">
                             <p>.........................</p>
                             <p class="bangla small">পরীক্ষা নিয়ন্ত্রক</p>
                         </td>
@@ -336,6 +338,7 @@
                 </table>
             </td>
         </tr>
+        <hr style="color:#000;">
         <tr>
             <td colspan="2" style="text-align: center;">
                 <h4><span class="bangla small">অর্থ ও হিসাব বিভাগের ব্যবহারের জন্য</span></h4>
@@ -347,7 +350,7 @@
             <td colspan="2">
                 <table>
                     <tr>
-                        <td>
+                        <td style="text-align: center;">
                             <p>.........................</p>
                             <p class="bangla small">সেকশন অফিসার/সহকারী পরিচালক</p>
                         </td>
@@ -355,12 +358,38 @@
                             <p>.........................</p>
                             <p class="bangla small">উপ-পরিচালক</p>
                         </td>
-                        <td style="text-align: end;">
+                        <td style="text-align: center;">
                             <p>.........................</p>
                             <p class="bangla small">পরিচালক</p>
                         </td>
                     </tr>
                 </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;">
+                <p class="bangla small">এই বিল পরিশোধে কোন আপত্তি নেই নিরিক্ষান্তে ....................................................................... টাকার বিলটি পরিশোধের সুপারিশ করা হলো।</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td style="text-align: center;">
+                            <p>.........................</p>
+                            <p class="bangla small">সহকারী পরিচালক (অডিট)</p>
+                        </td>
+                        <td style="text-align: center;">
+                            <p>.........................</p>
+                            <p class="bangla small">উপ-পরিচালক / প্রধান (অডিট সেল)</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr style="width: 60%;">
+            <td colspan="2" style="text-align: center; border: 1px solid #000;">
+                <p class="bangla small">ব্যাংক অ্যাডভাইস/চেক নংঃ....................................তারিখঃ...................................</p>
             </td>
         </tr>
     </table>
