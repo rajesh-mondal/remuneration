@@ -40,7 +40,9 @@
                                             <tr>
                                                 <td>#</td>
                                                 <td>Remuneration</td>
+                                                <td>Course Code</td>
                                                 <td>Details</td>
+                                                <td>Rate</td>
                                                 <td>Number of ()</td>
                                                 <td>Number of Student</td>
                                                 <td>Paper</td>
@@ -60,9 +62,15 @@
                                                     {{ $rem->category['name'] }}
                                                     @endif
                                                 </td>
+                                                <td>{{ $rem->course->course }}</td>
                                                 <td>
                                                     @if($rem->rate)
                                                     {{ $rem->rate['title'] }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($rem->rate)
+                                                        {{ $rem->rate['amount'] }} 
                                                     @endif
                                                 </td>
                                                 <td>{{ $rem->number }} ({{ $rem->type['name'] }})</td>

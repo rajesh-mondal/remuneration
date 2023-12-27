@@ -36,7 +36,9 @@
                                             <tr>
                                                 <td>#</td>
                                                 <td>Remuneration</td>
+                                                <td>Course Code</td>
                                                 <td>Details</td>
+                                                <td>Rate</td>
                                                 <td>Number of ()</td>
                                                 <td>Number of Student</td>
                                                 <td>Paper</td>
@@ -52,7 +54,17 @@
                                                 <tr>
                                                     <td>{{ $loop->index + 1 }}</td>
                                                     <td>{{ $rem->category['name'] }}</td>
-                                                    <td>{{ $rem->rate['title'] }}</td>
+                                                    <td>{{ $rem->course->course }}</td>
+                                                    <td>
+                                                        @if($rem->rate)
+                                                            {{ $rem->rate['title'] }}
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if($rem->rate)
+                                                            {{ $rem->rate['amount'] }} 
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $rem->number }} ({{ $rem->type['name'] }})</td>
                                                     <td>{{ $rem->students }}</td>
                                                     <td>{{ $rem->paper }}</td>

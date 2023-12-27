@@ -40,12 +40,14 @@
                                             <tr>
                                                 <td>#</td>
                                                 <td>Remuneration</td>
+                                                <td>Course Code</td>
                                                 <td>Details</td>
+                                                <td>Rate</td>
                                                 <td>Number of ()</td>
                                                 <td>Number of Student</td>
                                                 <td>Paper</td>
                                                 <td>Amount</td>
-                                                <td>Feedback</td>
+                                                {{-- <td>Feedback</td> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -57,12 +59,18 @@
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>
                                                     @if($rem->category)
-                                                    {{ $rem->category['name'] }}
+                                                        {{ $rem->category['name'] }}
+                                                    @endif
+                                                </td>
+                                                <td>{{ $rem->course->course }}</td>
+                                                <td>
+                                                    @if($rem->rate)
+                                                        {{ $rem->rate['title'] }} 
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if($rem->rate)
-                                                    {{ $rem->rate['title'] }}
+                                                        {{ $rem->rate['amount'] }} 
                                                     @endif
                                                 </td>
                                                 <td>{{ $rem->number }} ({{ $rem->type['name'] }})</td>
@@ -92,17 +100,17 @@
                                                     {{ $total }}
 
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     <input type="hidden" name="id[]" value="{{ $rem->id }}">
                                                     <textarea name="feedback[]" id="" class="form-control"></textarea>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>
 
-                                <button type="submit" class="btn btn-success">Approve</button>
+                                {{-- <button type="submit" class="btn btn-success">Approve</button> --}}
                             </form>
                         </div>
                     </div>
