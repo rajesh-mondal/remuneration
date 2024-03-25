@@ -38,6 +38,10 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
+                                                <td style="width: 8%;">
+                                                    <p>Mark all</p>
+                                                    <input type="checkbox" id="select_all">
+                                                </td>
                                                 <td>#</td>
                                                 <td>Remuneration</td>
                                                 <td>Course Code</td>
@@ -56,6 +60,7 @@
                                             @endphp
                                             @foreach ($rems as $rem)
                                             <tr>
+                                                <td><input type="checkbox" name="id[]" value="{{ $rem->id }}"></td>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>
                                                     @if($rem->category)
@@ -70,7 +75,7 @@
                                                 </td>
                                                 <td>
                                                     @if($rem->rate)
-                                                        {{ $rem->rate['amount'] }} 
+                                                    {{ $rem->rate['amount'] }}
                                                     @endif
                                                 </td>
                                                 <td>{{ $rem->number }} ({{ $rem->type['name'] }})</td>
@@ -101,7 +106,8 @@
 
                                                 </td>
                                                 <td>
-                                                    <input type="hidden" name="id[]" value="{{ $rem->id }}">
+                                                    <!-- <input type="hidden" name="id[]" value="{{ $rem->id }}"> -->
+                                                    <p>{{ $rem->feedback }}</p>
                                                     <textarea name="feedback[]" id="" class="form-control"></textarea>
                                                 </td>
                                             </tr>
@@ -110,7 +116,8 @@
                                     </table>
                                 </div>
 
-                                <button type="submit" class="btn btn-success">Approve</button>
+                                <button type="submit" name="status" value="approve" class="btn btn-success">Approve</button>
+                                <button type="submit" name="status" value="reject" class="btn btn-danger">Reject</button>
                             </form>
                         </div>
                     </div>
@@ -120,4 +127,13 @@
     </div>
 </div>
 <!-- end graph -->
+@endsection
+
+@section('script')
+<script>
+    $('#select_all').change(function() {
+        var checkboxes = $(this).closest('form').find(':checkbox');
+        checkboxes.prop('checked', $(this).is(':checked'));
+    });
+</script>
 @endsection

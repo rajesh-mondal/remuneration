@@ -183,7 +183,9 @@
 
                     @endphp
 
+                    @if($students != 0)
                     {{ $students }}
+                    @endif
 
                 </td>
                 <td>
@@ -199,18 +201,18 @@
                 </td>
                 <td>
 
-
+                    @foreach($rems as $rem)
                     @php
-                    $rate = App\Models\Remuneration::where('exam_id', $exam->id)
-                    ->where('discipline_id', $discipline->id)
-                    ->where('user_id', $user->id)
+                    $rate = App\Models\RemunerationRate::where('id', $rem->rate_id)
                     ->first();
                     @endphp
 
-                    @if($rems->count() > 0)
-                    {{ $rate->rate['amount'] }}
-                    @endif
+                    
+                    @endforeach
 
+                    @if($rems->count() > 0)
+                    {{ $rate->amount }}
+                    @endif
 
 
                 </td>

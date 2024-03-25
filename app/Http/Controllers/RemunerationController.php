@@ -20,6 +20,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Notifications\FeedbackNotification;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PdfConfirmed;
+use Illuminate\Support\Arr;
 
 class RemunerationController extends Controller
 {
@@ -61,7 +62,7 @@ class RemunerationController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     $button = '<a href="' . route('remuneration.edit', $data->id) . '" class="edit btn btn-primary">Edit</a>';
-                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="' . route('remuneration-rate.destroy', $data->id) . '" class="delete btn btn-danger">Delete</button>';
+                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="' . route('remuneration.destroy', $data->id) . '" class="delete btn btn-danger">Delete</button>';
                     return $button;
                 })
                 ->rawColumns(['teacher', 'discipline', 'exam', 'action'])
@@ -142,8 +143,10 @@ class RemunerationController extends Controller
                 ->addColumn('status', function ($data) {
                     if ($data->status == 0) {
                         return "Pending";
-                    } else {
+                    } else if ($data->status == 1) {
                         return "Approved";
+                    } else if ($data->status == 2) {
+                        return "Rejected";
                     }
                 })
 
@@ -176,9 +179,13 @@ class RemunerationController extends Controller
         $discipline = Descipline::where('id', $request->discipline_id)->first();
         $user = User::where('id', $request->user_id)->first();
 
-        if (Auth::user()->role_id != '') {
+        // return Auth::user()->role_id;
+
+        if (Auth::user()->role_id !=null) {
             if (Auth::user()->role['name'] == 'Accountant') {
                 return view('remuneration.result', compact('rems', 'exam', 'discipline', 'user'));
+            }else{
+                return view('remuneration.show', compact('rems', 'exam', 'discipline', 'user'));
             }
         } else {
             return view('remuneration.show', compact('rems', 'exam', 'discipline', 'user'));
@@ -335,11 +342,11 @@ class RemunerationController extends Controller
      */
     public function destroy($id)
     {
-        // $rem = Remuneration::findOrFail(intval($id));
-        // $rem->delete();
+        $rem = Remuneration::findOrFail(intval($id));
+        $rem->delete();
 
-        // $notification = array('message' => 'Remuneration Deleted!', 'alert-type' => 'success');
-        // return redirect()->back()->with($notification);
+        $notification = array('message' => 'Remuneration Deleted!', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
     }
 
 
@@ -347,35 +354,62 @@ class RemunerationController extends Controller
     {
         $id = $request->id;
 
-        for ($count = 0; $count < count($id); $count++) {
-            $rem = Remuneration::where('id', $id[$count])->first();
-            $rem->feedback = $request->feedback[$count];
-            $rem->status = 1;
-            $rem->save();
 
-            if ($request->feedback[$count]) {
-                $data = array(
-                    'rem_id' => $id[$count],
-                    'feedback' => $request->feedback[$count],
-                );
+        $feedback = $request->feedback;
+        $new_feedback = array();
 
-                // 
-                $users = User::where('role_id', 1)->where('descipline_id', $request->discipline)->get();
+        for ($count = 0; $count < count($feedback); $count++) {
 
-                foreach ($users as $user) {
-                    $user->notify(new FeedbackNotification($data));
-                }
+            if($feedback[$count] !== null){
+                // $feedback = $feedback[$count];
+                array_push($new_feedback, $feedback[$count]);
+                // return $feedback[$count];
             }
         }
 
-        $user = User::where('id', $request->user)->first();
+        // return $new_feedback;
 
-        $data = array(
-            'name'      =>  $user->name,
-            'email'     =>  $user->email,
-        );
 
-        Mail::to($user->email)->send(new PdfConfirmed($data));
+        if ($request->status == 'approve') {
+            for ($count = 0; $count < count($id); $count++) {
+                $rem = Remuneration::where('id', $id[$count])->first();
+                $rem->feedback = $new_feedback[$count];
+                $rem->status = 1;
+                $rem->save();
+            }
+
+            $user = User::where('id', $request->user)->first();
+
+            $data = array(
+                'name'      =>  $user->name,
+                'email'     =>  $user->email,
+            );
+
+            Mail::to($user->email)->send(new PdfConfirmed($data));
+        } else if ($request->status == 'reject') {
+            // return $request->feedback;
+            for ($count = 0; $count < count($id); $count++) {
+                $rem = Remuneration::where('id', $id[$count])->first();
+                $rem->feedback = $new_feedback[$count];
+                $rem->status = 2;
+                $rem->save();
+
+
+                if ($request->feedback[$count]) {
+                    $data = array(
+                        'rem_id' => $id[$count],
+                        'feedback' => $request->feedback[$count],
+                    );
+
+                    // 
+                    $users = User::where('role_id', 1)->where('descipline_id', $request->discipline)->get();
+
+                    foreach ($users as $user) {
+                        $user->notify(new FeedbackNotification($data));
+                    }
+                }
+            }
+        }
 
         $notification = array('message' => 'Remuneration Addes', 'alert-type' => 'success');
         return redirect()->route('remuneration.newlist')->with($notification);

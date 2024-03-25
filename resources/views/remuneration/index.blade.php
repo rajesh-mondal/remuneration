@@ -9,9 +9,9 @@
       <div class="white_shd full">
          <div class="full graph_head">
             <div class="heading1 margin_0 d-flex justify-content-between w-100">
-               <h2>Filter Remuneration</h2> 
+               <h2>Filter Remuneration</h2>
                @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
-                  <a href="{{ route('remuneration.create')}}" class="btn btn-info mb-3">Add New Remuneration</a>
+               <a href="{{ route('remuneration.create')}}" class="btn btn-info mb-3">Add New Remuneration</a>
                @endif
             </div>
          </div>
@@ -98,6 +98,33 @@
 <!-- end graph -->
 
 
+<!-- delete modal -->
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form id="delete_form" method="post">
+            @csrf
+            @method('DELETE')
+            <div class="modal-body">
+               <h4 class="text-center">Do you want to delete?</h4>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-danger">Delete</button>
+         </form>
+      </div>
+   </div>
+</div>
+</div>
+<!-- delete modal end -->
+
+
 @endsection
 
 
@@ -129,7 +156,7 @@
                data: 'exam',
                name: 'exam'
             },
-            
+
             {
                data: 'action',
                name: 'action',
@@ -138,5 +165,12 @@
          ]
       })
    })
+
+
+   $(document).on('click', '.delete', function() {
+      $('#delete_modal').modal('show');
+      var route = $(this).attr('route');
+      $('#delete_form').attr('action', route);
+   });
 </script>
 @endsection
