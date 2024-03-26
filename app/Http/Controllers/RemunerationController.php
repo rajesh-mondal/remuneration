@@ -349,31 +349,25 @@ class RemunerationController extends Controller
         return redirect()->back()->with($notification);
     }
 
-
     public function approve(Request $request)
     {
         $id = $request->id;
-
-
         $feedback = $request->feedback;
         $new_feedback = array();
 
-        for ($count = 0; $count < count($feedback); $count++) {
-
-            if($feedback[$count] !== null){
-                // $feedback = $feedback[$count];
-                array_push($new_feedback, $feedback[$count]);
-                // return $feedback[$count];
+        // Check if $feedback array is not empty before accessing its elements
+        if (!empty($feedback)) {
+            for ($count = 0; $count < count($feedback); $count++) {
+                if ($feedback[$count] !== null) {
+                    array_push($new_feedback, $feedback[$count]);
+                }
             }
         }
-
-        // return $new_feedback;
-
 
         if ($request->status == 'approve') {
             for ($count = 0; $count < count($id); $count++) {
                 $rem = Remuneration::where('id', $id[$count])->first();
-                $rem->feedback = $new_feedback[$count];
+                $rem->feedback = isset($new_feedback[$count]) ? $new_feedback[$count] : null;
                 $rem->status = 1;
                 $rem->save();
             }
@@ -387,34 +381,52 @@ class RemunerationController extends Controller
 
             Mail::to($user->email)->send(new PdfConfirmed($data));
         } else if ($request->status == 'reject') {
-            // return $request->feedback;
             for ($count = 0; $count < count($id); $count++) {
-                $rem = Remuneration::where('id', $id[$count])->first();
-                $rem->feedback = $new_feedback[$count];
-                $rem->status = 2;
-                $rem->save();
-
-
-                if ($request->feedback[$count]) {
-                    $data = array(
-                        'rem_id' => $id[$count],
-                        'feedback' => $request->feedback[$count],
-                    );
-
-                    // 
-                    $users = User::where('role_id', 1)->where('descipline_id', $request->discipline)->get();
-
-                    foreach ($users as $user) {
-                        $user->notify(new FeedbackNotification($data));
+                // Find the remuneration by its ID
+                $rem = Remuneration::find($id[$count]);
+        
+                if ($rem) {
+                    // Set the feedback for the remuneration, using new_feedback if available, otherwise null
+                    $rem->feedback = isset($new_feedback[$count]) ? $new_feedback[$count] : null;
+        
+                    // Set the status of the remuneration to '2' (reject)
+                    $rem->status = 2;
+        
+                    // Save the changes made to the remuneration
+                    $rem->save();
+        
+                    // If feedback exists for the rejected remuneration
+                    if (isset($new_feedback[$count])) {
+                        // Prepare data for sending a notification
+                        $data = array(
+                            'rem_id' => $id[$count],
+                            'feedback' => $new_feedback[$count],
+                        );
+        
+                        // Find users to notify based on role_id and discipline_id
+                        $users = User::where('role_id', 1)->where('descipline_id', $request->discipline)->get();
+        
+                        if ($users->isNotEmpty()) {
+                            // Send notifications to users
+                            foreach ($users as $user) {
+                                // Use notifyNow to immediately send the notification
+                                $user->notifyNow(new FeedbackNotification($data));
+                            }
+                        } else {
+                            // Log a warning if no users are found to notify
+                            \Log::warning('No users found to notify for remuneration rejection.');
+                        }
                     }
+                } else {
+                    // Log a warning if the remuneration is not found
+                    \Log::warning('Remuneration with ID ' . $id[$count] . ' not found.');
                 }
             }
         }
 
-        $notification = array('message' => 'Remuneration Addes', 'alert-type' => 'success');
+        $notification = array('message' => 'Remuneration Approved', 'alert-type' => 'success');
         return redirect()->route('remuneration.newlist')->with($notification);
     }
-
 
     public function generatePdf(Request $request)
     {
