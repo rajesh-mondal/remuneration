@@ -380,6 +380,8 @@ class RemunerationController extends Controller
             );
 
             Mail::to($user->email)->send(new PdfConfirmed($data));
+
+            $notification = array('message' => 'Remuneration Approved', 'alert-type' => 'success');
         } else if ($request->status == 'reject') {
             for ($count = 0; $count < count($id); $count++) {
                 // Find the remuneration by its ID
@@ -422,9 +424,11 @@ class RemunerationController extends Controller
                     \Log::warning('Remuneration with ID ' . $id[$count] . ' not found.');
                 }
             }
+
+        $notification = array('message' => 'Remuneration Rejected', 'alert-type' => 'error');
         }
 
-        $notification = array('message' => 'Remuneration Approved', 'alert-type' => 'success');
+        // $notification = array('message' => 'Remuneration Approved', 'alert-type' => 'success');
         return redirect()->route('remuneration.newlist')->with($notification);
     }
 

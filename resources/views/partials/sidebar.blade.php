@@ -92,6 +92,15 @@
          </li>
          @endif
 
+         <li>
+            <a href="#element_settings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-cog red_color"></i> <span>Settings</span></a>
+            <ul class="collapse list-unstyled" id="element_settings">
+               <li><a href="{{ route('user.index')}}"><i class="fa fa-pencil yellow_color"></i><span>edit Profile</span></a></li>
+               <li><a href="{{ route('setting')}}"><i class="fa fa-key red_color"></i> <span>Change password</span></a></li>
+               <li><a href="{{ route('logout')}}"><i class="fa fa-sign-out red_color"></i> <span>Logout</span></a></li>
+            </ul>
+         </li>
+
       </ul>
    </div>
 </nav>
