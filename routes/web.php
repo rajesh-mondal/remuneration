@@ -57,9 +57,10 @@ Route::resource('term', TermController::class);
 
 Route::resource('session', SessionController::class);
 
-Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
-
 Auth::routes();
+
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
 Route::get('setting', [SettingController::class, 'setting'])->name('setting');
 Route::post('password/change', [SettingController::class, 'passwordUpdate'])->name('password.update');
