@@ -14,18 +14,35 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="content p-5">
-                                <p>{{ __('Name') }}: {{ $user->name }}</p>
-                                <p>{{ __('Email') }}: {{ $user->email }}</p>
-                                <p>{{ __('Phone') }}: {{ $user->phone }}</p>
-                                <p>{{ __('Address') }}: {{ $user->address }}</p>
+                                {{-- <div class="mb-4">
+                                    @if ($user->image)
+                                        <img src="{{ asset('assets/images/profile' . $user->image) }}" alt="User Image" class="img-fluid rounded-circle shadow-lg" style="max-width: 200px; max-height: 200px;">
+                                    @else
+                                        <img src="{{ asset('assets/images/profile/default-avatar.jpg') }}" alt="Default Image" class="img-fluid rounded-circle shadow-lg" style="max-width: 150px; max-height: 150px;">
+                                    @endif
+                                </div> --}}
 
-                                @if ($user->designation)
-                                    <p>{{ __('Designation') }}: {{ $user->designation->name }}</p>
-                                @endif
-
-                                @if ($user->discipline)
-                                    <p>{{ __('Discipline') }}: {{ $user->discipline->name }}</p>
-                                @endif
+                                <div class="mb-4">
+                                    <!-- Profile Information -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ __('Profile Information') }}</h5>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item"><strong>{{ __('Name') }}:</strong> {{ $user->name }}</li>
+                                                <li class="list-group-item"><strong>{{ __('Email') }}:</strong> {{ $user->email }}</li>
+                                                <li class="list-group-item"><strong>{{ __('Phone') }}:</strong> {{ $user->phone }}</li>
+                                                <li class="list-group-item"><strong>{{ __('Address') }}:</strong> {{ $user->address }}</li>
+                                                
+                                                @if ($user->designation)
+                                                    <li class="list-group-item"><strong>{{ __('Designation') }}:</strong> {{ $user->designation->name }}</li>
+                                                @endif
+                                                @if ($user->discipline)
+                                                    <li class="list-group-item"><strong>{{ __('Discipline') }}:</strong> {{ $user->discipline->name }}</li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <!-- Edit Profile Button -->
                                 <a href="{{ route('profile.edit') }}" class="btn btn-primary"><i class="fa fa-pencil"></i> {{ __('Edit Profile') }}</a>

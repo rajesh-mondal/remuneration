@@ -57,6 +57,12 @@
                </li>
                @endif
 
+               @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
+               <li>
+                  <a href="{{ route('remuneration.create')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>Add Remuneration</span></a>
+               </li>
+               @endif
+
                @if(Auth::user()->role && Auth::user()->role['name'] == 'Accountant')
                <li>
                   <a href="{{ route('remuneration.newlist')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>Remuneration New List</span></a>
@@ -74,7 +80,6 @@
                      <a href="{{ route('remuneration-rate.index')}}"><i class="fa fa-dollar white_color"></i> <span>Remuneration Rate</span></a>
                   </li>
                @endif
-
 
             </ul>
          </li>
