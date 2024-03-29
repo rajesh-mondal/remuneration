@@ -16,6 +16,7 @@
                   <li>
                      <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="{{ url('assets/images/layout_img/user_img.jpg') }}" alt="#" /><span class="name_user">{{Auth::user()->name}}</span></a>
                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a>
                         <a class="dropdown-item" href="{{ route('setting') }}">Settings</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();

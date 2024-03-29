@@ -97,10 +97,17 @@
             <ul class="collapse list-unstyled" id="element_settings">
                <li><a href="{{ route('profile.edit') }}"><i class="fa fa-pencil yellow_color"></i><span>Edit Profile</span></a></li>
                <li><a href="{{ route('setting')}}"><i class="fa fa-key red_color"></i> <span>Change password</span></a></li>
-               <li><a href="{{ route('logout')}}"><i class="fa fa-sign-out red_color"></i> <span>Logout</span></a></li>
             </ul>
          </li>
 
+         <li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="fa fa-sign-out red_color"></i> <span>Logout</span>
+            </a>
+        </li>
       </ul>
    </div>
 </nav>
