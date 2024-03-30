@@ -86,7 +86,6 @@ Route::get('/remuneration/generate/pdf', [\App\Http\Controllers\RemunerationCont
 Route::get('/remuneration/list/new', [\App\Http\Controllers\RemunerationController::class, 'newList'])->name('remuneration.newlist');
 Route::post('/remuneration/list/approve', [\App\Http\Controllers\RemunerationController::class, 'approve'])->name('remuneration.approve');
 
-
 // notifications
 Route::get('notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notification.index');
 Route::get('notifications/{id}', [\App\Http\Controllers\NotificationController::class, 'show'])->name('notification.show');
