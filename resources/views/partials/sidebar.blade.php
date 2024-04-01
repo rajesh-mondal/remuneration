@@ -63,7 +63,7 @@
                </li>
                @endif
 
-               @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
+               @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin' || Auth::user()->role['name'] == 'Accountant')
                <li>
                   <a href="{{ route('remuneration.index')}}"><i class="fa fa-search white_color"></i> <span>Search Remuneration</span></a>
                </li>
@@ -71,7 +71,7 @@
 
                @if(Auth::user()->role && Auth::user()->role['name'] == 'Accountant')
                <li>
-                  <a href="{{ route('remuneration.newlist')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>Remuneration New List</span></a>
+                  <a href="{{ route('remuneration.newlist')}}"><i class="fa fa-tasks white_color"></i> <span>Remuneration List</span></a>
                </li>
                @endif
 

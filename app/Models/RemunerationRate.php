@@ -9,8 +9,8 @@ class RemunerationRate extends Model
 {
     use HasFactory;
 
-    public function remunerationCategory()
+    public function rate() 
     {
-        return $this->belongsTo('App\Models\RemunerationCategory', 'category_id');
+        return $this->belongsTo('App\Models\RemunerationRate', 'category_id');
     }
 }

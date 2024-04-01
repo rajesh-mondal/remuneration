@@ -2,10 +2,7 @@
 
 @section('content')
 
-
-<!-- graph -->
 <div class="row column2 graph margin_bottom_30">
-
    <div class="col-lg-12">
       <div class="row justify-content-center">
          <div class="col-md-6">
@@ -13,9 +10,6 @@
                <div class="full graph_head">
                   <div class="heading1 margin_0 d-flex justify-content-between w-100">
                      <h2>Filter Remuneration</h2>
-                     @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
-                     <a href="{{ route('remuneration.create')}}" class="btn btn-info mb-3">Add New Remuneration</a>
-                     @endif
                   </div>
                </div>
                <div class="full graph_revenue">
@@ -68,10 +62,9 @@
          </div>
       </div>
    </div>
-
 </div>
-<div class="row column2 graph margin_bottom_30">
 
+<div class="row column2 graph margin_bottom_30">
    <div class="col-md-12">
       <div class="white_shd full">
          <div class="full graph_head">
@@ -92,9 +85,9 @@
                                  <th>Discipline</th>
                                  <th>Exam</th>
                                  <th>Category</th>
+                                 <th>Rate</th>
                                  <th>No of (*)</th>
-                                 <th>Students</th>
-                                 <th>Paper(Half/Full)</th>
+                                 <th>Paper</th>
                                  <th>Amount</th>
                                  <th>Status</th>
                               </tr>
@@ -116,58 +109,58 @@
 
 @section('script')
 <script>
-   $(document).ready(function() {
-
-      $('#rate_table').DataTable({
-         processing: true,
-         serverSide: true,
-         ajax: {
+$(document).ready(function() {
+    $('#rate_table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
             url: "{{ route('remuneration.newlist') }}",
-         },
-         columns: [{
-               data: 'DT_RowIndex',
-               name: 'DT_RowIndex',
-               orderable: false,
-               searchable: false,
-            },
-            {
-               data: 'teacher',
-               name: 'teacher'
-            },
-            {
-               data: 'discipline',
-               name: 'discipline'
-            },
-            {
-               data: 'exam',
-               name: 'exam'
-            },
-            {
-               data: 'category',
-               name: 'category'
-            },
-            {
-               data: 'number',
-               name: 'number'
-            },
-            {
-               data: 'students',
-               name: 'students'
-            },
-            {
-               data: 'rempaper',
-               name: 'rempaper'
-            },
-            {
-               data: 'amount',
-               name: 'amount'
-            },
-            {
-               data: 'status',
-               name: 'status'
-            },
-         ]
-      })
-   })
+        },
+        columns: [
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'teacher', name: 'teacher' },
+            { data: 'discipline', name: 'discipline' },
+            { data: 'exam', name: 'exam' },
+            { data: 'category', name: 'category' },
+            { data: 'rate', name: 'rate' },
+            { data: 'number', name: 'number' },
+            { data: 'rempaper', name: 'rempaper' },
+            { data: 'amount', name: 'amount' },
+            { data: 'status', name: 'status' },
+        ],
+        initComplete: function(settings, json) {
+            console.log(json); // Output the JSON data to the console for debugging
+        }
+    });
+});
+
 </script>
 @endsection
+{{-- @section('script')
+<script>
+$(document).ready(function() {
+    $('#rate_table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('remuneration.newlist') }}",
+        },
+        columns: [
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'teacher', name: 'teacher' },
+            { data: 'discipline', name: 'discipline' },
+            { data: 'exam', name: 'exam' },
+            { data: 'category', name: 'category' },
+            { data: 'rate', name: 'rate' },
+            { data: 'number', name: 'number' },
+            { data: 'rempaper', name: 'rempaper' },
+            { data: 'amount', name: 'amount' },
+            { data: 'status', name: 'status' },
+        ],
+        initComplete: function(settings, json) {
+            console.log(json); // Output the JSON data to the console for debugging
+        }
+    });
+});
+</script>
+@endsection --}}

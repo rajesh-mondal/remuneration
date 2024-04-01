@@ -87,10 +87,97 @@ class RemunerationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    // public function newList(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         // $data = Remuneration::latest()->get();
+    //         $data = Remuneration::with('type')->latest()->get();
+    //         dd($data);
+    //         return DataTables::of($data)
+    //             ->addColumn('teacher', function ($data) {
+    //                 if ($data->user) {
+    //                     return $data->user['name'];
+    //                 }
+    //             })
+    //             ->addColumn('discipline', function ($data) {
+    //                 if ($data->discipline) {
+    //                     return $data->discipline['name'];
+    //                 }
+    //             })
+    //             ->addColumn('exam', function ($data) {
+    //                 if ($data->exam) {
+    //                     return $data->exam['year']['year'] . ' year - ' . $data->exam['term']['term'] . ' Term (Session: ' . $data->exam['session']['session'] . ')';
+    //                 }
+    //             })
+    //             ->addColumn('category', function ($data) {
+    //                 if ($data->category) {
+    //                     return $data->category['name'];
+    //                 }
+    //             })
+    //             ->addColumn('rempaper', function ($data) {
+    //                 if ($data->paper == 'helf') {
+    //                     return "Half";
+    //                 } else {
+    //                     return "Full";
+    //                 }
+    //             })
+    //             ->addColumn('amount', function ($data) {
+    //                 if ($data->rate) {
+    //                     if ($data->paper == 'half') {
+    //                         $amount = $data->rate['amount'] / 2;
+    //                     } else {
+    //                         $amount = $data->rate['amount'];
+    //                     }
+
+    //                     if ($data->number && $data->students) {
+    //                         $total = $amount * $data->number * $data->students;
+    //                     } elseif ($data->number != null) {
+    //                         $total = $amount * $data->number;
+    //                     } elseif ($data->students != null) {
+    //                         $total = $amount * $data->students;
+    //                     }
+
+    //                     return $total;
+    //                 }
+    //             })
+    //             ->addColumn('numbers', function ($data) {
+    //                 return $data->number . ' (' . optional($data->type)->name . ')';
+    //             })
+    //             ->addColumn('status', function ($data) {
+    //                 switch ($data->status) {
+    //                     case 0:
+    //                         return '<span class="badge badge-warning">Pending</span>';
+    //                     case 1:
+    //                         return '<span class="badge badge-success">Approved</span>';
+    //                     case 2:
+    //                         return '<span class="badge badge-danger">Rejected</span>';
+    //                     default:
+    //                         return '';
+    //                 }
+    //             })
+    //             ->rawColumns(['teacher', 'discipline', 'exam', 'category', 'rempaper', 'amount',  'numbers', 'status'])
+    //             ->addIndexColumn()
+    //             ->make(true);
+    //     }
+
+    //     $exams = Exam::all();
+    //     if (Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Accountant') {
+    //         $disciplines = Descipline::all();
+    //     } else {
+    //         $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
+    //     }
+    //     $users = User::orderBy('name', 'ASC')->get();
+    //     return view('remuneration.list', compact('exams', 'disciplines', 'users'));
+    // }
+
+    //search result
+    
     public function newList(Request $request)
     {
         if ($request->ajax()) {
-            $data = Remuneration::latest()->get();
+            // Fetch remunerations with related type and rate
+            $data = Remuneration::with(['type', 'rate'])->latest()->get();
             return DataTables::of($data)
                 ->addColumn('teacher', function ($data) {
                     if ($data->user) {
@@ -114,13 +201,12 @@ class RemunerationController extends Controller
                 })
                 ->addColumn('rempaper', function ($data) {
                     if ($data->paper == 'helf') {
-                        return "Half Paper";
+                        return "Half";
                     } else {
-                        return "Full Paper";
+                        return "Full";
                     }
                 })
                 ->addColumn('amount', function ($data) {
-
                     if ($data->rate) {
                         if ($data->paper == 'half') {
                             $amount = $data->rate['amount'] / 2;
@@ -139,18 +225,32 @@ class RemunerationController extends Controller
                         return $total;
                     }
                 })
-
-                ->addColumn('status', function ($data) {
-                    if ($data->status == 0) {
-                        return "Pending";
-                    } else if ($data->status == 1) {
-                        return "Approved";
-                    } else if ($data->status == 2) {
-                        return "Rejected";
+                ->addColumn('rate', function ($data) {
+                    if ($data->rate) {
+                        return $data->rate['amount'];
+                    }
+                    return ''; // Return empty string if rate doesn't exist
+                })
+                ->addColumn('numbers', function ($data) {
+                    if ($data->type) {
+                        return $data->number . ' (' . $data->type->name . ')';
+                    } else {
+                        return $data->number;
                     }
                 })
-
-                ->rawColumns(['teacher', 'discipline', 'exam', 'category', 'rempaper', 'amount', 'status'])
+                ->addColumn('status', function ($data) {
+                    switch ($data->status) {
+                        case 0:
+                            return '<span class="badge badge-warning">Pending</span>';
+                        case 1:
+                            return '<span class="badge badge-success">Approved</span>';
+                        case 2:
+                            return '<span class="badge badge-danger">Rejected</span>';
+                        default:
+                            return '';
+                    }
+                })
+                ->rawColumns(['teacher', 'discipline', 'exam', 'category', 'rempaper', 'amount', 'rate', 'numbers', 'status'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -165,8 +265,6 @@ class RemunerationController extends Controller
         return view('remuneration.list', compact('exams', 'disciplines', 'users'));
     }
 
-
-    //search result
 
     public function searchResult(Request $request)
     {
@@ -458,14 +556,12 @@ class RemunerationController extends Controller
         return $pdf->download($user->name . '-' . $exam->year['year'] . ' year -' . $exam->term['term'] . ' term -' . $exam->session['session'] . ' session.pdf');
     }
 
-
     public function myRem()
     {
         $exams = Exam::all();
         $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
         return view('my_remuneration.index', compact('exams', 'disciplines'));
     }
-
 
     // flist pdf
     public function myRemResult(Request $request)
