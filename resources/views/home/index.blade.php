@@ -60,7 +60,7 @@
       </div>
    @endif
 
-   @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
+   @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin' || Auth::user()->role['name'] == 'Accountant')
       <div class="col-md-6 col-lg-4">
          <div class="full counter_section margin_bottom_30">
             <div class="couter_icon">

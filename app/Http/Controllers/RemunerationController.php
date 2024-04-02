@@ -40,25 +40,71 @@ class RemunerationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         $data = Remuneration::latest()->get();
+    //         return DataTables::of($data)
+    //             ->addColumn('teacher', function ($data) {
+    //                 if ($data->user) {
+    //                     return $data->user['name'];
+    //                 }
+    //             })
+    //             ->addColumn('discipline', function ($data) {
+    //                 if ($data->discipline) {
+    //                     return $data->discipline['name'];
+    //                 }
+    //             })
+    //             ->addColumn('exam', function ($data) {
+    //                 if ($data->exam) {
+    //                     return $data->exam['year']['year'] . ' year - ' . $data->exam['term']['term'] . ' Term (Session: ' . $data->exam['session']['session'] . ')';
+    //                 }
+    //             })
+    //             ->addColumn('action', function ($data) {
+    //                 $button = '<a href="' . route('remuneration.edit', $data->id) . '" class="edit btn btn-primary">Edit</a>';
+    //                 $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="' . route('remuneration.destroy', $data->id) . '" class="delete btn btn-danger">Delete</button>';
+    //                 return $button;
+    //             })
+    //             ->rawColumns(['teacher', 'discipline', 'exam', 'action'])
+    //             ->addIndexColumn()
+    //             ->make(true);
+    //     }
+
+    //     $exams = Exam::all();
+    //     if (Auth::user()->is_admin == 1) {
+    //         $disciplines = Descipline::all();
+    //     } else {
+
+    //         $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
+    //     }
+    //     $users = User::orderBy('name', 'ASC')->get();
+    //     return view('remuneration.index', compact('exams', 'disciplines', 'users'));
+    // }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Remuneration::latest()->get();
+            $query = Remuneration::with(['type', 'rate', 'discipline'])->latest();
+
+            if (Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Accountant') {
+                $query->with('discipline');
+            }
+
+            $data = $query->get();
+
             return DataTables::of($data)
                 ->addColumn('teacher', function ($data) {
-                    if ($data->user) {
-                        return $data->user['name'];
-                    }
+                    return optional($data->user)->name;
                 })
                 ->addColumn('discipline', function ($data) {
-                    if ($data->discipline) {
-                        return $data->discipline['name'];
-                    }
+                    return optional($data->discipline)->name;
                 })
                 ->addColumn('exam', function ($data) {
-                    if ($data->exam) {
-                        return $data->exam['year']['year'] . ' year - ' . $data->exam['term']['term'] . ' Term (Session: ' . $data->exam['session']['session'] . ')';
+                    $exam = $data->exam;
+                    if ($exam) {
+                        return $exam->year->year . ' year - ' . $exam->term->term . ' Term (Session: ' . $exam->session->session . ')';
                     }
+                    return '';
                 })
                 ->addColumn('action', function ($data) {
                     $button = '<a href="' . route('remuneration.edit', $data->id) . '" class="edit btn btn-primary">Edit</a>';
@@ -71,12 +117,7 @@ class RemunerationController extends Controller
         }
 
         $exams = Exam::all();
-        if (Auth::user()->is_admin == 1) {
-            $disciplines = Descipline::all();
-        } else {
-
-            $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
-        }
+        $disciplines = Descipline::all();
         $users = User::orderBy('name', 'ASC')->get();
         return view('remuneration.index', compact('exams', 'disciplines', 'users'));
     }
@@ -256,7 +297,7 @@ class RemunerationController extends Controller
         }
 
         $exams = Exam::all();
-        if (Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Accountant') {
+        if (Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin' || Auth::user()->role['name'] == 'Accountant') {
             $disciplines = Descipline::all();
         } else {
             $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();

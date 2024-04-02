@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="row column2 graph margin_bottom_30">
+{{-- <div class="row column2 graph margin_bottom_30">
    <div class="col-lg-12">
       <div class="row justify-content-center">
          <div class="col-md-6">
@@ -62,7 +62,7 @@
          </div>
       </div>
    </div>
-</div>
+</div> --}}
 
 <div class="row column2 graph margin_bottom_30">
    <div class="col-md-12">
@@ -101,11 +101,8 @@
       </div>
    </div>
 </div>
-<!-- end graph -->
-
 
 @endsection
-
 
 @section('script')
 <script>

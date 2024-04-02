@@ -69,7 +69,7 @@
                </li>
                @endif
 
-               @if(Auth::user()->role && Auth::user()->role['name'] == 'Accountant')
+               @if(Auth::user()->role && (Auth::user()->role['name'] == 'Accountant' || Auth::user()->role['name'] == 'Admin') || Auth::user()->is_admin == 1)
                <li>
                   <a href="{{ route('remuneration.newlist')}}"><i class="fa fa-tasks white_color"></i> <span>Remuneration List</span></a>
                </li>
