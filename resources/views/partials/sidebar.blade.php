@@ -51,11 +51,11 @@
                   </li>
                @endif
 
-               @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
+               {{-- @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
                <li>
                   <a href="{{ route('remuneration.index')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>Remuneration</span></a>
                </li>
-               @endif
+               @endif --}}
 
                @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
                <li>

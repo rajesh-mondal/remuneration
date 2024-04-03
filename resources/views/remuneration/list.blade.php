@@ -90,6 +90,9 @@
                                  <th>Paper</th>
                                  <th>Amount</th>
                                  <th>Status</th>
+                                 @if(Auth::user()->is_admin || Auth::user()->role['name'] == 'Admin')
+                                 <th>Action</th>
+                                 @endif
                               </tr>
                            </thead>
                         </table>
@@ -102,6 +105,31 @@
    </div>
 </div>
 
+<!-- delete modal -->
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form id="delete_form" method="post">
+            @csrf
+            @method('DELETE')
+            <div class="modal-body">
+               <h4 class="text-center">Do you want to delete?</h4>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-danger">Delete</button>
+         </form>
+      </div>
+   </div>
+</div>
+</div>
+<!-- delete modal end -->
 @endsection
 
 @section('script')
@@ -124,6 +152,11 @@ $(document).ready(function() {
             { data: 'rempaper', name: 'rempaper' },
             { data: 'amount', name: 'amount' },
             { data: 'status', name: 'status' },
+            {
+               data: 'action',
+               name: 'action',
+               orderable: false
+            }
         ],
         initComplete: function(settings, json) {
             console.log(json); // Output the JSON data to the console for debugging
@@ -131,7 +164,14 @@ $(document).ready(function() {
     });
 });
 
+$(document).on('click', '.delete', function() {
+   $('#delete_modal').modal('show');
+   var route = $(this).attr('route');
+   $('#delete_form').attr('action', route);
+});
+
 </script>
+
 @endsection
 {{-- @section('script')
 <script>

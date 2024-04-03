@@ -165,7 +165,6 @@
                data: 'exam',
                name: 'exam'
             },
-
             {
                data: 'action',
                name: 'action',

@@ -291,7 +291,18 @@ class RemunerationController extends Controller
                             return '';
                     }
                 })
-                ->rawColumns(['teacher', 'discipline', 'exam', 'category', 'rempaper', 'amount', 'rate', 'numbers', 'status'])
+                ->addColumn('action', function ($data) {
+                    $button = '<a href="' . route('remuneration.edit', $data->id) . '" class="edit btn btn-sm btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>';
+                    $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="edit" route="' . route('remuneration.destroy', $data->id) . '" class="delete btn btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+                    return $button;
+                })
+                // ->addColumn('action', function ($data) {
+                //     $editButton = '<a href="' . route('remuneration.edit', $data->id) . '" class="edit btn btn-primary"><i class="fa fa-edit"></i></a>';
+                //     $deleteButton = '<button type="button" name="edit" route="' . route('remuneration.destroy', $data->id) . '" class="delete btn btn-danger"><i class="fa fa-trash"></i></button>';
+                //     return '<div class="btn-group">' . $editButton . '&nbsp;' . $deleteButton . '</div>';
+                // })
+                
+                ->rawColumns(['teacher', 'discipline', 'exam', 'category', 'rempaper', 'amount', 'rate', 'numbers', 'status', 'action'])
                 ->addIndexColumn()
                 ->make(true);
         }
