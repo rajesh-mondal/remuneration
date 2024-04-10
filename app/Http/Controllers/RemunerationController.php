@@ -225,6 +225,11 @@ class RemunerationController extends Controller
                         return $data->user['name'];
                     }
                 })
+                ->addColumn('course_code', function ($data) {
+                    if ($data->course) {
+                        return $data->course['course'];
+                    }
+                })
                 ->addColumn('discipline', function ($data) {
                     if ($data->discipline) {
                         return $data->discipline['name'];
@@ -302,7 +307,7 @@ class RemunerationController extends Controller
                 //     return '<div class="btn-group">' . $editButton . '&nbsp;' . $deleteButton . '</div>';
                 // })
                 
-                ->rawColumns(['teacher', 'discipline', 'exam', 'category', 'rempaper', 'amount', 'rate', 'numbers', 'status', 'action'])
+                ->rawColumns(['teacher', 'discipline', 'exam', 'category', 'rempaper', 'amount', 'rate', 'numbers', 'status', 'course_code', 'action'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -316,7 +321,6 @@ class RemunerationController extends Controller
         $users = User::orderBy('name', 'ASC')->get();
         return view('remuneration.list', compact('exams', 'disciplines', 'users'));
     }
-
 
     public function searchResult(Request $request)
     {

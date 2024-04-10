@@ -51,7 +51,7 @@
             </div>
             <div class="counter_no">
                <div>
-                  <a href="{{ route('remuneration.index') }}">
+                  <a href="{{ route('remuneration.newlist') }}">
                      <p class="head_couter">All Remuneration</p>
                   </a>
                </div>

@@ -13,4 +13,9 @@ class RemunerationRate extends Model
     {
         return $this->belongsTo('App\Models\RemunerationRate', 'category_id');
     }
+
+    public function remunerationCategory()
+    {
+        return $this->belongsTo('App\Models\RemunerationCategory', 'category_id');
+    }
 }

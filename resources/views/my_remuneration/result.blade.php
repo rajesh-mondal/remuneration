@@ -43,8 +43,8 @@
                                                 <td>Course Code</td>
                                                 <td>Details</td>
                                                 <td>Rate</td>
-                                                <td>Number of ()</td>
-                                                <td>Number of Student</td>
+                                                <td>No. of ()</td>
+                                                <td>No. of Student</td>
                                                 <td>Paper</td>
                                                 <td>Amount</td>
                                                 {{-- <td>Feedback</td> --}}
