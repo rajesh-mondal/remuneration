@@ -76,6 +76,7 @@ Route::get('/get-rate/{id}', [\App\Http\Controllers\DropdownController::class, '
 
 
 Route::get('/my-remuneration', [\App\Http\Controllers\RemunerationController::class, 'myRem'])->name('myream.index');
+Route::get('/my-remuneration/list/new', [\App\Http\Controllers\RemunerationController::class, 'myNewList'])->name('myream.myNewList');
 Route::post('/my-remuneration/result', [\App\Http\Controllers\RemunerationController::class, 'myRemResult'])->name('myream.result');
 
 //search remunaration

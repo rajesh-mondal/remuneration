@@ -619,7 +619,98 @@ class RemunerationController extends Controller
         return view('my_remuneration.index', compact('exams', 'disciplines'));
     }
 
-    // flist pdf
+    public function myNewList(Request $request)
+    {
+        if ($request->ajax()) {
+            // Fetch remunerations with related type and rate for the authenticated user
+            $data = Remuneration::with(['type', 'rate'])
+                ->where('user_id', Auth::id()) // Filter by authenticated user ID
+                ->latest()
+                ->get();
+            
+            return DataTables::of($data)
+                ->addColumn('course_code', function ($data) {
+                    if ($data->course) {
+                        return $data->course['course'];
+                    }
+                })
+                ->addColumn('exam', function ($data) {
+                    if ($data->exam) {
+                        return $data->exam['year']['year'] . ' year - ' . $data->exam['term']['term'] . ' Term (Session: ' . $data->exam['session']['session'] . ')';
+                    }
+                })
+                ->addColumn('category', function ($data) {
+                    if ($data->category) {
+                        return $data->category['name'];
+                    }
+                })
+                ->addColumn('details', function ($data) {
+                    if ($data->rate) {
+                        return $data->rate['title'];
+                    }
+                })
+                ->addColumn('rempaper', function ($data) {
+                    if ($data->paper == 'helf') {
+                        return "Half";
+                    } else {
+                        return "Full";
+                    }
+                })
+                ->addColumn('amount', function ($data) {
+                    if ($data->rate) {
+                        if ($data->paper == 'half') {
+                            $amount = $data->rate['amount'] / 2;
+                        } else {
+                            $amount = $data->rate['amount'];
+                        }
+
+                        if ($data->number && $data->students) {
+                            $total = $amount * $data->number * $data->students;
+                        } elseif ($data->number != null) {
+                            $total = $amount * $data->number;
+                        } elseif ($data->students != null) {
+                            $total = $amount * $data->students;
+                        }
+
+                        return $total;
+                    }
+                })
+                ->addColumn('rate', function ($data) {
+                    if ($data->rate) {
+                        return $data->rate['amount'];
+                    }
+                    return ''; // Return empty string if rate doesn't exist
+                })
+                ->addColumn('numbers', function ($data) {
+                    if ($data->type) {
+                        return $data->number . ' (' . $data->type->name . ')';
+                    } else {
+                        return $data->number;
+                    }
+                })
+                ->addColumn('status', function ($data) {
+                    switch ($data->status) {
+                        case 0:
+                            return '<span class="badge badge-warning">Pending</span>';
+                        case 1:
+                            return '<span class="badge badge-success">Approved</span>';
+                        case 2:
+                            return '<span class="badge badge-danger">Rejected</span>';
+                        default:
+                            return '';
+                    }
+                })
+                ->rawColumns(['exam', 'category', 'details', 'rempaper', 'amount', 'rate', 'numbers', 'status', 'course_code'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        // Fetch users
+        $users = User::orderBy('name', 'ASC')->get();
+
+        return view('my_remuneration.list', compact('users'));
+    }
+
     public function myRemResult(Request $request)
     {
         $rems = Remuneration::where('exam_id', $request->exam_id)

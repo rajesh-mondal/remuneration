@@ -45,12 +45,6 @@
          <li>
             <a href="#element_rem" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-pencil-square-o green_color"></i> <span>Remuneration</span></a>
             <ul class="collapse list-unstyled" id="element_rem">
-               @if(Auth::user()->role && (Auth::user()->role['name'] == 'Teacher' || Auth::user()->role['name'] == 'Staff'))
-                  <li>
-                     <a href="{{ route('myream.index')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>My Remuneration</span></a>
-                  </li>
-               @endif
-
                {{-- @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
                <li>
                   <a href="{{ route('remuneration.index')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>Remuneration</span></a>
@@ -69,9 +63,21 @@
                </li>
                @endif
 
+               @if(Auth::user()->role && (Auth::user()->role['name'] == 'Teacher' || Auth::user()->role['name'] == 'Staff'))
+                  <li>
+                     <a href="{{ route('myream.index')}}"><i class="fa fa-pencil-square-o white_color"></i> <span>Search Remuneration</span></a>
+                  </li>
+               @endif
+
                @if(Auth::user()->role && (Auth::user()->role['name'] == 'Accountant' || Auth::user()->role['name'] == 'Admin') || Auth::user()->is_admin == 1)
                <li>
                   <a href="{{ route('remuneration.newlist')}}"><i class="fa fa-tasks white_color"></i> <span>Remuneration List</span></a>
+               </li>
+               @endif
+
+               @if(Auth::user()->role && Auth::user()->role['name'] == 'Teacher')
+               <li>
+                  <a href="{{ route('myream.myNewList')}}"><i class="fa fa-tasks white_color"></i> <span>Remuneration List</span></a>
                </li>
                @endif
 
