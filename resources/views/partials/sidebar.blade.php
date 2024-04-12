@@ -18,26 +18,26 @@
    </div>
    <div class="sidebar_blog_2">
       <ul class="list-unstyled components">
-         <li><a href="{{ route('dashboard')}}"><i class="fa fa-dashboard yellow_color"></i> <span>Dashboard</span></a></li>
+         <li><a href="{{ route('dashboard')}}"><i class="fa fa-dashboard green_color"></i> <span>Dashboard</span></a></li>
 
          @if(Auth::user()->is_admin == 1)
          <li><a href="{{ route('user.index')}}"><i class="fa fa-user green_color"></i> <span>User</span></a></li>
          @endif
 
          @if(Auth::user()->is_admin == 1)
-         <li><a href="{{ route('role.index')}}"><i class="fa fa-user green_color"></i> <span>Role</span></a></li>
+         <li><a href="{{ route('role.index')}}"><i class="fa fa-user-plus green_color"></i> <span>Role</span></a></li>
          @endif
 
          @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
-         <li><a href="{{ route('course.index')}}"><i class="fa fa-server green_color"></i> <span>Course</span></a></li>
+         <li><a href="{{ route('course.index')}}"><i class="fa fa-tasks green_color"></i> <span>Course</span></a></li>
          @endif
 
          @if(Auth::user()->is_admin == 1 )
-         <li><a href="{{ route('discipline.index')}}"><i class="fa fa-building green_color"></i> <span>Discipline</span></a></li>
+         <li><a href="{{ route('discipline.index')}}"><i class="fa fa-th-large green_color"></i> <span>Discipline</span></a></li>
          @endif
 
          @if(Auth::user()->is_admin == 1)
-         <li><a href="{{ route('designation.index')}}"><i class="fa fa-building green_color"></i> <span>Designation</span></a></li>
+         <li><a href="{{ route('designation.index')}}"><i class="fa fa-users green_color"></i> <span>Designation</span></a></li>
          @endif
 
          @if(Auth::user()->is_admin == 1 ||
@@ -71,19 +71,19 @@
 
                @if(Auth::user()->role && (Auth::user()->role['name'] == 'Accountant' || Auth::user()->role['name'] == 'Admin') || Auth::user()->is_admin == 1)
                <li>
-                  <a href="{{ route('remuneration.newlist')}}"><i class="fa fa-tasks white_color"></i> <span>Remuneration List</span></a>
+                  <a href="{{ route('remuneration.newlist')}}"><i class="fa fa-th-list white_color"></i> <span>Remuneration List</span></a>
                </li>
                @endif
 
                @if(Auth::user()->role && Auth::user()->role['name'] == 'Teacher')
                <li>
-                  <a href="{{ route('myream.myNewList')}}"><i class="fa fa-tasks white_color"></i> <span>Remuneration List</span></a>
+                  <a href="{{ route('myream.myNewList')}}"><i class="fa fa-th-list white_color"></i> <span>Remuneration List</span></a>
                </li>
                @endif
 
                @if(Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Admin')
                   <li>
-                     <a href="{{ route('remuneration-category.index')}}"><i class="fa fa-folder-open white_color">
+                     <a href="{{ route('remuneration-category.index')}}"><i class="fa fa-th white_color">
                   </i> <span>Remuneration Category</span></a></li>
                @endif
 
@@ -99,21 +99,21 @@
 
          @if(Auth::user()->is_admin == 1)
          <li>
-            <a href="#element_exam" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-book green_color"></i> <span>Exam</span></a>
+            <a href="#element_exam" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-language green_color"></i> <span>Exam</span></a>
             <ul class="collapse list-unstyled" id="element_exam">
                <li><a href="{{ route('exam.index')}}"><i class="fa fa-book white_color"></i><span>Exam</span></a></li>
                <li><a href="{{ route('year.index')}}"><i class="fa fa-calendar white_color"></i> <span>Year</span></a></li>
                <li><a href="{{ route('term.index')}}"><i class="fa fa fa-clock-o white_color"></i> <span>Term</span></a></li>
-               <li><a href="{{ route('session.index')}}"><i class="fa fa fa-clock-o white_color"></i> <span>Session</span></a></li>
+               <li><a href="{{ route('session.index')}}"><i class="fa fa-history white_color"></i> <span>Session</span></a></li>
             </ul>
          </li>
          @endif
 
          <li>
-            <a href="#element_settings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-cog red_color"></i> <span>Settings</span></a>
+            <a href="#element_settings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-cog green_color"></i> <span>Settings</span></a>
             <ul class="collapse list-unstyled" id="element_settings">
-               <li><a href="{{ route('profile.edit') }}"><i class="fa fa-pencil yellow_color"></i><span>Edit Profile</span></a></li>
-               <li><a href="{{ route('setting')}}"><i class="fa fa-key red_color"></i> <span>Change password</span></a></li>
+               <li><a href="{{ route('profile.edit') }}"><i class="fa fa-pencil white_color"></i><span>Edit Profile</span></a></li>
+               <li><a href="{{ route('setting')}}"><i class="fa fa-key white_color"></i> <span>Change password</span></a></li>
             </ul>
          </li>
 

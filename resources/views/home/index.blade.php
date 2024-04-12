@@ -7,7 +7,7 @@
          <div class="full counter_section margin_bottom_30">
             <div class="couter_icon">
                <div> 
-                  <i class="fa fa-user yellow_color"></i>
+                  <i class="fa fa-user blue1_color"></i>
                </div>
             </div>
             <div class="counter_no">
@@ -46,7 +46,7 @@
          <div class="full counter_section margin_bottom_30">
             <div class="couter_icon">
                <div> 
-                  <i class="fa fa-cloud-download green_color"></i>
+                  <i class="fa fa-th-list blue1_color"></i>
                </div>
             </div>
             <div class="counter_no">
@@ -71,7 +71,7 @@
             <div class="counter_no">
                <div>
                   <a href="{{ route('remuneration.index') }}">
-                     <p class="head_couter">Filter Remuneration</p>
+                     <p class="head_couter">Search Remuneration</p>
                   </a>            
                </div>
             </div>
@@ -98,12 +98,31 @@
       </div>
    @endif
 
+   @if(Auth::user()->role && Auth::user()->role['name'] == 'Teacher')
+   <div class="col-md-6 col-lg-4">
+      <div class="full counter_section margin_bottom_30">
+         <div class="couter_icon">
+            <div> 
+               <i class="fa fa-th-list blue1_color"></i>
+            </div>
+         </div>
+         <div class="counter_no">
+            <div>
+               <a href="{{ route('myream.myNewList') }}">
+                  <p class="head_couter">All Remuneration</p>
+               </a>
+            </div>
+         </div>
+      </div>
+   </div>
+   @endif
+
    @if(Auth::user()->role && Auth::user()->role['name'] == 'Accountant')
       <div class="col-md-6 col-lg-4">
          <div class="full counter_section margin_bottom_30">
             <div class="couter_icon">
                <div> 
-                  <i class="fa fa-pencil-square-o blue1_color"></i>
+                  <i class="fa fa-th-list blue1_color"></i>
                </div>
             </div>
             <div class="counter_no">
