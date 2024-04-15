@@ -34,7 +34,6 @@ class RemunerationController extends Controller
         $this->middleware('auth');
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -122,13 +121,187 @@ class RemunerationController extends Controller
         return view('remuneration.index', compact('exams', 'disciplines', 'users'));
     }
 
-
     /**
-     * Display a listing of the resource.
+     * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function create()
+    {
+        $categories = RemunerationCategory::all();
+        if (Auth::user()->is_admin == 1) {
+            $disciplines = Descipline::all();
+        } else {
 
+            $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
+        }
+        $exams = Exam::all();
+        $users = User::all();
+        $designations = Designation::all();
+        $types = Type::all();
+        return view('remuneration.create', compact('categories', 'disciplines', 'exams', 'users', 'designations', 'types'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // return $request;
+        // validation 
+        $user = $request->teacher;
+        $course = $request->course;
+        $number = $request->number;
+        $student = $request->student;
+        $paper = $request->paper;
+
+        if (!$request->teacher) {
+            $notification = array('message' => 'Please inset all data', 'alert-type' => 'error');
+            return redirect()->back()->with($notification);
+        }
+
+
+        for ($count = 0; $count < count($user); $count++) {
+            $data = array(
+                'discipline_id' => $request->discipline_id,
+                'exam_id' => $request->exam_id,
+                'category_id' => $request->category_id,
+                'rate_id' => $request->rate_id,
+                'type_id' => $request->type_id,
+                'paper' => $paper[$count],
+                'course_id' => $course[$count],
+                'user_id' => $user[$count],
+                'number' => $number[$count],
+                'students' => $student[$count],
+                "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+                "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+
+            );
+
+            $insert_date[] = $data;
+        }
+
+        Remuneration::insert($insert_date);
+
+        $notification = array('message' => 'Remuneration Addes', 'alert-type' => 'success');
+
+        if ($request->save == 'save') {
+            return redirect()->route('remuneration.index')->with($notification);
+        } else if ($request->save_another == 'save_another') {
+            return redirect()->route('remuneration.create')->with($notification);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $categories = RemunerationCategory::all();
+        if (Auth::user()->is_admin == 1) {
+            $disciplines = Descipline::all();
+            $users = User::all();
+            $courses = Course::all();
+        } else {
+            $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
+            $users = User::where('descipline_id',  Auth::user()->descipline_id)->get();
+            $courses = Course::where('descipline_id',  Auth::user()->descipline_id)->get();
+        }
+        $exams = Exam::all();
+
+        $designations = Designation::all();
+        $types = Type::all();
+
+
+        $rem = Remuneration::findOrFail(intval($id));
+        $rate = RemunerationRate::where('id', $rem->rate_id)->first();
+
+        return view('remuneration.edit', compact('categories', 'disciplines', 'exams', 'users', 'courses', 'designations', 'types', 'rem', 'rate'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    // public function update(Request $request, $id)
+    // {
+    //     $rem = Remuneration::findOrFail(intval($id));
+
+    //     $rem->discipline_id = $request->discipline_id;
+    //     $rem->exam_id = $request->exam_id;
+    //     $rem->category_id = $request->category_id;
+    //     $rem->rate_id = $request->rate_id;
+    //     $rem->type_id = $request->type_id;
+    //     $rem->paper = $request->paper;
+    //     $rem->course_id = $request->course_id;
+    //     $rem->user_id = $request->user_id;
+    //     $rem->number = $request->number;
+    //     $rem->students = $request->student;
+
+    //     $rem->save();
+
+    //     return redirect()->route('remuneration.index');
+    // }
+
+    public function update(Request $request, $id)
+    {
+        $rem = Remuneration::findOrFail(intval($id));
+
+        $rem->discipline_id = $request->discipline_id;
+        $rem->exam_id = $request->exam_id;
+        $rem->category_id = $request->category_id;
+        $rem->rate_id = $request->rate_id;
+        $rem->type_id = $request->type_id;
+        $rem->paper = $request->paper;
+        $rem->course_id = $request->course_id;
+        $rem->user_id = $request->user_id;
+        $rem->number = $request->number;
+        $rem->students = $request->student;
+
+        $rem->save();
+
+        // // Return the updated remuneration data
+        // $updatedRemuneration = Remuneration::with(['type', 'rate'])->findOrFail($id);
+
+        return redirect()->route('remuneration.newlist');
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $rem = Remuneration::findOrFail(intval($id));
+        $rem->delete();
+
+        $notification = array('message' => 'Remuneration Deleted!', 'alert-type' => 'success');
+        return redirect()->back()->with($notification);
+    }
+    
     // public function newList(Request $request)
     // {
     //     if ($request->ajax()) {
@@ -346,163 +519,6 @@ class RemunerationController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $categories = RemunerationCategory::all();
-        if (Auth::user()->is_admin == 1) {
-            $disciplines = Descipline::all();
-        } else {
-
-            $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
-        }
-        $exams = Exam::all();
-        $users = User::all();
-        $designations = Designation::all();
-        $types = Type::all();
-        return view('remuneration.create', compact('categories', 'disciplines', 'exams', 'users', 'designations', 'types'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // return $request;
-        // validation 
-        $user = $request->teacher;
-        $course = $request->course;
-        $number = $request->number;
-        $student = $request->student;
-        $paper = $request->paper;
-
-        if (!$request->teacher) {
-            $notification = array('message' => 'Please inset all data', 'alert-type' => 'error');
-            return redirect()->back()->with($notification);
-        }
-
-
-        for ($count = 0; $count < count($user); $count++) {
-            $data = array(
-                'discipline_id' => $request->discipline_id,
-                'exam_id' => $request->exam_id,
-                'category_id' => $request->category_id,
-                'rate_id' => $request->rate_id,
-                'type_id' => $request->type_id,
-                'paper' => $paper[$count],
-                'course_id' => $course[$count],
-                'user_id' => $user[$count],
-                'number' => $number[$count],
-                'students' => $student[$count],
-                "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
-                "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
-
-            );
-
-            $insert_date[] = $data;
-        }
-
-        Remuneration::insert($insert_date);
-
-        $notification = array('message' => 'Remuneration Addes', 'alert-type' => 'success');
-
-        if ($request->save == 'save') {
-            return redirect()->route('remuneration.index')->with($notification);
-        } else if ($request->save_another == 'save_another') {
-            return redirect()->route('remuneration.create')->with($notification);
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $categories = RemunerationCategory::all();
-        if (Auth::user()->is_admin == 1) {
-            $disciplines = Descipline::all();
-            $users = User::all();
-            $courses = Course::all();
-        } else {
-            $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
-            $users = User::where('descipline_id',  Auth::user()->descipline_id)->get();
-            $courses = Course::where('descipline_id',  Auth::user()->descipline_id)->get();
-        }
-        $exams = Exam::all();
-
-        $designations = Designation::all();
-        $types = Type::all();
-
-
-        $rem = Remuneration::findOrFail(intval($id));
-        $rate = RemunerationRate::where('id', $rem->rate_id)->first();
-
-        return view('remuneration.edit', compact('categories', 'disciplines', 'exams', 'users', 'courses', 'designations', 'types', 'rem', 'rate'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $rem = Remuneration::findOrFail(intval($id));
-
-        $rem->discipline_id = $request->discipline_id;
-        $rem->exam_id = $request->exam_id;
-        $rem->category_id = $request->category_id;
-        $rem->rate_id = $request->rate_id;
-        $rem->type_id = $request->type_id;
-        $rem->paper = $request->paper;
-        $rem->course_id = $request->course_id;
-        $rem->user_id = $request->user_id;
-        $rem->number = $request->number;
-        $rem->students = $request->student;
-
-        $rem->save();
-
-        return redirect()->route('remuneration.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $rem = Remuneration::findOrFail(intval($id));
-        $rem->delete();
-
-        $notification = array('message' => 'Remuneration Deleted!', 'alert-type' => 'success');
-        return redirect()->back()->with($notification);
-    }
-
     public function approve(Request $request)
     {
         $id = $request->id;
@@ -612,6 +628,7 @@ class RemunerationController extends Controller
         return $pdf->download($user->name . '-' . $exam->year['year'] . ' year -' . $exam->term['term'] . ' term -' . $exam->session['session'] . ' session.pdf');
     }
 
+    // My Remuneration
     public function myRem()
     {
         $exams = Exam::all();

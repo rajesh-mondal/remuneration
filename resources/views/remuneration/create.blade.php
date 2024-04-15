@@ -77,11 +77,7 @@
                                     </select>
                                  </div>
                               </div>
-
-
                            </div>
-
-
 
                            <!-- Question Preparation and Answer Script Examination -->
                            <div class="mt-4 text-right mb-2">
@@ -94,7 +90,7 @@
                                     <th style="width: 20%;">Name of Teacher</th>
                                     <th style="width: 15%;">Number</th>
                                     <th style="width: 15%;">Student (If*)</th>
-                                    <th style="width: 15%;">Half/Full paper</th>
+                                    <th style="width: 15%;">Half/Full Paper</th>
                                     <th style="width: 10%;">Action</th>
                                  </tr>
                               </thead>
@@ -112,11 +108,14 @@
                                     </td>
                                     <td><input type="number" min="1" name="number[]" class="form-control" /></td>
                                     <td><input type="number" min="1" name="student[]" class="form-control" /></td>
-                                    <td><select class="form-control" name="paper[]">
-                                          <option value="half">Half Paper</option>
+                                    <td>
+                                       <select class="form-control" name="paper[]">
+                                          {{-- <option value="" selected="" disabled> -- select --</option> --}}
                                           <option value="full">Full Paper</option>
-                                       </select></td>
+                                          <option value="half">Half Paper</option>
+                                       </select>
                                     </td>
+                                    {{-- </td> --}}
                               </tbody>
 
                            </table>
