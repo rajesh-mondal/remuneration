@@ -91,8 +91,8 @@
                                  <th>Paper</th>
                                  <th>Amount</th>
                                  <th>Status</th>
-                                 @if(Auth::user()->is_admin || Auth::user()->role['name'] == 'Admin')
-                                 <th>Action</th>
+                                 @if($user->is_admin || ($user->role && $user->role['name'] == 'Admin'))
+                                    <th>Action</th>
                                  @endif
                               </tr>
                            </thead>
@@ -154,11 +154,13 @@ $(document).ready(function() {
             { data: 'rempaper', name: 'rempaper' },
             { data: 'amount', name: 'amount' },
             { data: 'status', name: 'status' },
+            @if($user->is_admin || ($user->role && $user->role['name'] == 'Admin'))
             {
                data: 'action',
                name: 'action',
                orderable: false
             }
+            @endif
         ],
         initComplete: function(settings, json) {
             console.log(json); // Output the JSON data to the console for debugging

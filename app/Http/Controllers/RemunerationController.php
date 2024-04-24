@@ -159,7 +159,7 @@ class RemunerationController extends Controller
         $paper = $request->paper;
 
         if (!$request->teacher) {
-            $notification = array('message' => 'Please inset all data', 'alert-type' => 'error');
+            $notification = array('message' => 'Please insert all data', 'alert-type' => 'error');
             return redirect()->back()->with($notification);
         }
 
@@ -389,6 +389,8 @@ class RemunerationController extends Controller
     
     public function newList(Request $request)
     {
+        $user = Auth::user()->load('role');
+        
         if ($request->ajax()) {
             // Fetch remunerations with related type and rate
             $data = Remuneration::with(['type', 'rate'])->latest()->get();
@@ -492,7 +494,7 @@ class RemunerationController extends Controller
             $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
         }
         $users = User::orderBy('name', 'ASC')->get();
-        return view('remuneration.list', compact('exams', 'disciplines', 'users'));
+        return view('remuneration.list', compact('user', 'exams', 'disciplines', 'users'));
     }
 
     public function searchResult(Request $request)
