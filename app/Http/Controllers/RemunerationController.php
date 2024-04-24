@@ -283,7 +283,7 @@ class RemunerationController extends Controller
         // // Return the updated remuneration data
         // $updatedRemuneration = Remuneration::with(['type', 'rate'])->findOrFail($id);
 
-        return redirect()->route('remuneration.newlist');
+        return redirect()->back();
     }
 
 

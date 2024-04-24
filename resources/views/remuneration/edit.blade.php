@@ -2,10 +2,9 @@
 
 @section('content')
 
-
-<!-- graph -->
 <div class="row column2 graph margin_bottom_30">
     <div class="col-lg-12">
+        <a href="{{ route('remuneration.newlist') }}" class="btn btn-primary mb-3">Go Back</a>
         <div class="white_shd full">
             <div class="full graph_head">
                 <div class="heading1 margin_0">
@@ -78,8 +77,6 @@
                                                 </select>
                                             </div>
                                         </div>
-
-
                                     </div>
 
                                     <div class="form-row">
@@ -131,11 +128,7 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                     <button type="submit" id="save" class="btn btn-primary">Save</button>
-
-
                                 </form>
                             </div>
                         </div>
@@ -145,8 +138,6 @@
         </div>
     </div>
 </div>
-<!-- end graph -->
-
 
 <div class="modal fade" id="saveForm" tabindex="-1">
     <div class="modal-dialog">
@@ -165,7 +156,6 @@
         </div>
     </div>
 </div>
-
 
 @endsection
 
@@ -190,5 +180,4 @@
         })
     });
 </script>
-
 @endsection

@@ -2,14 +2,12 @@
 
 @section('content')
 
-
-<!-- graph -->
 <div class="row column2 graph margin_bottom_30">
     <div class="col-md-l2 col-lg-12">
         <div class="white_shd full">
             <div class="full graph_head">
                 <div class="heading1 margin_0">
-                    <h2>All Remuneration Category</h2>
+                    <h2>All Notification</h2>
                 </div>
             </div>
             <div class="full graph_revenue">
@@ -21,7 +19,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>type</th>
+                                            <th>Type</th>
                                             <th>Message</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -36,7 +34,6 @@
         </div>
     </div>
 </div>
-<!-- end graph -->
 
 <!-- delete modal -->
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog">
@@ -69,40 +66,37 @@
 @section('script')
 <script>
     $(document).ready(function() {
-
         $('#term_table').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
                 url: "{{ route('notification.index') }}",
             },
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false,
+            columns: [
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                { data: 'data.role', name: 'data.role' },
+                { data: 'data.data.feedback', name: 'data.data.feedback' },
+                { 
+                    data: 'status', 
+                    name: 'status',
+                    render: function(data) {
+                        if (data === 'Read') {
+                            return '<span class="badge badge-success badge-lg">' + data + '</span>';
+                        } else {
+                            return '<span class="badge badge-danger badge-lg">' + data + '</span>';
+                        }
+                    }
                 },
-                
-                {
-                    data: 'data.role',
-                    name: 'data.role'
-                },
-                {
-                    data: 'data.data.feedback',
-                    name: 'data.data.feedback'
-                },
-                {
-                    data: 'status',
-                    name: 'status'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false
-                }
-            ]
-        })
-    })
+                { data: 'action', name: 'action', orderable: false }
+            ],
+            "createdRow": function(row, data, dataIndex) {
+                var feedback = data['data']['data']['feedback'];
+                var status = data['status'];
+                var messageClass = (status === 'Read') ? 'notification-message-green' : 'notification-message-red';
+                $(row).find('td:nth-child(3)').html('<div class="' + messageClass + '">' + feedback + '</div>');
+            }
+        });
+    });
 
     $(document).on('click', '.delete', function() {
         $('#delete_modal').modal('show');
@@ -110,4 +104,41 @@
         $('#delete_form').attr('action', route);
     });
 </script>
+
+<style>
+    .notification-message-green {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid;
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .notification-message-red {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid;
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+        color: #ffffff;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+        color: #ffffff;
+    }
+
+    .badge-lg {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    body {
+        color: #000000;
+    }
+</style>
 @endsection

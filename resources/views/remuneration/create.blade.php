@@ -180,7 +180,7 @@
          html += '<td><select class="form-control teacher" name="teacher[]" id="teacher_' + number + '"><option value="" selected="" disabled> -- select teacher --</option></select></td>';
          html += '<td><input type="number" min="1" name="number[]" class="form-control" /></td>';
          html += '<td><input type="number" min="1" name="student[]" class="form-control" /></td>';
-         html += '<td><select class="form-control" name="paper[]"><option value="half">Half Paper</option><option value="full">Full Paper</option></select></td></td>';
+         html += '<td><select class="form-control" name="paper[]"><option value="full">Full Paper</option><option value="half">Half Paper</option></select></td></td>';
          if (number > 0) {
             html += '<td><button type="button" name="remove" id="" class="btn btn-danger remove">Remove</button></td></tr>';
             $('tbody').append(html);
@@ -214,7 +214,6 @@
          $(this).closest("tr").remove();
       });
 
-
       $.ajax({
          url: "{{ route('get.course') }}",
          dataType: "json",
@@ -231,7 +230,6 @@
          }
       })
 
-
       $(document).on('change', '#category_id', function() {
          var id = $(this).val();
 
@@ -245,14 +243,11 @@
          })
       });
 
-
       $('#save').click(function() {
-
          $('#save_value').val('save');
          $('#saveForm').modal('show');
          // $('#dynamic_form').submit()
       })
-
 
       $('#save_another').click(function() {
 
@@ -261,12 +256,9 @@
          // $('#dynamic_form').submit()
       })
 
-
       $('#saveButton').click(function() {
          $('#dynamic_form').submit();
       })
-
-
 
    });
 </script>

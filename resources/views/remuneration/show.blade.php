@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- graph -->
     <div class="row column2 graph margin_bottom_30">
         <div class="col-md-12">
             <a href="{{ route('remuneration.index') }}" class="btn btn-primary mb-3">Go Back</a>
@@ -16,7 +15,7 @@
                             <input type="hidden" name="exam_id" value="{{ $exam->id }}">
                             <input type="hidden" name="discipline_id" value="{{ $discipline->id }}">
                             <input type="hidden" name="user_id" value="{{ $user->id }}">
-                            <button type="submit" class="btn btn-success">Generate Pdf</button>
+                            <button type="submit" class="btn btn-outline-success">Generate PDF</button>
                         </form>
                     </div>
                 </div>
@@ -65,7 +64,7 @@
                                                             {{ $rem->rate['amount'] }} 
                                                         @endif
                                                     </td>
-                                                    <td>{{ $rem->number }} ({{ $rem->type['name'] }})</td>
+                                                    <td>{{ $rem->number }} ({{ optional($rem->type)->name }})</td>
                                                     <td>{{ $rem->students }}</td>
                                                     <td>{{ $rem->paper }}</td>
                                                     <td>
@@ -88,14 +87,13 @@
                                                             
                                                         @endphp
 
-
                                                         {{ $total }}
 
                                                     </td>
                                                     <td>
-                                                        <a href="#" class="btn btn-primary">Edit</a>
-                                                        <a href="#" class="btn btn-danger">Delete</a>
-                                                    </td>
+                                                        <a href="{{ route('remuneration.edit', $rem->id) }}" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                        <a href="{{ route('remuneration.destroy', $rem->id) }}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                    </td>                                                                                                      
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -108,5 +106,4 @@
             </div>
         </div>
     </div>
-    <!-- end graph -->
 @endsection

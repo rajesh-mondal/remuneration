@@ -22,7 +22,7 @@ class NotificationController extends Controller
                     }
                 })
                 ->addColumn('action', function ($data) {
-                    $button = '<a href="' . route('notification.show', $data->id) . '" class="edit btn btn-primary">View</a>';
+                    $button = '<a href="' . route('notification.show', $data->id) . '" class="edit btn btn-primary">View <i class="fa fa-eye" aria-hidden="true"></i></a>';
 
                     return $button;
                 })
