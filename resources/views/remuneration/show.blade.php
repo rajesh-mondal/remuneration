@@ -92,7 +92,14 @@
                                                     </td>
                                                     <td>
                                                         <a href="{{ route('remuneration.edit', $rem->id) }}" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                        <a href="{{ route('remuneration.destroy', $rem->id) }}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                        {{-- <a href="{{ route('remuneration.destroy', $rem->id) }}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a> --}}
+                                                        <form action="{{ route('remuneration.destroy', $rem->id) }}" method="POST" style="display:inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
+                                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                            </button>
+                                                        </form>
                                                     </td>                                                                                                      
                                                 </tr>
                                             @endforeach

@@ -172,7 +172,7 @@ class RemunerationController extends Controller
                 'rate_id' => $request->rate_id,
                 'type_id' => $request->type_id,
                 'paper' => $paper[$count],
-                'course_id' => $course[$count],
+                'course_id' => $request->course_id,
                 'user_id' => $user[$count],
                 'number' => $number[$count],
                 'students' => $student[$count],
@@ -301,91 +301,6 @@ class RemunerationController extends Controller
         $notification = array('message' => 'Remuneration Deleted!', 'alert-type' => 'success');
         return redirect()->back()->with($notification);
     }
-    
-    // public function newList(Request $request)
-    // {
-    //     if ($request->ajax()) {
-    //         // $data = Remuneration::latest()->get();
-    //         $data = Remuneration::with('type')->latest()->get();
-    //         dd($data);
-    //         return DataTables::of($data)
-    //             ->addColumn('teacher', function ($data) {
-    //                 if ($data->user) {
-    //                     return $data->user['name'];
-    //                 }
-    //             })
-    //             ->addColumn('discipline', function ($data) {
-    //                 if ($data->discipline) {
-    //                     return $data->discipline['name'];
-    //                 }
-    //             })
-    //             ->addColumn('exam', function ($data) {
-    //                 if ($data->exam) {
-    //                     return $data->exam['year']['year'] . ' year - ' . $data->exam['term']['term'] . ' Term (Session: ' . $data->exam['session']['session'] . ')';
-    //                 }
-    //             })
-    //             ->addColumn('category', function ($data) {
-    //                 if ($data->category) {
-    //                     return $data->category['name'];
-    //                 }
-    //             })
-    //             ->addColumn('rempaper', function ($data) {
-    //                 if ($data->paper == 'helf') {
-    //                     return "Half";
-    //                 } else {
-    //                     return "Full";
-    //                 }
-    //             })
-    //             ->addColumn('amount', function ($data) {
-    //                 if ($data->rate) {
-    //                     if ($data->paper == 'half') {
-    //                         $amount = $data->rate['amount'] / 2;
-    //                     } else {
-    //                         $amount = $data->rate['amount'];
-    //                     }
-
-    //                     if ($data->number && $data->students) {
-    //                         $total = $amount * $data->number * $data->students;
-    //                     } elseif ($data->number != null) {
-    //                         $total = $amount * $data->number;
-    //                     } elseif ($data->students != null) {
-    //                         $total = $amount * $data->students;
-    //                     }
-
-    //                     return $total;
-    //                 }
-    //             })
-    //             ->addColumn('numbers', function ($data) {
-    //                 return $data->number . ' (' . optional($data->type)->name . ')';
-    //             })
-    //             ->addColumn('status', function ($data) {
-    //                 switch ($data->status) {
-    //                     case 0:
-    //                         return '<span class="badge badge-warning">Pending</span>';
-    //                     case 1:
-    //                         return '<span class="badge badge-success">Approved</span>';
-    //                     case 2:
-    //                         return '<span class="badge badge-danger">Rejected</span>';
-    //                     default:
-    //                         return '';
-    //                 }
-    //             })
-    //             ->rawColumns(['teacher', 'discipline', 'exam', 'category', 'rempaper', 'amount',  'numbers', 'status'])
-    //             ->addIndexColumn()
-    //             ->make(true);
-    //     }
-
-    //     $exams = Exam::all();
-    //     if (Auth::user()->is_admin == 1 || Auth::user()->role['name'] == 'Accountant') {
-    //         $disciplines = Descipline::all();
-    //     } else {
-    //         $disciplines = Descipline::where('id', Auth::user()->descipline_id)->get();
-    //     }
-    //     $users = User::orderBy('name', 'ASC')->get();
-    //     return view('remuneration.list', compact('exams', 'disciplines', 'users'));
-    // }
-
-    //search result
     
     public function newList(Request $request)
     {

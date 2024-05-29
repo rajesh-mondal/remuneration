@@ -66,7 +66,7 @@ class CourseController extends Controller
     {
         $request->validate([
             'course' => 'required|unique:courses',
-            'title' => 'required',
+            'title' => 'nullable',
             'descipline_id' => 'required',
         ]);
 
@@ -124,13 +124,13 @@ class CourseController extends Controller
         if ($course->course == $request->course) {
             $request->validate([
                 'course' => 'required',
-                'title' => 'required',
+                'title' => 'nullable',
                 'descipline_id' => 'required',
             ]);
         } else {
             $request->validate([
                 'course' => 'required|unique:courses',
-                'title' => 'required',
+                'title' => 'nullable',
                 'descipline_id' => 'required',
             ]);
         }
