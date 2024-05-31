@@ -94,7 +94,7 @@
                 <p><span class="bangla" style="font-size: 17px;">ডিসিপ্লিন / বিভাগ</span>: {{ $discipline->name }}</p>
             </td>
             <td>
-                <p><span class="bangla" style="font-size: 17px;">টার্ম</span>: {{ $exam->term['term'] }} / <span class="bangla" style="font-size: 17px;">স্পেশাল টার্ম/ পরীক্ষা</span>- {{ date('Y', strtotime($exam->created_at)) }}</p>
+                <p><span class="bangla" style="font-size: 17px;">টার্ম</span>: {{ $exam->term['term'] }} / <span class="bangla" style="font-size: 17px;">স্পেশাল টার্ম/ পরীক্ষা</span>- {{ date('Y', strtotime($exam->start_date)) }}</p>
             </td>
         </tr>
         <tr>
@@ -146,13 +146,15 @@
                 <td>{{ $loop->index + 1 }}</td>
                 <td><span class="bangla">{{ $category->name }}</td>
                 <td>
-                    @if($rems->count() > 1)
-                    {{ $rems->count() }} Courses
-                    @else
-                    @foreach($rems as $rem)
-                    {{ $rem->course['course'] }}
-                    @endforeach
-                    @endif
+                    {{-- @if($rems->count() > 1)
+                        {{ $rem->course['course'] }},
+                    @else --}}
+                        @foreach($rems as $rem)
+                            @if($rem->course)
+                                {{ $rem->course['course'] }}
+                            @endif
+                        @endforeach
+                    {{-- @endif --}}
                 </td>
                 <td>
                     @php
@@ -190,30 +192,29 @@
                 </td>
                 <td>
                     @if($rems->count() == 1)
-                    @foreach($rems as $rem)
-                    @if($rem->paper == 'half')
-                    <span class="bangla">অর্ধপত্র</span>
-                    @else
-                    <span class="bangla">পূর্ণপত্র</span>
-                    @endif
-                    @endforeach
+                        @foreach($rems as $rem)
+                            @if($rem->paper == '')
+                                <span class="bangla"></span>
+                            @elseif($rem->paper == 'half')
+                                <span class="bangla">অর্ধপত্র</span>
+                            @else
+                                <span class="bangla">পূর্ণপত্র</span>
+                            @endif
+                        @endforeach
                     @endif
                 </td>
                 <td>
 
                     @foreach($rems as $rem)
-                    @php
-                    $rate = App\Models\RemunerationRate::where('id', $rem->rate_id)
-                    ->first();
-                    @endphp
-
-                    
+                        @php
+                            $rate = App\Models\RemunerationRate::where('id', $rem->rate_id)
+                            ->first();
+                        @endphp
                     @endforeach
-
+                    
                     @if($rems->count() > 0)
-                    {{ $rate->amount }}
+                        {{ $rate->amount }}
                     @endif
-
 
                 </td>
                 <td>
@@ -222,18 +223,19 @@
 
                     if($rems->count() > 0){
                     foreach($rems as $rem){
-                    if($rem->paper == 'half'){
-                    $amount = $rem->rate['amount'] / 2;
-                    }else{
-                    $amount = $rem->rate['amount'];
-                    }
+                        if($rem->paper == 'half'){
+                            $amount = $rem->rate['amount'];
+                            // $amount = $rem->rate['amount'] / 2;
+                        }else{
+                            $amount = $rem->rate['amount'];
+                        }
 
                     if($rem->number && $rem->students){
-                    $total = $amount * $rem->number * $rem->students;
+                        $total = $amount * $rem->number * $rem->students;
                     }elseif($rem->number != null){
-                    $total = $amount * $rem->number;
+                        $total = $amount * $rem->number;
                     }elseif($rem->students != null){
-                    $total = $amount * $rem->students;
+                        $total = $amount * $rem->students;
                     }
 
                     $grand_total = $grand_total + $total;
@@ -242,7 +244,7 @@
 
                     }
                     }else{
-                    $sum = "";
+                        $sum = "";
                     }
 
 

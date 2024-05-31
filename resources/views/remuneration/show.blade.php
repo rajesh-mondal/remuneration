@@ -53,7 +53,11 @@
                                                 <tr>
                                                     <td>{{ $loop->index + 1 }}</td>
                                                     <td>{{ $rem->category['name'] }}</td>
-                                                    <td>{{ $rem->course->course }}</td>
+                                                    <td>
+                                                        @if($rem->course)
+                                                            {{ $rem->course->course }}
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         @if($rem->rate)
                                                             {{ $rem->rate['title'] }}

@@ -165,13 +165,19 @@ class RemunerationController extends Controller
 
 
         for ($count = 0; $count < count($user); $count++) {
+            if (is_array($paper) && isset($paper[$count])) {
+                $paperValue = $paper[$count];
+            } else {
+                $paperValue = null;
+            }
+
             $data = array(
                 'discipline_id' => $request->discipline_id,
                 'exam_id' => $request->exam_id,
                 'category_id' => $request->category_id,
                 'rate_id' => $request->rate_id,
                 'type_id' => $request->type_id,
-                'paper' => $paper[$count],
+                'paper' => $paperValue,
                 'course_id' => $request->course_id,
                 'user_id' => $user[$count],
                 'number' => $number[$count],

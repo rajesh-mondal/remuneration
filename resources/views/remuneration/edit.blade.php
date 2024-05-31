@@ -120,11 +120,11 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="">Paper (Half/Full)</label>
-                                                <select class="form-control" name="paper" id="paper">
+                                                <select class="form-control" name="paper[]" id="paper">
+                                                    <option value="" selected="" disabled> -- select --</option>
                                                     <option value="half" {{ $rem->paper == 'half' ? 'selected' : '' }}>Half Paper</option>
                                                     <option value="full" {{ $rem->paper == 'full' ? 'selected' : '' }}>Full Paper</option>
                                                 </select>
-
                                             </div>
                                         </div>
                                     </div>

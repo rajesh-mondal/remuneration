@@ -110,7 +110,7 @@
                                     <td><input type="number" min="1" name="student[]" class="form-control" /></td>
                                     <td>
                                        <select class="form-control" name="paper[]">
-                                          {{-- <option value="" selected="" disabled> -- select --</option> --}}
+                                          <option value="" selected="" disabled> -- select --</option>
                                           <option value="full">Full Paper</option>
                                           <option value="half">Half Paper</option>
                                        </select>
