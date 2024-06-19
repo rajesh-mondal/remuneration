@@ -29,10 +29,26 @@
                            </div>
 
                            <div class="form-group">
+                              <label>Email</label>
+                              <input type="text" name="email" id="email" class="form-control" value="{{ $user->email }}">
+                              @if($errors->has('email'))
+                                 <small style="color:red">{{ $errors->first('email') }}</small>
+                              @endif
+                           </div>
+
+                           <div class="form-group">
                               <label>Phone</label>
                               <input type="text" name="phone" id="phone" class="form-control" value="{{ $user->phone }}">
                               @if($errors->has('phone'))
                                  <small style="color:red">{{ $errors->first('phone') }}</small>
+                              @endif
+                           </div>
+
+                           <div class="form-group">
+                              <label>Account No.</label>
+                              <input type="text" name="account" id="account" class="form-control" value="{{ $user->account }}">
+                              @if($errors->has('account'))
+                                 <small style="color:red">{{ $errors->first('account') }}</small>
                               @endif
                            </div>
 

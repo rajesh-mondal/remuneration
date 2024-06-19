@@ -154,7 +154,7 @@ class RemunerationController extends Controller
         // validation 
         $user = $request->teacher;
         $course = $request->course;
-        $number = $request->number;
+        $number = $request->number ?? [];
         $student = $request->student;
         $paper = $request->paper;
 
@@ -178,13 +178,12 @@ class RemunerationController extends Controller
                 'rate_id' => $request->rate_id,
                 'type_id' => $request->type_id,
                 'paper' => $paperValue,
-                'course_id' => $request->course_id,
+                'course_id' => isset($course[$count]) ? $course[$count] : null,
                 'user_id' => $user[$count],
-                'number' => $number[$count],
+                'number' => $number[$count] ?? null,
                 'students' => $student[$count],
                 "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
                 "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
-
             );
 
             $insert_date[] = $data;
@@ -200,6 +199,139 @@ class RemunerationController extends Controller
             return redirect()->route('remuneration.create')->with($notification);
         }
     }
+
+    // public function store(Request $request)
+    // {
+    //     // Retrieve input data
+    //     $user = $request->teacher;
+    //     $course = $request->course;
+    //     $number = $request->number;
+    //     $student = $request->student;
+    //     $paper = $request->paper;
+    
+    //     // Validation for teacher
+    //     if (!$request->teacher) {
+    //         $notification = array('message' => 'Please insert all data', 'alert-type' => 'error');
+    //         return redirect()->back()->with($notification);
+    //     }
+    
+    //     // Initialize an array to hold the data to be inserted
+    //     $insert_date = [];
+    
+    //     // Loop through each teacher
+    //     for ($count = 0; $count < count($user); $count++) {
+    //         // Get the paper value, handling potential null values
+    //         $paperValue = (is_array($paper) && isset($paper[$count])) ? $paper[$count] : null;
+    
+    //         // Ensure course_id is set correctly
+    //         $course_id = isset($course[$count]) ? $course[$count] : null;
+    
+    //         // Create the data array for the current teacher
+    //         $data = array(
+    //             'discipline_id' => $request->discipline_id,
+    //             'exam_id' => $request->exam_id,
+    //             'category_id' => $request->category_id,
+    //             'rate_id' => $request->rate_id,
+    //             'type_id' => $request->type_id,
+    //             'paper' => $paperValue,
+    //             'course_id' => $request->course_id,
+    //             'user_id' => $user[$count],
+    //             'number' => $number[$count],
+    //             'students' => $student[$count],
+    //             "created_at" =>  \Carbon\Carbon::now(), // Use Carbon for date-time
+    //             "updated_at" => \Carbon\Carbon::now(),  // Use Carbon for date-time
+    //         );
+    
+    //         // Add the data to the array
+    //         $insert_date[] = $data;
+    //     }
+    
+    //     // Insert the data into the database with error handling
+    //     try {
+    //         Remuneration::insert($insert_date);
+    //         // Prepare a success notification
+    //         $notification = array('message' => 'Remuneration Added', 'alert-type' => 'success');
+    //     } catch (\Exception $e) {
+    //         // Log the error
+    //         \Log::error('Error inserting remuneration data: ' . $e->getMessage());
+    //         // Prepare an error notification
+    //         $notification = array('message' => 'Failed to add remuneration', 'alert-type' => 'error');
+    //     }
+    
+    //     // Redirect based on the save action
+    //     if ($request->save == 'save') {
+    //         return redirect()->route('remuneration.index')->with($notification);
+    //     } else if ($request->save_another == 'save_another') {
+    //         return redirect()->route('remuneration.create')->with($notification);
+    //     }
+    // }
+
+//     public function store(Request $request)
+// {
+//     // Retrieve input data
+//     $user = $request->teacher;
+//     $course = $request->course;
+//     $number = $request->number;
+//     $student = $request->student;
+//     $paper = $request->paper;
+
+//     // Validation for teacher
+//     if (!$request->teacher) {
+//         $notification = array('message' => 'Please insert all data', 'alert-type' => 'error');
+//         return redirect()->back()->with($notification);
+//     }
+
+//     // Initialize an array to hold the data to be inserted
+//     $insert_date = [];
+
+//     // Loop through each teacher
+//     for ($count = 0; $count < count($user); $count++) {
+//         // Get the paper value, handling potential null values
+//         $paperValue = (is_array($paper) && isset($paper[$count])) ? $paper[$count] : null;
+
+//         // Ensure course_id is set correctly
+//         $course_id = isset($course[$count]) ? $course[$count] : null;
+
+//         // Create the data array for the current teacher
+//         $data = array(
+//             'discipline_id' => $request->discipline_id,
+//             'exam_id' => $request->exam_id,
+//             'category_id' => $request->category_id,
+//             'rate_id' => $request->rate_id,
+//             'type_id' => $request->type_id,
+//             'paper' => $paperValue,
+//             'course_id' => $course_id,
+//             'user_id' => $user[$count],
+//             'number' => $number[$count],
+//             'students' => $student[$count],
+//             "created_at" =>  \Carbon\Carbon::now(), // Use Carbon for date-time
+//             "updated_at" => \Carbon\Carbon::now(),  // Use Carbon for date-time
+//         );
+
+//         // Add the data to the array
+//         $insert_date[] = $data;
+//     }
+
+//     // Insert the data into the database with error handling
+//     try {
+//         Remuneration::insert($insert_date);
+//         // Prepare a success notification
+//         $notification = array('message' => 'Remuneration Added', 'alert-type' => 'success');
+//     } catch (\Exception $e) {
+//         // Log the error
+//         \Log::error('Error inserting remuneration data: ' . $e->getMessage());
+//         // Prepare an error notification
+//         $notification = array('message' => 'Failed to add remuneration', 'alert-type' => 'error');
+//     }
+
+//     // Redirect based on the save action
+//     if ($request->save == 'save') {
+//         return redirect()->route('remuneration.index')->with($notification);
+//     } else if ($request->save_another == 'save_another') {
+//         return redirect()->route('remuneration.create')->with($notification);
+//     }
+// }
+
 
     /**
      * Display the specified resource.

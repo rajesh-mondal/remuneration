@@ -180,7 +180,7 @@
          html += '<td><select class="form-control teacher" name="teacher[]" id="teacher_' + number + '"><option value="" selected="" disabled> -- select teacher --</option></select></td>';
          html += '<td><input type="number" min="1" name="number[]" class="form-control" /></td>';
          html += '<td><input type="number" min="1" name="student[]" class="form-control" /></td>';
-         html += '<td><select class="form-control" name="paper[]"><option value="full">Full Paper</option><option value="half">Half Paper</option></select></td></td>';
+         html += '<td><select class="form-control" name="paper[]"><option value="">--select--</option><option value="full">Full Paper</option><option value="half">Half Paper</option></select></td></td>';
          if (number > 0) {
             html += '<td><button type="button" name="remove" id="" class="btn btn-danger remove">Remove</button></td></tr>';
             $('tbody').append(html);

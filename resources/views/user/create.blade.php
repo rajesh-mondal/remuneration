@@ -43,6 +43,14 @@
                            </div>
 
                            <div class="form-group">
+                              <label>Account No.</label>
+                              <input type="text" name="account" id="account" class="form-control">
+                              @if($errors->has('account'))
+                                 <small style="color:red">{{ $errors->first('account') }}</small>
+                              @endif
+                           </div>
+
+                           <div class="form-group">
                               <label>Address</label>
                               <input type="text" name="address" id="address" class="form-control">
                               @if($errors->has('address'))

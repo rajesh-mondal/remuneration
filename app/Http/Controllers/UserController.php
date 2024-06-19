@@ -77,6 +77,7 @@ class UserController extends Controller {
             'name'           => 'required|string|max:255',
             'email'          => 'nullable|string|max:255',
             'phone'          => 'nullable|max:15|unique:users',
+            'account'        => 'nullable|string|max:255',
             'address'        => 'nullable|string|max:255',
             'password'       => 'required|string|min:8',
             'designation_id' => 'nullable',
@@ -90,6 +91,7 @@ class UserController extends Controller {
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
+        $user->account = $request->account;
         $user->address = $request->address;
         $user->password = Hash::make($request->password);
         $user->designation_id = $request->designation_id;

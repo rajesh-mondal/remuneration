@@ -37,7 +37,7 @@
         }
 
         p{
-            font-size: 15px;
+            font-size: 14px;
         }
 
         h4 {
@@ -121,7 +121,7 @@
                 <td>#</td>
                 <td><span class="bangla" style="font-size: 16px;">বিবরণ</span></td>
                 <td><span class="bangla" style="font-size: 16px;">কোর্স নম্বর</span></td>
-                <td><span class="bangla" style="font-size: 16px;">প্রশ্ন/খাতা/কোর্স<br>পরীক্ষক/দিনের সংখ্যা</span></td>
+                <td><span class="bangla" style="font-size: 16px;">প্রশ্ন/খাতা/কোর্স/<br>দিনের সংখ্যা</span></td>
                 <td><span class="bangla" style="font-size: 16px;">ছাত্র সংখ্যা</span></td>
                 <td><span class="bangla" style="font-size: 16px;">অর্ধ/পূর্ণপত্র</span></td>
                 <td><span class="bangla" style="font-size: 16px; text-align: center;">পারিতোষিক<br>হার</span></td>
@@ -156,7 +156,8 @@
                         @endforeach
                     {{-- @endif --}}
                 </td>
-                <td>
+                {{-- Previous technique --}}
+                {{-- <td>
                     @php
                     $number = 0;
                     if($rems->count() > 0){
@@ -170,7 +171,30 @@
 
                     {{ $number }}
 
+                </td> --}}
+                <td>
+                    @php
+                        $numbers = []; // Initialize an empty array to collect numbers
+                
+                        // Collect numbers if there are any remunerations
+                        if ($rems->count() > 0) {
+                            foreach ($rems as $rem) {
+                                $numbers[] = $rem->number; // Collect each number
+                            }
+                        }
+                
+                        $uniqueNumbers = array_unique($numbers); // Ensure unique numbers
+                    @endphp
+                
+                    @if(count($uniqueNumbers) > 1)
+                        {{ implode(', ', $uniqueNumbers) }}
+                    @elseif(count($uniqueNumbers) == 1)
+                        {{ $uniqueNumbers[0] }}
+                    @else
+
+                    @endif
                 </td>
+
                 <td>
                     @php
                     $students = 0;
@@ -191,20 +215,19 @@
 
                 </td>
                 <td>
-                    @if($rems->count() == 1)
-                        @foreach($rems as $rem)
-                            @if($rem->paper == '')
-                                <span class="bangla"></span>
-                            @elseif($rem->paper == 'half')
-                                <span class="bangla">অর্ধপত্র</span>
-                            @else
-                                <span class="bangla">পূর্ণপত্র</span>
-                            @endif
-                        @endforeach
-                    @endif
+                    @foreach($rems as $rem)
+                        @if($rem->paper == 'full')
+                            <span class="bangla">পূর্ণপত্র</span>
+                        @elseif($rem->paper == 'half')
+                            <span class="bangla">অর্ধপত্র</span>
+                        @else
+                            <span class="bangla"></span>
+                        @endif
+                    @endforeach
                 </td>
-                <td>
-
+                
+                {{-- Previous technique --}}
+                {{-- <td>
                     @foreach($rems as $rem)
                         @php
                             $rate = App\Models\RemunerationRate::where('id', $rem->rate_id)
@@ -215,8 +238,35 @@
                     @if($rems->count() > 0)
                         {{ $rate->amount }}
                     @endif
+                </td> --}}
 
+                <td>
+                    @php
+                        $rates = [];
+                    @endphp
+                
+                    @foreach($rems as $rem)
+                        @php
+                            $rate = App\Models\RemunerationRate::where('id', $rem->rate_id)->first();
+                            if ($rate) {
+                                $rates[] = $rate->amount;
+                            }
+                        @endphp
+                    @endforeach
+                
+                    @php
+                        $uniqueRates = array_unique($rates);
+                    @endphp
+                
+                    @if(count($uniqueRates) > 1)
+                        {{ implode(', ', $uniqueRates) }}
+                    @elseif(count($uniqueRates) == 1)
+                        {{ $uniqueRates[0] }}
+                    @else
+                        
+                    @endif
                 </td>
+
                 <td>
                     @php
                     $sum = 0;
@@ -293,9 +343,8 @@
                 <table>
                     <tr style="border: 1px solid #000;">
                         <td style="width: 65%;">
-                            <p class="bangla small">
-                                এই বিলের প্রাপ্য অর্থ অগ্রণী ব্যাংক, খুলনা বিশ্ববিদ্যালয় শাখায় আমার নামে রক্ষিত ................. নং হিসাবে/চেকের মাধ্যমে পরিশোধের অনুরোধ করছি এবং এই মর্মে অঙ্গীকার করছি যে, এই বিলে আমি কোন অতিরিক্ত অর্থ দাবী করিনি। যদি ভবিষ্যতে এই বিলে কোন আপত্তি উত্থাপিত হয় তাহলে গৃহীত অতিরিক্ত অর্থ ফেরত দিতে বাধ্য থাকব।
-                            </p>
+                            <p>
+                                <span class="bangla small">এই বিলের প্রাপ্য অর্থ অগ্রণী ব্যাংক, খুলনা বিশ্ববিদ্যালয় শাখায় আমার নামে রক্ষিত</span> {{ $user->account }} <span class="bangla small">নং হিসাবে/চেকের মাধ্যমে পরিশোধের অনুরোধ করছি এবং এই মর্মে অঙ্গীকার করছি যে, এই বিলে আমি কোন অতিরিক্ত অর্থ দাবী করিনি। যদি ভবিষ্যতে এই বিলে কোন আপত্তি উত্থাপিত হয় তাহলে গৃহীত অতিরিক্ত অর্থ ফেরত দিতে বাধ্য থাকব।</span>
                             </p>
                             <p class="bangla small">বিঃদ্রঃ- প্রত্যেক বিলে রাজস্ব টিকিট লাগাতে হবে।</p>
                         </td>
