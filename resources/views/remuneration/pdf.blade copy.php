@@ -37,7 +37,7 @@
         }
 
         p{
-            font-size: 13px;
+            font-size: 14px;
         }
 
         h4 {
@@ -58,18 +58,11 @@
 <body>
     <table>
         <tr>
-            <td style="text-align: start; height: 6em; width: 23%; padding: 10px;">
-                {{-- <img src="{{ url('assets/images/logo/ku.png') }}" alt="" /> --}}
-            </td>
             <td style="text-align: center;">
                 <p class="bangla" style="font-size: 18px;">পরীক্ষা নিয়ন্ত্রকের কার্যালয়</p>
                 <h3 class="bangla" style="font-size: 20px; font-weight: bold;">খুলনা বিশ্ববিদ্যালয়</h3>
                 <h4 class="bangla" style="font-size: 18px; font-weight: bold;">পরীক্ষা পারিতোষিক বিল ফরম</h4>
                 <p class="bangla" style="font-size: 14px;">(প্রতি বর্ষের প্রতি টার্মের জন্য পৃথক বিল ফরম ব্যবহার করতে হবে)</p>
-            </td>
-            <td style="text-align: end; height: 6em; width: 23%; padding: 10px;">
-                <p class="bangla" style="font-size: 14px;">ভাউচার নংঃ ......................</p>
-                <p class="bangla" style="font-size: 14px;">তারিখঃ ..............................</p>
             </td>
         </tr>
     </table>
@@ -78,38 +71,38 @@
 
         <tr>
             <td style="width: 50%;">
-                <p><span class="bangla" style="font-size: 16px;">নাম</span>: {{ $user->name }}</p>
+                <p><span class="bangla" style="font-size: 17px;">নাম</span>: {{ $user->name }}</p>
             </td>
             <td style="width: 50%;">
-                <p><span class="bangla" style="font-size: 16px;">যে ডিসিপ্লিনের পরীক্ষা</span>: {{ $discipline->name }}</p>
+                <p><span class="bangla" style="font-size: 17px;">যে ডিসিপ্লিনের পরীক্ষা</span>: {{ $discipline->name }}</p>
             </td>
         </tr>
         <tr>
             <td>
-                <p><span class="bangla" style="font-size: 16px;">পদবী</span>:
+                <p><span class="bangla" style="font-size: 17px;">পদবী</span>:
                     @if($user->designation)
                     {{ $user->designation['name'] }}
                     @endif
                 </p>
             </td>
             <td>
-                <p><span class="bangla" style="font-size: 16px;">বর্ষ</span>: {{ $exam->year['year'] }} <span class="bangla" style="font-size: 16px;">শিক্ষাবর্ষ</span>: {{ $exam->session['session'] }}</p>
+                <p><span class="bangla" style="font-size: 17px;">বর্ষ</span>: {{ $exam->year['year'] }} <span class="bangla" style="font-size: 17px;">শিক্ষাবর্ষ</span>: {{ $exam->session['session'] }}</p>
             </td>
         </tr>
         <tr>
             <td>
-                <p><span class="bangla" style="font-size: 16px;">ডিসিপ্লিন / বিভাগ</span>: {{ $user->discipline['name'] }}</p>
+                <p><span class="bangla" style="font-size: 17px;">ডিসিপ্লিন / বিভাগ</span>: {{ $discipline->name }}</p>
             </td>
             <td>
-                <p><span class="bangla" style="font-size: 16px;">টার্ম</span>: {{ $exam->term['term'] }} / <span class="bangla" style="font-size: 16px;">স্পেশাল টার্ম/ পরীক্ষা</span>- {{ date('Y', strtotime($exam->start_date)) }}</p>
+                <p><span class="bangla" style="font-size: 17px;">টার্ম</span>: {{ $exam->term['term'] }} / <span class="bangla" style="font-size: 17px;">স্পেশাল টার্ম/ পরীক্ষা</span>- {{ date('Y', strtotime($exam->start_date)) }}</p>
             </td>
         </tr>
         <tr>
             <td>
-                <p><span class="bangla" style="font-size: 16px;">ঠিকানা</span>: {{ $user->address }}</p>
+                <p><span class="bangla" style="font-size: 17px;">ঠিকানা</span>: {{ $user->address }}</p>
             </td>
             <td>
-                <p><span class="bangla" style="font-size: 16px;">পরীক্ষা অনুষ্ঠানের তারিখ</span>: {{ date('d-m-Y', strtotime($exam->start_date)) }} <span class="bangla" style="font-size: 17px;">থেকে</span> {{ date('d-m-Y', strtotime($exam->end_date)) }} পর্যন্ত</p>
+                <p><span class="bangla" style="font-size: 17px;">পরীক্ষা অনুষ্ঠানের তারিখ</span>: {{ date('d-m-Y', strtotime($exam->start_date)) }} <span class="bangla" style="font-size: 17px;">থেকে</span> {{ date('d-m-Y', strtotime($exam->end_date)) }} পর্যন্ত</p>
             </td>
         </tr>
     </table>
@@ -125,15 +118,14 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                {{-- <td>#</td> --}}
-                <td><span class="bangla" style="font-size: 15px; text-align: center;">ক্রমিক<br>নং</span></td>
-                <td><span class="bangla" style="font-size: 15px; text-align: center;">বিবরণ</span></td>
-                <td><span class="bangla" style="font-size: 15px; text-align: center;">কোর্স নম্বর</span></td>
-                <td><span class="bangla" style="font-size: 15px;">প্রশ্ন/খাতা/কোর্স/<br>দিনের সংখ্যা</span></td>
-                <td><span class="bangla" style="font-size: 15px;">ছাত্র সংখ্যা</span></td>
-                <td><span class="bangla" style="font-size: 15px;">অর্ধ/পূর্ণপত্র</span></td>
-                <td><span class="bangla" style="font-size: 15px; text-align: center;">পারিতোষিক<br>হার</span></td>
-                <td><span class="bangla" style="font-size: 15px;">মোট টাকা</span></td>
+                <td>#</td>
+                <td><span class="bangla" style="font-size: 16px;">বিবরণ</span></td>
+                <td><span class="bangla" style="font-size: 16px;">কোর্স নম্বর</span></td>
+                <td><span class="bangla" style="font-size: 16px;">প্রশ্ন/খাতা/কোর্স/<br>দিনের সংখ্যা</span></td>
+                <td><span class="bangla" style="font-size: 16px;">ছাত্র সংখ্যা</span></td>
+                <td><span class="bangla" style="font-size: 16px;">অর্ধ/পূর্ণপত্র</span></td>
+                <td><span class="bangla" style="font-size: 16px; text-align: center;">পারিতোষিক<br>হার</span></td>
+                <td><span class="bangla" style="font-size: 16px;">মোট টাকা</span></td>
             </tr>
         </thead>
         <tbody>
@@ -180,7 +172,7 @@
                     {{ $number }}
 
                 </td> --}}
-                {{-- <td>
+                <td>
                     @php
                         $numbers = []; // Initialize an empty array to collect numbers
                 
@@ -201,22 +193,7 @@
                     @else
 
                     @endif
-                </td> --}}
-                <td>
-                    @php
-                        $numbers = []; // Initialize an empty array to collect numbers
-                
-                        // Collect numbers if there are any remunerations
-                        if ($rems->count() > 0) {
-                            foreach ($rems as $rem) {
-                                $numbers[] = $rem->number; // Collect each number
-                            }
-                        }
-                    @endphp
-                
-                    {{ implode(', ', $numbers) }}
                 </td>
-                               
 
                 <td>
                     @php
@@ -390,7 +367,7 @@
         <tr>
             <td colspan="2" style="text-align: center;">
                 <h4><span class="bangla small">পরীক্ষা নিয়ন্ত্রক কার্যালয়ের ব্যবহারের জন্য</span></h4>
-                <p class="bangla small">পরীক্ষার পারিতোষিক হার এবং ডিসিপ্লিন থেকে প্রাপ্ত স্টেটমেন্ট অনুযায়ী বিলসমূহ নিরীক্ষান্তে বিলের অর্থ পরিশোধের জন্য সুপারিশ করা হলো।</p>
+                <p class="bangla small">পরীক্ষা পারিতোষিক হার এবং ডিসিপ্লিন থেকে প্রাপ্ত স্টেটমেন্ট অনুযায়ী বিলসমূহ নিরীক্ষান্তে বিলের অর্থ পরিশোধের জন্য সুপারিশ করা হলো।</p>
             </td>
         </tr>
         <tr>
@@ -399,7 +376,7 @@
                     <tr>
                         <td style="text-align: center;">
                             <p>........................................................</p>
-                            <p class="bangla small">বিল নিরীক্ষক/সেকশন অফিসার/সহকারী পরীক্ষা নিয়ন্ত্রক</p>
+                            <p class="bangla small">বিল নিরিক্ষক/সেকশন অফিসার/সহকারী পরীক্ষা নিয়ন্ত্রক</p>
                         </td>
                         <td style="text-align: center;">
                             <p>.....................</p>
@@ -417,8 +394,8 @@
         <tr>
             <td colspan="2" style="text-align: center;">
                 <h4><span class="bangla small">অর্থ ও হিসাব বিভাগের ব্যবহারের জন্য</span></h4>
-                <p class="bangla small">পরীক্ষান্তে বর্ণিত পারিতোষিক বিল বাবদ.....................................................
-                    কথায়ঃ(......................................................................................<br/>.............................................................) মাত্র পরিশোধের জন্য ছাড়া হলো।</p>
+                <p class="bangla small">পরিক্ষান্তে বর্ণিত পারিতোষিক বিল বাবদ........................................................................
+                    কথায়ঃ(.....................................................................................................................)মাত্র পরিশোধের জন্য ছাড়া হলো।</p>
             </td>
         </tr>
         <tr>
@@ -443,7 +420,7 @@
         </tr>
         <tr>
             <td colspan="2" style="text-align: center;">
-                <p class="bangla small">এই বিল পরিশোধে কোন আপত্তি নেই নিরীক্ষান্তে ................................................................................. টাকার বিলটি পরিশোধের সুপারিশ করা হলো।</p>
+                <p class="bangla small">এই বিল পরিশোধে কোন আপত্তি নেই নিরিক্ষান্তে ....................................................................... টাকার বিলটি পরিশোধের সুপারিশ করা হলো।</p>
             </td>
         </tr>
         <tr>
